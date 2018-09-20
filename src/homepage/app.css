@@ -1,5 +1,9 @@
 /** ********** APP GENERICS ********** **/
 
+#app {
+    padding: 1rem;
+}
+
 .app-section {
     margin-bottom: 1rem;
     width: 100%;
@@ -19,53 +23,3 @@
 .img-link-container img {
     display: block;
 }
-
-/** ********** NAV BAR ********** **/
-
-#navbar {
-    display: flex;
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #212121;
-    padding: 1rem 0;
-}
-
-#navbar > * {
-    flex: 1 1 0;
-}
-
-#navbar a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    color: #212121;
-    font-size: 1.25rem;
-
-    text-shadow: 0 1px 1px #9E9E9E;  /* Grey 500 */
-
-    transition: text-shadow .25s;
-}
-
-#navbar a:hover {
-    text-shadow: 0 3px 2px #9E9E9E;  /* Grey 500 */
-}
-
-#navbar a.active {
-    color: #BA807E;
-    text-decoration: underline;
-    text-shadow: 0 3px 2px #DBB1B0;  /* Grey 500 */
-}
-
-/** ********** APP BACKGROUND ********** **/
-
-#app-bkg {
-    display: flex;
-    justify-content: center;
-
-    min-height: 100vh;
-    padding: 1rem;
-}
-
-
