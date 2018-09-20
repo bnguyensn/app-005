@@ -8,9 +8,10 @@ import './app.css';
 
 const data = [5, 10, 1, 3];
 const barSize = 25;
+const chartMargin = {top: 50, right: 50, bottom: 50, left: 50};
 const chartSize = {
-    width: 500,
-    height: 500,
+    width: 640 - chartMargin.left - chartMargin.right,
+    height: 640 - chartMargin.top - chartMargin.bottom,
 };
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
         <div id="app">
             <BarChart data={data}
                       barSize={barSize}
+                      chartMargin={chartMargin}
                       chartSize={chartSize} />
         </div>
 

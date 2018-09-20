@@ -1,14 +1,17 @@
 // @flow
 
 import * as React from 'react';
+import {axisBottom, axisLeft} from 'd3-axis';
 import {scaleLinear} from 'd3-scale';
 import {max} from 'd3-array';
 import {select} from 'd3-selection';
+import '../css/bar-chart.css';
 
 type BarChartProps = {
-    data: number[],
-    barSize: number,
     chartSize: {width: number, height: number},
+    chartMargin: {top: number, right: number, bottom: number, left: number},
+    barSize: number,
+    data: number[],
 };
 
 export default class BarChart extends React.PureComponent<BarChartProps, {}> {
@@ -28,56 +31,77 @@ export default class BarChart extends React.PureComponent<BarChartProps, {}> {
     }
 
     createChart = () => {
-        const {data, barSize, chartSize} = this.props;
+        const {data, barSize, chartMargin, chartSize} = this.props;
 
         if (this.node) {
-            const chart = this.node.current;
-            if (chart) {
+            const svg = this.node.current;
+            if (svg) {
                 const dataMax = max(data);
+                const xScale = scaleLinear()
+                    .domain([0, data.length])
+                    .range([0, chartSize.width]);
                 const yScale = scaleLinear()
                     .domain([0, dataMax])
-                    .range([0, chartSize.height]);
+                    .range([chartSize.height, 0]);
 
-                const bar = select(chart)
-                    .selectAll('g')
+                // Build the chart
+
+                const chart = select(svg)
+                    .append('g')
+                    .attr('transform', `translate(${chartMargin.left}, ${chartMargin.top})`);
+
+                const xAxis = axisBottom()
+                    .scale(xScale);
+
+                const yAxis = axisLeft()
+                    .scale(yScale);
+
+                chart.append('g')
+                    .attr('class', 'chart-x-axis')
+                    .attr('transform', `translate(0, ${chartSize.height})`)
+                    .call(xAxis);
+
+                chart.append('g')
+                    .attr('class', 'chart-y-axis')
+                    .call(yAxis);
+
+                // Populate data
+
+                const bars = chart
+                    .selectAll('.chart-bar')
                     .data(data);
 
-                bar.exit().remove();
+                bars.exit().remove();
 
-                bar.enter()
+                const barGroupSize = barSize + 5;
+                const bar = bars.enter()
                     .append('g')
-                    .attr('transform', (d, i) => `translate(${i * (barSize + 5)}, ${chartSize.height - yScale(d)}`);
+                    .attr('transform', (d, i) => `translate(${i * barGroupSize}, 0)`);
 
-                select(chart)
-                    .selectAll('rect')
-                    .data(data)
-                    .enter()
-                    .append('rect');
-
-                select(chart)
-                    .selectAll('rect')
-                    .data(data)
-                    .exit()
-                    .remove();
-
-                select(chart)
-                    .selectAll('rect')
-                    .data(data)
+                bar.append('rect')
+                    .attr('class', 'chart-bar')
                     .style('fill', '#29B6F6')
-                    .attr('x', (d, i) => i * (barSize + 5))
-                    .attr('y', d => chartSize.height - yScale(d))
-                    .attr('height', d => yScale(d))
+                    .attr('y', d => yScale(d))
+                    .attr('height', d => chartSize.height - yScale(d))
                     .attr('width', barSize);
+
+                bar.append('text')
+                    .attr('x', barSize / 2)
+                    .attr('y', d => yScale(d))
+                    .text(d => d);
             }
         }
     };
 
     render() {
-        const {chartSize} = this.props;
+        const {chartSize, chartMargin} = this.props;
 
         return (
-            <svg ref={this.node}
-                 width={chartSize.width} height={chartSize.height} />
+            <div className="chart-container">
+                <svg ref={this.node}
+                     width={chartSize.width + chartMargin.right + chartMargin.left}
+                     height={chartSize.height + chartMargin.top + chartMargin.bottom} />
+            </div>
         )
     }
 }
