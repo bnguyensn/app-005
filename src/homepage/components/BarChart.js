@@ -1,17 +1,19 @@
 // @flow
 
 import * as React from 'react';
-import {axisBottom, axisLeft} from 'd3-axis';
-import {scaleLinear} from 'd3-scale';
-import {max} from 'd3-array';
 import {select} from 'd3-selection';
+import {max} from 'd3-array';
+import {scaleLinear, scaleBand} from 'd3-scale';
+import {axisBottom, axisLeft} from 'd3-axis';
+import type {FundData} from './DataTypes';
+import sumObjValues from '../lib/utils/sumObjValues';
 import '../css/bar-chart.css';
 
 type BarChartProps = {
     chartSize: {width: number, height: number},
     chartMargin: {top: number, right: number, bottom: number, left: number},
     barSize: number,
-    data: number[],
+    data: FundData[],
 };
 
 export default class BarChart extends React.PureComponent<BarChartProps, {}> {
@@ -23,74 +25,112 @@ export default class BarChart extends React.PureComponent<BarChartProps, {}> {
     }
 
     componentDidMount() {
-        this.createChart();
+        // this.updateChart();
     }
 
     componentDidUpdate() {
-        this.createChart();
+        // this.updateChart();
     }
 
-    createChart = () => {
+    updateChart = () => {
         const {data, barSize, chartMargin, chartSize} = this.props;
 
-        if (this.node) {
-            const svg = this.node.current;
-            if (svg) {
-                const dataMax = max(data);
-                const xScale = scaleLinear()
-                    .domain([0, data.length])
-                    .range([0, chartSize.width]);
-                const yScale = scaleLinear()
-                    .domain([0, dataMax])
-                    .range([chartSize.height, 0]);
+        const svg = this.getSvg();
+        if (svg) {
+            // ********** Set up constants ********** //
 
-                // Build the chart
+            const fundNames = data.map(fundData => fundData.name);
 
-                const chart = select(svg)
-                    .append('g')
-                    .attr('transform', `translate(${chartMargin.left}, ${chartMargin.top})`);
+            const fCalRems = data.map(fundData => Math.min(fundData.fCom - fundData.fCal, 0));
+            const totalAssetL1s = data.map(fundData => (
+                sumObjValues(Object.values(fundData.assetL1))
+            ));
+            const totalAssetL2s = data.map(fundData => (
+                sumObjValues(Object.values(fundData.assetL1))
+            ));
+            const totalAssetL3s = data.map(fundData => (
+                sumObjValues(Object.values(fundData.assetL1))
+            ));
 
-                const xAxis = axisBottom()
-                    .scale(xScale);
+            const barMaxValue = max([fCalRems, totalAssetL1s, totalAssetL2s, totalAssetL3s]);
 
-                const yAxis = axisLeft()
-                    .scale(yScale);
+            // ********** Set up scale ********** //
 
-                chart.append('g')
-                    .attr('class', 'chart-x-axis')
-                    .attr('transform', `translate(0, ${chartSize.height})`)
-                    .call(xAxis);
+            // Using band scale for x
+            const x = scaleBand()
+                .domain(fundNames)
+                .range([0, chartSize.width])
+                .padding(0.05);
 
-                chart.append('g')
-                    .attr('class', 'chart-y-axis')
-                    .call(yAxis);
+            // Using linear scale for y
+            // y scale's range runs from negative to 0 because svg's coordinate
+            // system runs from top left to bottom right
+            const y = scaleLinear()
+                .domain([0, barMaxValue])
+                .nice()
+                .range([chartSize.height, 0]);
 
-                // Populate data
+            // ********** Set up chart **********  //
 
-                const bars = chart
-                    .selectAll('.chart-bar')
-                    .data(data);
+            // TODO: continue here
 
-                bars.exit().remove();
+            const chart = select(svg)
+                .append('g')
+                .attr('transform', `translate(${chartMargin.left}, ${chartMargin.top})`);
 
-                const barGroupSize = barSize + 5;
-                const bar = bars.enter()
-                    .append('g')
-                    .attr('transform', (d, i) => `translate(${i * barGroupSize}, 0)`);
+            // Build axes
 
-                bar.append('rect')
-                    .attr('class', 'chart-bar')
-                    .style('fill', '#29B6F6')
-                    .attr('y', d => yScale(d))
-                    .attr('height', d => chartSize.height - yScale(d))
-                    .attr('width', barSize);
+            /*const xAxis = axisBottom()
+                .scale(xScale);
 
-                bar.append('text')
-                    .attr('x', barSize / 2)
-                    .attr('y', d => yScale(d))
-                    .text(d => d);
-            }
+            const yAxis = axisLeft()
+                .scale(yScale);
+
+            chart.append('g')
+                .attr('class', 'chart-x-axis')
+                .attr('transform', `translate(0, ${chartSize.height})`)
+                .call(xAxis);
+
+            chart.append('g')
+                .attr('class', 'chart-y-axis')
+                .call(yAxis);*/
+
+            // Build bars - verbose
+
+            const uBar = chart
+                .selectAll('.chart-bar')
+                .data(data);
+
+            const eBar = uBar.enter();
+
+            const ueBar = eBar.append('g')
+                .merge(uBar);
+
+            ueBar.attr('transform', (d, i) => `translate(${i * barGroupSize}, 0)`);
+
+            ueBar.append('rect')
+                .attr('class', 'chart-bar')
+                .style('fill', '#29B6F6')
+                .attr('y', d => y(d))
+                .attr('height', d => chartSize.height - y(d))
+                .attr('width', barSize);
+
+            ueBar.append('text')
+                .attr('x', barSize / 2)
+                .attr('y', d => y(d))
+                .text(d => d);
+
+            const exBar = uBar.exit();
+
+            exBar.remove();
         }
+    };
+
+    getSvg = () => {
+        if (this.node && this.node.current) {
+            return this.node.current
+        }
+        return null
     };
 
     render() {
