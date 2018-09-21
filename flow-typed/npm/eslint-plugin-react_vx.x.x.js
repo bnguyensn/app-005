@@ -528,7 +528,7 @@ declare module 'eslint-plugin-react/lib/rules/no-direct-mutation-state.js' {
   declare module.exports: $Exports<'eslint-plugin-react/lib/rules/no-direct-mutation-state'>;
 }
 declare module 'eslint-plugin-react/lib/rules/no-find-dom-node.js' {
-  declare module.exports: $Exports<'eslint-plugin-react/lib/rules/no-find-dom-node'>;
+  declare module.exports: $Exports<'eslint-plugin-react/lib/rules/no-find-dom-svgNode'>;
 }
 declare module 'eslint-plugin-react/lib/rules/no-is-mounted.js' {
   declare module.exports: $Exports<'eslint-plugin-react/lib/rules/no-is-mounted'>;

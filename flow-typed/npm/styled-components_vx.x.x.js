@@ -1208,7 +1208,7 @@ declare module 'styled-components/flow-typed/npm/mocha-jsdom_vx.x.x.js' {
   declare module.exports: $Exports<'styled-components/flow-typed/npm/mocha-jsdom_vx.x.x'>;
 }
 declare module 'styled-components/flow-typed/npm/node-watch_vx.x.x.js' {
-  declare module.exports: $Exports<'styled-components/flow-typed/npm/node-watch_vx.x.x'>;
+  declare module.exports: $Exports<'styled-components/flow-typed/npm/svgNode-watch_vx.x.x'>;
 }
 declare module 'styled-components/flow-typed/npm/pre-commit_vx.x.x.js' {
   declare module.exports: $Exports<'styled-components/flow-typed/npm/pre-commit_vx.x.x'>;
@@ -1235,7 +1235,7 @@ declare module 'styled-components/flow-typed/npm/rollup-plugin-json_vx.x.x.js' {
   declare module.exports: $Exports<'styled-components/flow-typed/npm/rollup-plugin-json_vx.x.x'>;
 }
 declare module 'styled-components/flow-typed/npm/rollup-plugin-node-resolve_vx.x.x.js' {
-  declare module.exports: $Exports<'styled-components/flow-typed/npm/rollup-plugin-node-resolve_vx.x.x'>;
+  declare module.exports: $Exports<'styled-components/flow-typed/npm/rollup-plugin-svgNode-resolve_vx.x.x'>;
 }
 declare module 'styled-components/flow-typed/npm/rollup-plugin-replace_vx.x.x.js' {
   declare module.exports: $Exports<'styled-components/flow-typed/npm/rollup-plugin-replace_vx.x.x'>;
@@ -1412,7 +1412,7 @@ declare module 'styled-components/lib/vendor/postcss/list.js' {
   declare module.exports: $Exports<'styled-components/lib/vendor/postcss/list'>;
 }
 declare module 'styled-components/lib/vendor/postcss/node.js' {
-  declare module.exports: $Exports<'styled-components/lib/vendor/postcss/node'>;
+  declare module.exports: $Exports<'styled-components/lib/vendor/postcss/svgNode'>;
 }
 declare module 'styled-components/lib/vendor/postcss/parse.js' {
   declare module.exports: $Exports<'styled-components/lib/vendor/postcss/parse'>;
@@ -1751,7 +1751,7 @@ declare module 'styled-components/src/vendor/postcss/list.js' {
   declare module.exports: $Exports<'styled-components/src/vendor/postcss/list'>;
 }
 declare module 'styled-components/src/vendor/postcss/node.js' {
-  declare module.exports: $Exports<'styled-components/src/vendor/postcss/node'>;
+  declare module.exports: $Exports<'styled-components/src/vendor/postcss/svgNode'>;
 }
 declare module 'styled-components/src/vendor/postcss/parse.js' {
   declare module.exports: $Exports<'styled-components/src/vendor/postcss/parse'>;

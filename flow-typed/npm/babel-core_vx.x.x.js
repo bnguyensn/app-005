@@ -149,7 +149,7 @@ declare module 'babel-core/lib/api/browser.js' {
   declare module.exports: $Exports<'babel-core/lib/api/browser'>;
 }
 declare module 'babel-core/lib/api/node.js' {
-  declare module.exports: $Exports<'babel-core/lib/api/node'>;
+  declare module.exports: $Exports<'babel-core/lib/api/svgNode'>;
 }
 declare module 'babel-core/lib/helpers/get-possible-plugin-names.js' {
   declare module.exports: $Exports<'babel-core/lib/helpers/get-possible-plugin-names'>;

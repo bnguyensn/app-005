@@ -1825,40 +1825,40 @@ declare module 'webpack/lib/NamedModulesPlugin.js' {
   declare module.exports: $Exports<'webpack/lib/NamedModulesPlugin'>;
 }
 declare module 'webpack/lib/node/NodeChunkTemplatePlugin.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeChunkTemplatePlugin'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeChunkTemplatePlugin'>;
 }
 declare module 'webpack/lib/node/NodeEnvironmentPlugin.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeEnvironmentPlugin'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeEnvironmentPlugin'>;
 }
 declare module 'webpack/lib/node/NodeHotUpdateChunkTemplatePlugin.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeHotUpdateChunkTemplatePlugin'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeHotUpdateChunkTemplatePlugin'>;
 }
 declare module 'webpack/lib/node/NodeMainTemplate.runtime.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeMainTemplate.runtime'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeMainTemplate.runtime'>;
 }
 declare module 'webpack/lib/node/NodeMainTemplateAsync.runtime.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeMainTemplateAsync.runtime'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeMainTemplateAsync.runtime'>;
 }
 declare module 'webpack/lib/node/NodeMainTemplatePlugin.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeMainTemplatePlugin'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeMainTemplatePlugin'>;
 }
 declare module 'webpack/lib/node/NodeOutputFileSystem.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeOutputFileSystem'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeOutputFileSystem'>;
 }
 declare module 'webpack/lib/node/NodeSourcePlugin.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeSourcePlugin'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeSourcePlugin'>;
 }
 declare module 'webpack/lib/node/NodeTargetPlugin.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeTargetPlugin'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeTargetPlugin'>;
 }
 declare module 'webpack/lib/node/NodeTemplatePlugin.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeTemplatePlugin'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeTemplatePlugin'>;
 }
 declare module 'webpack/lib/node/NodeWatchFileSystem.js' {
-  declare module.exports: $Exports<'webpack/lib/node/NodeWatchFileSystem'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/NodeWatchFileSystem'>;
 }
 declare module 'webpack/lib/node/ReadFileCompileWasmTemplatePlugin.js' {
-  declare module.exports: $Exports<'webpack/lib/node/ReadFileCompileWasmTemplatePlugin'>;
+  declare module.exports: $Exports<'webpack/lib/svgNode/ReadFileCompileWasmTemplatePlugin'>;
 }
 declare module 'webpack/lib/NodeStuffPlugin.js' {
   declare module.exports: $Exports<'webpack/lib/NodeStuffPlugin'>;
@@ -2149,5 +2149,5 @@ declare module 'webpack/schemas/ajv.absolutePath.js' {
   declare module.exports: $Exports<'webpack/schemas/ajv.absolutePath'>;
 }
 declare module 'webpack/web_modules/node-libs-browser.js' {
-  declare module.exports: $Exports<'webpack/web_modules/node-libs-browser'>;
+  declare module.exports: $Exports<'webpack/web_modules/svgNode-libs-browser'>;
 }
