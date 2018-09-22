@@ -2396,7 +2396,7 @@ declare module 'eslint/lib/util/naming.js' {
   declare module.exports: $Exports<'eslint/lib/util/naming'>;
 }
 declare module 'eslint/lib/util/node-event-generator.js' {
-  declare module.exports: $Exports<'eslint/lib/util/svgNode-event-generator'>;
+  declare module.exports: $Exports<'eslint/lib/util/svgNodeRef-event-generator'>;
 }
 declare module 'eslint/lib/util/npm-util.js' {
   declare module.exports: $Exports<'eslint/lib/util/npm-util'>;

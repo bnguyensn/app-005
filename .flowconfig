@@ -1,6 +1,7 @@
 [ignore]
 .*/node_modules/.*
 .*/dist/.*
+.*/flow-typed/.*
 
 [include]
 

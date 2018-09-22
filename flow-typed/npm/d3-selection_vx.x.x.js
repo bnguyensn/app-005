@@ -335,7 +335,7 @@ declare module 'd3-selection/src/selection/merge.js' {
   declare module.exports: $Exports<'d3-selection/src/selection/merge'>;
 }
 declare module 'd3-selection/src/selection/node.js' {
-  declare module.exports: $Exports<'d3-selection/src/selection/svgNode'>;
+  declare module.exports: $Exports<'d3-selection/src/selection/svgNodeRef'>;
 }
 declare module 'd3-selection/src/selection/nodes.js' {
   declare module.exports: $Exports<'d3-selection/src/selection/nodes'>;

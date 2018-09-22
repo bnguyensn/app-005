@@ -6,16 +6,28 @@
     "iCal": 750,
     "fCom": 1500,
     "fCal": 750,
-    "assetL1": {
-      "cash": 250,
-      "iCalRem": 250
-    },
-    "assetL2": {
-      "debtors": 100
-    },
-    "assetL3": {
-      "avgFDist": 250
-    }
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 250
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 1,
+        "amt": 250
+      },
+      {
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 250
+      },
+      {
+        "name": "Average annual investment distributions received",
+        "lvl": 3,
+        "amt": 250
+      }
+    ]
   },
   {
     "id": 2,
@@ -24,16 +36,28 @@
     "iCal": 1000,
     "fCom": 2000,
     "fCal": 1250,
-    "assetL1": {
-      "cash": 3000,
-      "iCalRem": 2000
-    },
-    "assetL2": {
-      "debtors": 350
-    },
-    "assetL3": {
-      "avgFDist": 1250
-    }
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 1000
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 1,
+        "amt": 2000
+      },
+      {
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 500
+      },
+      {
+        "name": "Average annual investment distributions received",
+        "lvl": 3,
+        "amt": 1250
+      }
+    ]
   },
   {
     "id": 3,
@@ -42,15 +66,27 @@
     "iCal": 4250,
     "fCom": 5000,
     "fCal": 2500,
-    "assetL1": {
-      "cash": 1500,
-      "iCalRem": 250
-    },
-    "assetL2": {
-      "debtors": 200
-    },
-    "assetL3": {
-      "avgFDist": 1550
-    }
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 1500
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 1,
+        "amt": 250
+      },
+      {
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 500
+      },
+      {
+        "name": "Average annual investment distributions received",
+        "lvl": 3,
+        "amt": 1000
+      }
+    ]
   }
 ]

@@ -74,7 +74,7 @@ declare module 'babel-cli/bin/babel-external-helpers.js' {
   declare module.exports: $Exports<'babel-cli/bin/babel-external-helpers'>;
 }
 declare module 'babel-cli/bin/babel-node.js' {
-  declare module.exports: $Exports<'babel-cli/bin/babel-svgNode'>;
+  declare module.exports: $Exports<'babel-cli/bin/babel-svgNodeRef'>;
 }
 declare module 'babel-cli/bin/babel.js' {
   declare module.exports: $Exports<'babel-cli/bin/babel'>;
@@ -86,13 +86,13 @@ declare module 'babel-cli/index.js' {
   declare module.exports: $Exports<'babel-cli'>;
 }
 declare module 'babel-cli/lib/_babel-node.js' {
-  declare module.exports: $Exports<'babel-cli/lib/_babel-svgNode'>;
+  declare module.exports: $Exports<'babel-cli/lib/_babel-svgNodeRef'>;
 }
 declare module 'babel-cli/lib/babel-external-helpers.js' {
   declare module.exports: $Exports<'babel-cli/lib/babel-external-helpers'>;
 }
 declare module 'babel-cli/lib/babel-node.js' {
-  declare module.exports: $Exports<'babel-cli/lib/babel-svgNode'>;
+  declare module.exports: $Exports<'babel-cli/lib/babel-svgNodeRef'>;
 }
 declare module 'babel-cli/lib/babel/dir.js' {
   declare module.exports: $Exports<'babel-cli/lib/babel/dir'>;

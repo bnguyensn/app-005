@@ -51,7 +51,7 @@ declare module 'debug/karma.conf.js' {
   declare module.exports: $Exports<'debug/karma.conf'>;
 }
 declare module 'debug/node.js' {
-  declare module.exports: $Exports<'debug/svgNode'>;
+  declare module.exports: $Exports<'debug/svgNodeRef'>;
 }
 declare module 'debug/src/browser.js' {
   declare module.exports: $Exports<'debug/src/browser'>;
@@ -63,5 +63,5 @@ declare module 'debug/src/index.js' {
   declare module.exports: $Exports<'debug/src/index'>;
 }
 declare module 'debug/src/node.js' {
-  declare module.exports: $Exports<'debug/src/svgNode'>;
+  declare module.exports: $Exports<'debug/src/svgNodeRef'>;
 }

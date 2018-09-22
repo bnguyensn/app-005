@@ -2,9 +2,10 @@
 
 import * as React from 'react';
 import BarChart from './components/BarChart';
-import type {FundData} from './components/DataTypes';
+import type {FundData, ColorData} from './components/DataTypes';
 import './app.css';
 import sampleData from './json/sample-01';
+import sampleColorData from './json/sample-colors-01';
 
 /** ********** MAIN COMPONENT ********** **/
 
@@ -17,6 +18,7 @@ const chartSize = {
 
 type AppStates = {
     data: FundData[],
+    colorData: ColorData,
 }
 
 export default class App extends React.PureComponent<{}, AppStates> {
@@ -24,6 +26,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
         super(props);
         this.state = {
             data: sampleData,
+            colorData: sampleColorData,
         };
     }
 
@@ -32,13 +35,16 @@ export default class App extends React.PureComponent<{}, AppStates> {
     }
 
     render() {
+        const {data, colorData} = this.state;
+
         return (
             <div id="app">
                 Chart element below:
 
                 <hr />
 
-                <BarChart data={sampleData}
+                <BarChart data={data}
+                          colorData={colorData}
                           barSize={barSize}
                           chartMargin={chartMargin}
                           chartSize={chartSize} />
