@@ -1,9 +1,12 @@
 // @flow
 
 import * as React from 'react';
-import BarChart from './components/BarChart';
+
+import Chart from './components/Chart';
 import type {FundData, ColorData} from './components/DataTypes';
+
 import './app.css';
+
 import sampleData from './json/sample-01';
 import sampleColorData from './json/sample-colors-01';
 
@@ -39,15 +42,15 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
         return (
             <div id="app">
-                Chart element below:
+                Chart
 
                 <hr />
 
-                <BarChart data={data}
-                          colorData={colorData}
-                          barSize={barSize}
-                          chartMargin={chartMargin}
-                          chartSize={chartSize} />
+                <Chart data={data}
+                       colorData={colorData}
+                       barSize={barSize}
+                       chartMargin={chartMargin}
+                       chartSize={chartSize} />
             </div>
         )
     }

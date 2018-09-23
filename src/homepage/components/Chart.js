@@ -4,10 +4,13 @@ import * as React from 'react';
 import {select} from 'd3-selection';
 import {scaleLinear, scaleBand} from 'd3-scale';
 import {axis, axisBottom, axisLeft} from 'd3-axis';
-import {stack} from 'd3-shape';
+import {stack, line} from 'd3-shape';
+
 import type {FundData, ColorData} from './DataTypes';
+
 import {findMaxInArray} from '../lib/utils/arrayMaths';
-import '../css/bar-chart.css';
+
+import '../css/chart.css';
 
 type BarChartProps = {
     chartSize: {width: number, height: number},
@@ -22,7 +25,7 @@ type BarChartStates = {
     scaleY: any,
 };
 
-export default class BarChart extends React.PureComponent<BarChartProps, BarChartStates> {
+export default class Chart extends React.PureComponent<BarChartProps, BarChartStates> {
     svgNodeRef: any;
     chartNodeRef: any;
 
@@ -52,7 +55,7 @@ export default class BarChart extends React.PureComponent<BarChartProps, BarChar
         data[0].assets.forEach((asset) => {
             assetsData[asset.name] = {};
             assetsData[asset.name].lvl = asset.lvl;
-            assetsData[asset.name].color = colorData[asset.lvl];
+            assetsData[asset.name].color = colorData[asset.lvl.toString()];
         });
 
         const chartNode = this.getChart();
@@ -101,7 +104,20 @@ export default class BarChart extends React.PureComponent<BarChartProps, BarChar
                 .attr('x', d => x(d.data.name))
                 .attr('y', d => getRectY(d[0], d[1]));
 
-            // stackedBarUE.attr('transform', d => `translate(${x(d.data.name)}, ${y(d[1])})`);
+            // ********** Update limiter line ********** //
+
+            const lineData = this.createLineData(x, y);
+            const lineGen = line().defined(d => d !== null);
+
+            // Lines
+
+            chart.append('g').classed('limit-line', true);
+
+            chart.selectAll('.limit-line')
+                .append('path')
+                .attr('d', lineGen(lineData))
+                .attr('stroke', '#63201E')
+                .attr('stroke-width', 3);
 
             // Build bars - verbose
             /*const uBar = chart
@@ -193,7 +209,7 @@ export default class BarChart extends React.PureComponent<BarChartProps, BarChar
         const anAssetsObj = data[0].assets;
         const compareFn = (a, b) => {
             if (a.lvl === b.lvl) {
-                return a.name.localeCompare(b, 'en', {
+                return a.name.localeCompare(b.name, 'en', {
                     sensitivity: 'base',
                     ignorePunctuation: true,
                     numeric: true,
@@ -209,6 +225,24 @@ export default class BarChart extends React.PureComponent<BarChartProps, BarChar
             .keys(stackKeys);
 
         return stackGen(stackData)
+    };
+
+    createLineData = (xScale: any, yScale: any) => {
+        const {data} = this.props;
+
+        // Warning: specific to data type
+        const lineData = [];
+        data.forEach((fundData, index) => {
+            const fRem = fundData.fCom - fundData.fCal;
+            const valueHeight = yScale(fRem);
+            lineData.push([xScale(fundData.name), valueHeight]);  // start [x, y]
+            lineData.push([xScale(fundData.name) + xScale.bandwidth(), valueHeight]);  // end [x, y]
+            if (index < data.length - 1) {
+                lineData.push(null);  // gap
+            }
+        });
+
+        return lineData
     };
 
     getSvg = () => {
