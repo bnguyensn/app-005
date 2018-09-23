@@ -27,3 +27,7 @@
 .font-size-75 {
     font-size: .75rem;
 }
+
+label > span {
+    cursor: text;
+}

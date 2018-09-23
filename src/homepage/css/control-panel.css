@@ -1,0 +1,28 @@
+#control-panel {
+    display: flex;
+    align-items: center;
+    flex-flow: column wrap;
+
+    padding: .5rem;
+}
+
+#control-panel > span {
+    /* This is the title */
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.cp-section {
+    font-size: .75rem;
+    margin-bottom: .5rem;
+}
+
+/** ********** SORT CHART ********** **/
+
+#cp-sort-chart span {
+    display: block;
+}
+
+#cp-sort-chart select {
+    font: inherit;
+}

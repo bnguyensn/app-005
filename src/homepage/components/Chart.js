@@ -118,27 +118,6 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
                 .attr('d', lineGen(lineData))
                 .attr('stroke', '#63201E')
                 .attr('stroke-width', 3);
-
-            // Build bars - verbose
-            /*const uBar = chart
-                .selectAll('.chart-bar')
-                .data(data);
-            const eBar = uBar.enter();
-            const ueBar = eBar.append('g')
-                .merge(uBar);
-            ueBar.attr('transform', (d, i) => `translate(${i * barGroupSize}, 0)`);
-            ueBar.append('rect')
-                .attr('class', 'chart-bar')
-                .style('fill', '#29B6F6')
-                .attr('y', d => y(d))
-                .attr('height', d => chartSize.height - y(d))
-                .attr('width', barSize);
-            ueBar.append('text')
-                .attr('x', barSize / 2)
-                .attr('y', d => y(d))
-                .text(d => d);
-            const exBar = uBar.exit();
-            exBar.remove();*/
         }
     };
 

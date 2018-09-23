@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import ControlPanel from './components/ControlPanel';
 import Chart from './components/Chart';
 import type {FundData, ColorData} from './components/DataTypes';
 
@@ -43,6 +44,8 @@ export default class App extends React.PureComponent<{}, AppStates> {
         return (
             <div id="app">
                 Chart
+
+                <ControlPanel />
 
                 <hr />
 
