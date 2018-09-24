@@ -6,14 +6,23 @@ import type {FundData, AssetData} from '../../components/DataTypes';
 
 /** ********** UTILITIES ********** **/
 
-function numberToColumn(n: number): string {  // TODO:
-    let dividend = n;
-    let colName = '';
-    let modulo;
+function colNumToColName(n: number): string {
+    try {
+        let dividend = n;
+        let colName = '';
+        let modulo;
 
-    while (dividend > 0) {
-        modulo = (dividend - 1) % 26;
-        colName =
+        // Assuming column 0 = A
+
+        while (dividend > 0) {
+            modulo = dividend % 26;
+            colName += String.fromCharCode(65 + modulo);
+            dividend = parseInt((dividend - modulo) / 26, 10);
+        }
+
+        return colName
+    } catch (e) {
+        return e
     }
 }
 
@@ -43,9 +52,8 @@ function validateFundSheetData(fundSheetData: [][]): ValidationResult {
         }
     }
 
-    /** ***** CHECK DATA TYPE & REFINE DATA ***** **/
+    /** ***** CHECK DATA TYPE ***** **/
 
-    const validatedData = [];  // Might as well create a refined data
     const maxColumn = fundSheetData[0].length;  // Limit how much data to check for non-header rows
     const errMsg = ['Some data is not numeric.'];
 
@@ -63,7 +71,9 @@ function validateFundSheetData(fundSheetData: [][]): ValidationResult {
             if (typeof convertedData === 'number' && !Number.isNaN(convertedData)) {
                 return true
             }
-            errMsg.push(`Data ${fundData} at row ${rowIndex + 1} and column ${colIndex + 1} is not numeric.`);
+            errMsg.push(`Data ${fundData} at cell `
+            + `${colNumToColName(colIndex)}${rowIndex + 1} is not numeric. `
+            + 'There might be more, but the check stopped here.');
             return false
         })
     });
