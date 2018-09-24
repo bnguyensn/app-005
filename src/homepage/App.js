@@ -38,6 +38,12 @@ export default class App extends React.PureComponent<{}, AppStates> {
         // Fetch data
     }
 
+    updateData = (data) => {
+        this.setState({
+            data,
+        });
+    };
+
     render() {
         const {data, colorData} = this.state;
 
@@ -45,7 +51,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
             <div id="app">
                 Chart
 
-                <ControlPanel />
+                <ControlPanel updateData={this.updateData} />
 
                 <hr />
 

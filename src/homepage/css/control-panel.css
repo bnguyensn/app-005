@@ -26,3 +26,25 @@
 #cp-sort-chart select {
     font: inherit;
 }
+
+/** ********** UPLOAD DATA ********** **/
+
+#cp-upload label span {
+    display: flex;
+
+    padding: .5rem;
+
+    background-color: #4C6F71;
+
+    color: #fafafa;
+
+    border-radius: 5px;
+    box-shadow: 0 2px 5px #20484A;
+
+    cursor: pointer;
+}
+
+#cp-upload input {
+    position: absolute;
+    opacity: 0;
+}
