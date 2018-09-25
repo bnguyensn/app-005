@@ -40,7 +40,13 @@ export default class UploadData extends React.PureComponent<{}, {}> {
                 reader.onload = (e) => {
                     const data = e.target.result;
                     try {
-                        processXlsx(data);
+                        const processedData = processXlsx(data);
+
+                        /*if (processedData instanceof Error) {
+                            console.log(processedData);
+                        } else {
+                            console.log(processedData);
+                        }*/
                         // updateData(processXlsx(data));
                     } catch (e) {
                         throw e
