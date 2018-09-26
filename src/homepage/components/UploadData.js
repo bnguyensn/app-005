@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {isFileOfType} from '../lib/utils/validation';
-import {processXlsx} from '../lib/utils/processXlsx';
+import {processXlsx} from '../lib/utils/xlsx/processXlsx';
 
 type UploadDataProps = {
     updateData: () => void,
