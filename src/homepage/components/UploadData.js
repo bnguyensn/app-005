@@ -5,14 +5,16 @@ import * as React from 'react';
 import {isFileOfType} from '../lib/utils/validation';
 import processXlsx from '../lib/utils/xlsx/processXlsx';
 
+import type {FundData} from './DataTypes';
+
 type UploadDataProps = {
-    updateData: () => void,
+    updateFundData: (data: FundData) => void,
 };
 
-export default class UploadData extends React.PureComponent<{}, {}> {
+export default class UploadData extends React.PureComponent<UploadDataProps, {}> {
     fileTypes: string[];
 
-    constructor(props: {}) {
+    constructor(props: UploadDataProps) {
         super(props);
         this.fileTypes = [
             'application/vnd.ms-excel',  // .csv, .xls
@@ -23,7 +25,7 @@ export default class UploadData extends React.PureComponent<{}, {}> {
     }
 
     handleFileSelected = (e: SyntheticInputEvent<HTMLElement>) => {
-        const {updateData} = this.props;
+        const {updateFundData} = this.props;
 
         const {files} = e.target;
         const f = files[0];
@@ -36,23 +38,24 @@ export default class UploadData extends React.PureComponent<{}, {}> {
             console.log(`Selected file is of type ${f.type}`);
 
             if (isFileOfType(f, this.fileTypes)) {
+                // Set up FileReader
                 const reader = new FileReader();
                 reader.onload = (e) => {
                     const data = e.target.result;
-                    try {
-                        const processedData = processXlsx(data);
 
-                        /*if (processedData instanceof Error) {
-                            console.log(processedData);
-                        } else {
-                            console.log(processedData);
-                        }*/
-                        // updateData(processXlsx(data));
-                    } catch (e) {
-                        throw e
+                    const processedData = processXlsx(data);
+
+                    if (processedData instanceof Error) {
+                        console.log(processedData);
+                    } else {
+                        console.log('Successfullly read .xlsx. Result data:');
+                        console.log(processedData);
+
+                        updateFundData(processedData);
                     }
                 };
 
+                // Read xlsx
                 reader.readAsArrayBuffer(f);
             }
         }

@@ -3,22 +3,24 @@
 import * as React from 'react';
 
 import SortChart from './SortChart';
-
-import '../css/control-panel.css';
 import UploadData from './UploadData';
 
+import type {FundData} from './DataTypes';
+
+import '../css/control-panel.css';
+
 type ControlPanelProps = {
-    updateData: () => void,
+    updateFundData: (data: FundData) => void,
 };
 
 export default class ControlPanel extends React.PureComponent<ControlPanelProps, {}> {
     render() {
-        const {updateData} = this.props;
+        const {updateFundData} = this.props;
 
         return (
             <div id="control-panel">
                 <span>CONTROL PANEL</span>
-                <UploadData updateData={updateData} />
+                <UploadData updateFundData={updateFundData} />
                 <SortChart />
             </div>
         )

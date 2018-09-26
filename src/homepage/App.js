@@ -38,7 +38,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
         // Fetch data
     }
 
-    updateData = (data) => {
+    updateFundData = (data: FundData[]) => {
         this.setState({
             data,
         });
@@ -51,7 +51,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
             <div id="app">
                 Chart
 
-                <ControlPanel updateData={this.updateData} />
+                <ControlPanel updateFundData={this.updateFundData} />
 
                 <hr />
 

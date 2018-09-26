@@ -2,10 +2,12 @@
 
 import XLSX from 'xlsx';
 
+import type {FundData} from '../../../components/DataTypes';
+
 import {validateFundSheetData, validateAssetSheetData} from './dataValidation';
 import {refineFundData, refineAssetData} from './dataRefinement';
 
-export default function processXlsx(data: ArrayBuffer): [] | Error {  // TODO:
+export default function processXlsx(data: ArrayBuffer): FundData[] | Error {
     try {
         // Read workbook
 
@@ -34,54 +36,9 @@ export default function processXlsx(data: ArrayBuffer): [] | Error {  // TODO:
             return Error([...fundDataValidation.msg, ...assetDataValidation.msg].join('\n'))
         }
 
-        // Refine data
+        // Refine & return data
 
-        const refinedFundData = refineFundData(fundSheetData, assetSheetData);
-
-        /**/
-
-        // Process data
-
-        /*// Construct asset levels reference object
-
-        const assetLvls = {};
-
-        if (assetSheetData.length > 1) {
-            assetSheetData.forEach((rowData, rowIndex) => {
-                if (rowIndex !== 0) {
-                    // Row is not header
-
-                    assetLvls[rowData[0]] = rowData[1];
-                }
-            })
-        }
-
-        // Construct fund data
-
-
-        let idsCount = 0;
-
-        fundSheetData.map((rowData, rowIndex) => {
-            if (rowIndex !== 0) {
-                // Row is not header
-
-
-                idsCount += 1;
-
-
-                return {
-                    id: idsCount,
-                    name: rowData[0],
-                    iCom: rowData[1],
-                    iCal: rowData[2],
-                    fCom: rowData[3],
-                    fCal: rowData[4],
-                    assets:,
-                }
-            }
-        });*/
-
-        return []
+        return refineFundData(fundSheetData, assetSheetData);
     } catch (e) {
         throw e
     }

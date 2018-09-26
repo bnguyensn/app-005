@@ -44,7 +44,7 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
     }
 
     componentDidUpdate() {
-        // this.updateChart();
+        this.updateChart();
     }
 
     updateChart = () => {
