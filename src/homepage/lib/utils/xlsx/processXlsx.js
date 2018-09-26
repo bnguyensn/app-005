@@ -3,6 +3,7 @@
 import XLSX from 'xlsx';
 
 import {validateFundSheetData, validateAssetSheetData} from './dataValidation';
+import {refineFundData, refineAssetData} from './dataRefinement';
 
 export default function processXlsx(data: ArrayBuffer): [] | Error {  // TODO:
     try {
@@ -29,13 +30,15 @@ export default function processXlsx(data: ArrayBuffer): [] | Error {  // TODO:
         console.log(fundDataValidation.msg);
         console.log(assetDataValidation.msg);
 
-        /*if (fundDataValidation.valid) {
-            // Refine data
+        if (!fundDataValidation.valid) {
+            return Error([...fundDataValidation.msg, ...assetDataValidation.msg].join('\n'))
+        }
 
+        // Refine data
 
-        } else {
-            return Error(fundDataValidation.msg.join('\n'))
-        }*/
+        const refinedFundData = refineFundData(fundSheetData, assetSheetData);
+
+        /**/
 
         // Process data
 

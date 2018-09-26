@@ -2,7 +2,7 @@
 
 import {colNumToColName} from './utils';
 
-import type {FundData, AssetData} from '../../../components/DataTypes';
+
 
 type ValidationResult = {
     valid: boolean,
@@ -14,7 +14,7 @@ type ValidationResult = {
 export function validateFundSheetData(fundSheetData: any[]): ValidationResult {
     /** ***** CHECK EMPTINESS ***** **/
 
-    if (fundSheetData.length < 1) {
+    if (fundSheetData.length < 2) {
         return {
             valid: false,
             msg: ['Empty fund sheet data or no headers. Please add data in accordance with our guidance.'],
@@ -22,6 +22,9 @@ export function validateFundSheetData(fundSheetData: any[]): ValidationResult {
     }
 
     /** ***** CHECK MINIMUM COLUMN REQUIREMENTS ***** **/
+    /**
+     * Should have at least 5 columns (0 asset scenario)
+     * */
 
     if (fundSheetData[0].length < 5) {
         return {
@@ -135,7 +138,7 @@ export function validateFundSheetData(fundSheetData: any[]): ValidationResult {
 export function validateAssetSheetData(assetSheetData: any[]): ValidationResult {
     /** ***** CHECK EMPTINESS ***** **/
 
-    if (assetSheetData.length < 1) {
+    if (assetSheetData.length < 2) {
         return {
             valid: false,
             msg: ['Asset level data was not provided or no headers provided. All assets will default to level 1.'],
