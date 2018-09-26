@@ -15,7 +15,6 @@ import '../css/chart.css';
 type BarChartProps = {
     chartSize: {width: number, height: number},
     chartMargin: {top: number, right: number, bottom: number, left: number},
-    barSize: number,
     data: FundData[],
     colorData: ColorData,
 };
@@ -48,7 +47,7 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
     }
 
     updateChart = () => {
-        const {data, colorData, barSize, chartMargin, chartSize} = this.props;
+        const {data, colorData} = this.props;
 
         // Warning: specific to data type
         const assetsData = {};
@@ -61,6 +60,10 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
         const chartNode = this.getChart();
         if (chartNode) {
             const chart = select(chartNode);
+
+            // ********** Clear previous content ********** //
+
+            chart.selectAll('*').remove();
 
             // ********** Update scale ********** //
 

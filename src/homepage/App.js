@@ -13,7 +13,6 @@ import sampleColorData from './json/sample-colors-01';
 
 /** ********** MAIN COMPONENT ********** **/
 
-const barSize = 25;
 const chartMargin = {top: 50, right: 50, bottom: 50, left: 50};
 const chartSize = {
     width: 640 - chartMargin.left - chartMargin.right,
@@ -57,7 +56,6 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
                 <Chart data={data}
                        colorData={colorData}
-                       barSize={barSize}
                        chartMargin={chartMargin}
                        chartSize={chartSize} />
             </div>
