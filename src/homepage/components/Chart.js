@@ -22,16 +22,29 @@ type BarChartProps = {
 type BarChartStates = {};
 
 export default class Chart extends React.PureComponent<BarChartProps, BarChartStates> {
+    // React refs
     chartNodeRef: any;
     pannableNodeRef: any;
+
+    // Data variables - These initialise using props but will mutate when sort
+    // or filter functions are called
     mutatedData: FundData[];
     pannableSize: {width: number, height: number};
     chartAssetData: {[key: string]: {lvl: number, color: string}};
+
+    // Panning variables
+    mouseXY: {x: number, y: number};
+    mouseDown: boolean;
+    chartOffset: {x: number, y: number};
 
     constructor(props: BarChartProps) {
         super(props);
         this.chartNodeRef = React.createRef();
         this.pannableNodeRef = React.createRef();
+
+        this.mouseXY = {x: 0, y: 0};
+        this.mouseDown = false;
+        this.chartOffset = {x: 0, y: 0};
     }
 
     componentDidMount() {
@@ -67,11 +80,11 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
             const chart = select(chartNode);
             const pannable = select(pannableNode);
 
-            // ********** Clear previous content ********** //
+            // Clear previous content
 
             chart.selectAll('.clearable').remove();
 
-            // ********** Update chart ********** //
+            // Update chart
 
             this.updateChart(chart, pannable);
         }
@@ -257,24 +270,60 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
     /** ********** PANNING ********** **/
 
     handlePannableClick = (e: SyntheticMouseEvent<SVGGElement>) => {
-        console.log('clicked');
+        // Nothing here for now...
+    };
+
+    handlePannableMouseDown = (e: SyntheticMouseEvent<SVGGElement>) => {
+        this.mouseDown = true;
+    };
+
+    handlePannableMouseUp = (e: SyntheticMouseEvent<SVGGElement>) => {
+        this.mouseDown = false;
+    };
+
+    handlePannableMouseEnter = (e: SyntheticMouseEvent<SVGGElement>) => {
+        console.log('enter');
+
+        const {clientX, clientY} = e;
+
+        this.mouseXY.x = clientX;
+        this.mouseXY.y = clientY;
+    };
+
+    handlePannableMouseLeave = (e: SyntheticMouseEvent<SVGGElement>) => {
+        this.mouseDown = false;
+    };
+
+    handlePannableMouseMove = (e: SyntheticMouseEvent<SVGGElement>) => {
+        const {clientX, clientY} = e;
+
+        if (this.mouseDown) {
+            const pannableNode = this.getPannable();
+            if (pannableNode) {
+                const pannable = select(pannableNode);
+                this.chartOffset.x += clientX - this.mouseXY.x;
+                pannable.attr('transform', `translate(${this.chartOffset.x}, 0)`);
+            }
+        }
+
+        this.mouseXY.x = clientX;
+        this.mouseXY.y = clientY;
     };
 
     /** ********** FILTER ********** **/
 
     filterData = () => {
-        // ********** Mutate data ********** //
+        // Mutate data
 
         // TODO:
 
-        // ********** Update chart ********** //
+        // Update chart
+
         const chartNode = this.getChart();
         const pannableNode = this.getPannable();
         if (chartNode && pannableNode) {
             const chart = select(chartNode);
             const pannable = select(pannableNode);
-
-            // ********** Update chart ********** //
 
             this.updateChart(chart, pannable);
         }
@@ -314,7 +363,12 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
                        transform={`translate(${chartMargin.left}, ${chartMargin.top})`}>
                         <g ref={this.pannableNodeRef}
                            className="pannable-x-only"
-                           onClick={this.handlePannableClick} />
+                           onClick={this.handlePannableClick}
+                           onMouseDown={this.handlePannableMouseDown}
+                           onMouseUp={this.handlePannableMouseUp}
+                           onMouseEnter={this.handlePannableMouseEnter}
+                           onMouseLeave={this.handlePannableMouseLeave}
+                           onMouseMove={this.handlePannableMouseMove} />
                     </g>
                 </svg>
             </div>
