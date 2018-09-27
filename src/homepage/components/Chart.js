@@ -78,6 +78,8 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
     };
 
     updateChart = (chart: any, pannable: any) => {
+        const {chartSize} = this.props;
+
         // ********** Update scale ********** //
 
         const x = this.createScaleX();  // Band scale
@@ -128,13 +130,22 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
 
         // Lines
 
-        pannable.append('g').classed('limit-line clearable', true);
+        pannable.append('g')
+            .classed('limit-line clearable', true);
 
         pannable.selectAll('.limit-line')
             .append('path')
             .attr('d', lineGen(lineData))
             .attr('stroke', '#63201E')
             .attr('stroke-width', 3);
+
+        // ********** Update background rect ********** //
+
+        const bkgRect = pannable.insert('rect', ':first-child')
+            .classed('bkg-rect clearable', true)
+            .attr('width', this.pannableSize.width)
+            .attr('height', chartSize.height)
+            .attr('fill-opacity', 0);
     };
 
     /** ********** SCALES ********** **/
