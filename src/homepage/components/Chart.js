@@ -6,7 +6,7 @@ import {scaleLinear, scaleBand} from 'd3-scale';
 import {axis, axisBottom, axisLeft} from 'd3-axis';
 import {stack, line} from 'd3-shape';
 
-import type {FundData, ColorData} from './DataTypes';
+import type {FundData, AssetData, ColorData} from './DataTypes';
 
 import {findMaxInArray} from '../lib/utils/arrayMaths';
 
@@ -15,134 +15,147 @@ import '../css/chart.css';
 type BarChartProps = {
     chartSize: {width: number, height: number},
     chartMargin: {top: number, right: number, bottom: number, left: number},
-    data: FundData[],
-    colorData: ColorData,
+    defaultData: FundData[],
+    defaultColorData: ColorData,
 };
 
-type BarChartStates = {
-    scaleX: any,
-    scaleY: any,
-};
+type BarChartStates = {};
 
 export default class Chart extends React.PureComponent<BarChartProps, BarChartStates> {
-    svgNodeRef: any;
     chartNodeRef: any;
+    pannableNodeRef: any;
+    mutatedData: FundData[];
+    pannableSize: {width: number, height: number};
+    chartAssetData: {[key: string]: {lvl: number, color: string}};
 
     constructor(props: BarChartProps) {
         super(props);
-        this.svgNodeRef = React.createRef();
         this.chartNodeRef = React.createRef();
-        this.state = {
-            scaleX: {},
-            scaleY: {},
-        };
+        this.pannableNodeRef = React.createRef();
     }
 
     componentDidMount() {
-        this.updateChart();
+        this.handleNewDataset();
     }
 
     componentDidUpdate() {
-        this.updateChart();
+        this.handleNewDataset();
     }
 
-    updateChart = () => {
-        const {data, colorData} = this.props;
+    /**
+     * This is called when a completely new dataset is used, which can be
+     * triggered * by the user uploading a new .xlsx and replacing
+     * props.defaultData.
+     * */
+    handleNewDataset = () => {
+        const {defaultData, chartSize, defaultColorData} = this.props;
+
+        this.mutatedData = [...defaultData];
+        this.pannableSize = Object.assign({}, chartSize);
 
         // Warning: specific to data type
-        const assetsData = {};
-        data[0].assets.forEach((asset) => {
-            assetsData[asset.name] = {};
-            assetsData[asset.name].lvl = asset.lvl;
-            assetsData[asset.name].color = colorData[asset.lvl.toString()];
+        this.chartAssetData = {};
+        defaultData[0].assets.forEach((asset) => {
+            this.chartAssetData[asset.name] = {};
+            this.chartAssetData[asset.name].lvl = asset.lvl;
+            this.chartAssetData[asset.name].color = defaultColorData[asset.lvl.toString()];
         });
 
         const chartNode = this.getChart();
-        if (chartNode) {
+        const pannableNode = this.getPannable();
+        if (chartNode && pannableNode) {
             const chart = select(chartNode);
+            const pannable = select(pannableNode);
 
             // ********** Clear previous content ********** //
 
-            chart.selectAll('*').remove();
+            chart.selectAll('.clearable').remove();
 
-            // ********** Update scale ********** //
+            // ********** Update chart ********** //
 
-            const x = this.createScaleX();  // Band scale
-            const y = this.createScaleY();  // Linear scale
-
-            // ********** Update axes ********** //
-
-            const xAxis = this.createAxisBottom(chart, x);
-            const yAxis = this.createAxisLeft(chart, y);
-
-            // ********** Update vertical bars ********** //
-
-            const stackedSeries = this.createStackedSeries();
-
-            // Series
-
-            const seriesU = chart.selectAll('.series')
-                .data(stackedSeries);
-            const seriesE = seriesU.enter();
-            const seriesUE = seriesE.append('g')
-                .merge(seriesU);
-            seriesU.exit().remove();
-
-            seriesUE.attr('fill', d => assetsData[d.key].color);  // Colorise series
-
-            // Individual rect
-
-            const rectU = seriesUE.selectAll('rect')
-                .data(d => d);
-            const rectE = rectU.enter();
-            const rectUE = rectE.append('rect')
-                .merge(rectU);
-            rectUE.exit().remove();
-
-            const getRectHeight = (a, b) => y(y.domain()[1] - (b - a));
-            const getRectY = (a, b) => y(a) - getRectHeight(a, b);
-
-            rectUE.attr('width', x.bandwidth())
-                .attr('height', d => getRectHeight(d[0], d[1]))
-                .attr('x', d => x(d.data.name))
-                .attr('y', d => getRectY(d[0], d[1]));
-
-            // ********** Update limiter line ********** //
-
-            const lineData = this.createLineData(x, y);
-            const lineGen = line().defined(d => d !== null);
-
-            // Lines
-
-            chart.append('g').classed('limit-line', true);
-
-            chart.selectAll('.limit-line')
-                .append('path')
-                .attr('d', lineGen(lineData))
-                .attr('stroke', '#63201E')
-                .attr('stroke-width', 3);
+            this.updateChart(chart, pannable);
         }
     };
 
-    createScaleX = () => {
-        const {data, chartSize} = this.props;
+    updateChart = (chart: any, pannable: any) => {
+        // ********** Update scale ********** //
 
-        const fundNames = data.map(fundData => fundData.name);
+        const x = this.createScaleX();  // Band scale
+        const y = this.createScaleY();  // Linear scale
+
+        // ********** Update axes ********** //
+
+        const xAxis = this.createAxisBottom(pannable, x);
+        const yAxis = this.createAxisLeft(chart, y);
+
+        // ********** Update vertical bars ********** //
+
+        const stackedSeries = this.createStackedSeries();
+
+        // Stacked series
+
+        const seriesU = pannable.selectAll('.vbar-series')
+            .data(stackedSeries);
+        const seriesE = seriesU.enter();
+        const seriesUE = seriesE.append('g')
+            .classed('vbar-series clearable', true)
+            .merge(seriesU);
+        seriesU.exit().remove();
+
+        seriesUE.attr('fill', d => this.chartAssetData[d.key].color);  // Colorise series
+
+        // Individual rect
+
+        const rectU = seriesUE.selectAll('rect')
+            .data(d => d);
+        const rectE = rectU.enter();
+        const rectUE = rectE.append('rect')
+            .merge(rectU);
+        rectUE.exit().remove();
+
+        const getRectHeight = (a, b) => y(y.domain()[1] - (b - a));
+        const getRectY = (a, b) => y(a) - getRectHeight(a, b);
+
+        rectUE.attr('width', x.bandwidth())
+            .attr('height', d => getRectHeight(d[0], d[1]))
+            .attr('x', d => x(d.data.name))
+            .attr('y', d => getRectY(d[0], d[1]));
+
+        // ********** Update limiter line ********** //
+
+        const lineData = this.createLineData(x, y);
+        const lineGen = line().defined(d => d !== null);
+
+        // Lines
+
+        pannable.append('g').classed('limit-line clearable', true);
+
+        pannable.selectAll('.limit-line')
+            .append('path')
+            .attr('d', lineGen(lineData))
+            .attr('stroke', '#63201E')
+            .attr('stroke-width', 3);
+    };
+
+    /** ********** SCALES ********** **/
+
+    createScaleX = () => {
+        const fundNames = this.mutatedData.map(fundData => fundData.name);
 
         // Using band scale for x
         return scaleBand()
             .domain(fundNames)
-            .range([0, chartSize.width])
+            .range([0, this.pannableSize.width])
             .padding(0.05);
     };
 
     createScaleY = () => {
-        const {data, chartSize} = this.props;
+        const {chartSize} = this.props;
 
         // Warning: specific to data type
-        const fCalRems = data.map(fundData => Math.min(fundData.fCom - fundData.fCal, 0));
+        const fCalRems = this.mutatedData.map(fundData => Math.min(fundData.fCom - fundData.fCal, 0));
         const totalAssetsReducer = (acc, curVal): number => acc + curVal.amt;
-        const totalAssets = data.map(fundData => fundData.assets.reduce(totalAssetsReducer, 0));
+        const totalAssets = this.mutatedData.map(fundData => fundData.assets.reduce(totalAssetsReducer, 0));
 
         const dataMax = findMaxInArray([fCalRems, totalAssets]);
 
@@ -155,30 +168,35 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
             .range([chartSize.height, 0]);
     };
 
-    // Note: band and point scales do not implement scale.ticks
-    createAxisBottom = (chart: any, scale: any) => {
+    /** ********** AXES ********** **/
+
+    createAxisBottom = (parent: any, scale: any) => {
+        // Note: band and point scales do not implement scale.ticks
+
         const {chartSize} = this.props;
 
         const axis = axisBottom(scale);
 
-        return chart.append('g')
+        return parent.append('g')
+            .classed('x-axis clearable', true)
             .attr('transform', `translate(0, ${chartSize.height})`)
             .call(axis);
     };
 
-    createAxisLeft = (chart: any, scale: any) => {
+    createAxisLeft = (parent: any, scale: any) => {
         const axis = axisLeft(scale)
             .ticks(5, ',f');
 
-        return chart.append('g')
+        return parent.append('g')
+            .classed('y-axis clearable', true)
             .call(axis);
     };
 
-    createStackedSeries = () => {
-        const {data} = this.props;
+    /** ********** SHAPES ********** **/
 
+    createStackedSeries = () => {
         // Create stack data - Warning: specific to data type
-        const stackData = data.map((fundData) => {
+        const stackData = this.mutatedData.map((fundData) => {
             const fundObj = {};
             fundObj.name = fundData.name;
             fundData.assets.forEach((asset) => {
@@ -188,7 +206,7 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
         });
 
         // Create stack keys - Warning: specific to data type
-        const anAssetsObj = data[0].assets;
+        const anAssetsObj = this.mutatedData[0].assets;
         const compareFn = (a, b) => {
             if (a.lvl === b.lvl) {
                 return a.name.localeCompare(b.name, 'en', {
@@ -210,16 +228,14 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
     };
 
     createLineData = (xScale: any, yScale: any) => {
-        const {data} = this.props;
-
         // Warning: specific to data type
         const lineData = [];
-        data.forEach((fundData, index) => {
+        this.mutatedData.forEach((fundData, index) => {
             const fRem = fundData.fCom - fundData.fCal;
             const valueHeight = yScale(fRem);
             lineData.push([xScale(fundData.name), valueHeight]);  // start [x, y]
             lineData.push([xScale(fundData.name) + xScale.bandwidth(), valueHeight]);  // end [x, y]
-            if (index < data.length - 1) {
+            if (index < this.mutatedData.length - 1) {
                 lineData.push(null);  // gap
             }
         });
@@ -227,12 +243,37 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
         return lineData
     };
 
-    getSvg = () => {
-        if (this.svgNodeRef && this.svgNodeRef.current) {
-            return this.svgNodeRef.current
-        }
-        return null
+    /** ********** PANNING ********** **/
+
+    handlePannableClick = (e: SyntheticMouseEvent<SVGGElement>) => {
+        console.log('clicked');
     };
+
+    /** ********** FILTER ********** **/
+
+    filterData = () => {
+        // ********** Mutate data ********** //
+
+        // TODO:
+
+        // ********** Update chart ********** //
+        const chartNode = this.getChart();
+        const pannableNode = this.getPannable();
+        if (chartNode && pannableNode) {
+            const chart = select(chartNode);
+            const pannable = select(pannableNode);
+
+            // ********** Update chart ********** //
+
+            this.updateChart(chart, pannable);
+        }
+    };
+
+    /** ********** SORT ********** **/
+
+    // TODO
+
+    /** ********** UTILITIES ********** **/
 
     getChart = () => {
         if (this.chartNodeRef && this.chartNodeRef.current) {
@@ -241,16 +282,29 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
         return null
     };
 
+    getPannable = () => {
+        if (this.pannableNodeRef && this.pannableNodeRef.current) {
+            return this.pannableNodeRef.current
+        }
+        return null
+    };
+
+    /** ********** RENDER ********** **/
+
     render() {
         const {chartSize, chartMargin} = this.props;
 
         return (
             <div className="chart-container">
-                <svg ref={this.svgNodeRef}
-                     width={chartSize.width + chartMargin.right + chartMargin.left}
+                <svg width={chartSize.width + chartMargin.right + chartMargin.left}
                      height={chartSize.height + chartMargin.top + chartMargin.bottom}>
                     <g ref={this.chartNodeRef}
-                       transform={`translate(${chartMargin.left}, ${chartMargin.top})`} />
+                       className="chart"
+                       transform={`translate(${chartMargin.left}, ${chartMargin.top})`}>
+                        <g ref={this.pannableNodeRef}
+                           className="pannable-x-only"
+                           onClick={this.handlePannableClick} />
+                    </g>
                 </svg>
             </div>
         )

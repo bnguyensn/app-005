@@ -54,8 +54,8 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
                 <hr />
 
-                <Chart data={data}
-                       colorData={colorData}
+                <Chart defaultData={data}
+                       defaultColorData={colorData}
                        chartMargin={chartMargin}
                        chartSize={chartSize} />
             </div>
