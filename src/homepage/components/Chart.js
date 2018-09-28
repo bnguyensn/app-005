@@ -5,6 +5,7 @@ import {select} from 'd3-selection';
 import {scaleLinear, scaleBand} from 'd3-scale';
 import {axis, axisBottom, axisLeft} from 'd3-axis';
 import {stack, line} from 'd3-shape';
+import {transition} from 'd3-transition';
 
 import type {FundData, AssetData, ColorData} from './DataTypes';
 
@@ -13,8 +14,14 @@ import {findMaxInArray} from '../lib/utils/arrayMaths';
 import '../css/chart.css';
 
 type BarChartProps = {
-    chartSize: {width: number, height: number},
-    chartMargin: {top: number, right: number, bottom: number, left: number},
+    chartSize: {
+        width: number,
+        height: number,
+        marginTop: number,
+        marginLeft: number,
+        marginBottom: number,
+        marginRight: number,
+    },
     defaultData: FundData[],
     defaultColorData: ColorData,
 };
@@ -37,6 +44,9 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
     mouseDown: boolean;
     chartOffset: {x: number, y: number};
 
+    // Filter variables
+    dataRange: {start: number, end: number};
+
     constructor(props: BarChartProps) {
         super(props);
         this.chartNodeRef = React.createRef();
@@ -49,6 +59,18 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
 
     componentDidMount() {
         this.handleNewDataset();
+    }
+
+    /**
+     * The chart element never re-renders on prop changes. This is because we
+     * want d3js to handle re-rendering on data "mutation".
+     *
+     * The chart element still "reset" (unmount and remount) when a new dataset
+     * is provided. This is done via changing the "key" prop and does not take
+     * into account shouldComponentUpdate()'s return value.
+     * */
+    shouldComponentUpdate() {
+        return false
     }
 
     componentDidUpdate() {
@@ -69,7 +91,7 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
         // Warning: specific to data type
         this.chartAssetData = {};
         defaultData[0].assets.forEach((asset) => {
-            this.chartAssetData[asset.name] = {};
+            this.chartAssetData[asset.name] = {lvl: 0, color: ''};
             this.chartAssetData[asset.name].lvl = asset.lvl;
             this.chartAssetData[asset.name].color = defaultColorData[asset.lvl.toString()];
         });
@@ -103,11 +125,16 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
         const xAxis = this.createAxisBottom(pannable, x);
         const yAxis = this.createAxisLeft(chart, y);
 
-        // ********** Update vertical bars ********** //
+        // ********** Update shapes ********** //
+
+        // Set up generic transitions
+
+        const trans1 = transition()
+            .duration(750);
+
+        // Stacked series vertical bars
 
         const stackedSeries = this.createStackedSeries();
-
-        // Stacked series
 
         const seriesU = pannable.selectAll('.vbar-series')
             .data(stackedSeries);
@@ -115,9 +142,10 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
         const seriesUE = seriesE.append('g')
             .classed('vbar-series clearable', true)
             .merge(seriesU);
-        seriesU.exit().remove();
 
         seriesUE.attr('fill', d => this.chartAssetData[d.key].color);  // Colorise series
+
+        seriesU.exit().remove();
 
         // Individual rect
 
@@ -126,15 +154,18 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
         const rectE = rectU.enter();
         const rectUE = rectE.append('rect')
             .merge(rectU);
-        rectUE.exit().remove();
 
         const getRectHeight = (a, b) => y(y.domain()[1] - (b - a));
         const getRectY = (a, b) => y(a) - getRectHeight(a, b);
 
         rectUE.attr('width', x.bandwidth())
-            .attr('height', d => getRectHeight(d[0], d[1]))
             .attr('x', d => x(d.data.name))
             .attr('y', d => getRectY(d[0], d[1]));
+
+        const rectUETrans = rectUE.transition(trans1)
+            .attr('height', d => getRectHeight(d[0], d[1]));
+
+        rectUE.exit().remove();
 
         // ********** Update limiter line ********** //
 
@@ -146,11 +177,14 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
         pannable.append('g')
             .classed('limit-line clearable', true);
 
-        pannable.selectAll('.limit-line')
+        const lineU = pannable.selectAll('.limit-line')
             .append('path')
             .attr('d', lineGen(lineData))
             .attr('stroke', '#63201E')
-            .attr('stroke-width', 3);
+            .attr('stroke-width', 0);
+
+        const lineUTrans = lineU.transition(trans1)
+            .attr('stroke-width', 5);
 
         // ********** Update background rect ********** //
 
@@ -269,31 +303,35 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
 
     /** ********** PANNING ********** **/
 
+    // $FlowFixMe
     handlePannableClick = (e: SyntheticMouseEvent<SVGGElement>) => {
         // Nothing here for now...
     };
 
+    // $FlowFixMe
     handlePannableMouseDown = (e: SyntheticMouseEvent<SVGGElement>) => {
         this.mouseDown = true;
     };
 
+    // $FlowFixMe
     handlePannableMouseUp = (e: SyntheticMouseEvent<SVGGElement>) => {
         this.mouseDown = false;
     };
 
+    // $FlowFixMe
     handlePannableMouseEnter = (e: SyntheticMouseEvent<SVGGElement>) => {
-        console.log('enter');
-
         const {clientX, clientY} = e;
 
         this.mouseXY.x = clientX;
         this.mouseXY.y = clientY;
     };
 
+    // $FlowFixMe
     handlePannableMouseLeave = (e: SyntheticMouseEvent<SVGGElement>) => {
         this.mouseDown = false;
     };
 
+    // $FlowFixMe
     handlePannableMouseMove = (e: SyntheticMouseEvent<SVGGElement>) => {
         const {clientX, clientY} = e;
 
@@ -352,15 +390,15 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
     /** ********** RENDER ********** **/
 
     render() {
-        const {chartSize, chartMargin} = this.props;
+        const {chartSize} = this.props;
 
         return (
             <div className="chart-container">
-                <svg width={chartSize.width + chartMargin.right + chartMargin.left}
-                     height={chartSize.height + chartMargin.top + chartMargin.bottom}>
+                <svg width={chartSize.width + chartSize.marginRight + chartSize.marginLeft}
+                     height={chartSize.height + chartSize.marginTop + chartSize.marginBottom}>
                     <g ref={this.chartNodeRef}
                        className="chart"
-                       transform={`translate(${chartMargin.left}, ${chartMargin.top})`}>
+                       transform={`translate(${chartSize.marginLeft}, ${chartSize.marginTop})`}>
                         <g ref={this.pannableNodeRef}
                            className="pannable-x-only"
                            onClick={this.handlePannableClick}

@@ -8,7 +8,7 @@ import processXlsx from '../lib/utils/xlsx/processXlsx';
 import type {FundData} from './DataTypes';
 
 type UploadDataProps = {
-    updateFundData: (data: FundData) => void,
+    setNewData: (data: FundData) => void,
 };
 
 export default class UploadData extends React.PureComponent<UploadDataProps, {}> {
@@ -25,7 +25,7 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
     }
 
     handleFileSelected = (e: SyntheticInputEvent<HTMLElement>) => {
-        const {updateFundData} = this.props;
+        const {setNewData} = this.props;
 
         const {files} = e.target;
         const f = files[0];
@@ -51,7 +51,7 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
                         console.log('Successfullly read .xlsx. Result data:');
                         console.log(processedData);
 
-                        updateFundData(processedData);
+                        setNewData(processedData);
                     }
                 };
 
