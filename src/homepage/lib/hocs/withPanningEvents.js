@@ -15,12 +15,12 @@ type WithPannningEventsStates = {
  *
  * Note: currently only X movements are implemented
  * */
-export default function withPanningEvents(WrappedComponent, data) {
+export default function withPanningEvents<C: React.ComponentType<{}>>(WrappedComponent: C): C {
     class WithPanningEvents extends React.PureComponent<{}, WithPannningEventsStates> {
         mouseDown: boolean;
         mouseXY: {x: number, y: number};
 
-        constructor(props) {
+        constructor(props: {}) {
             super(props);
             this.mouseDown = false;
             this.mouseXY = {
@@ -63,12 +63,14 @@ export default function withPanningEvents(WrappedComponent, data) {
 
         // $FlowFixMe
         handleMouseMove = (e: SyntheticMouseEvent<HTMLElement>) => {
+            let {offsetX} = this.state;
             const {clientX, clientY, currentTarget} = e;
 
             if (this.mouseDown && currentTarget) {
-                this.setState((prevState: WithPannningEventsStates) => ({
-                    offsetX: prevState.offsetX += clientX - this.mouseXY.x,
-                }));
+                offsetX += clientX - this.mouseXY.x;
+                this.setState({
+                    offsetX,
+                });
             }
 
             this.mouseXY.x = clientX;

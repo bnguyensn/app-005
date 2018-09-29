@@ -111,6 +111,13 @@
       }
     ],
     "semi": "off",
-    "spaced-comment": 0
+    "spaced-comment": 0,
+    "quote-props": [
+      "error",
+      "as-needed",
+      {
+        "numbers": true
+      }
+    ]
   }
 }
