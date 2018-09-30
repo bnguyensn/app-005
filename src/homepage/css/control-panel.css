@@ -77,14 +77,10 @@
 .cp-filter-stop-bar {}
 
 .cp-filter-text-status-container {
-    display: flex;
     margin-top: 1rem;
     width: 100%;
     font-size: .75rem;
-}
-
-.cp-filter-text-status-container > * {
-    flex-grow: 1;
+    text-align: center;
     user-select: none;
 }
 

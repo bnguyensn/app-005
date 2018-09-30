@@ -13,7 +13,7 @@ import {findMaxInArray} from '../lib/utils/arrayMaths';
 
 import '../css/chart.css';
 
-type BarChartProps = {
+type ChartProps = {
     chartSize: {
         width: number,
         height: number,
@@ -26,9 +26,9 @@ type BarChartProps = {
     defaultColorData: ColorData,
 };
 
-type BarChartStates = {};
+type ChartStates = {};
 
-export default class Chart extends React.PureComponent<BarChartProps, BarChartStates> {
+export default class Chart extends React.Component<ChartProps, ChartStates> {
     // React refs
     chartNodeRef: any;
     pannableNodeRef: any;
@@ -47,7 +47,7 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
     // Filter variables
     dataRange: {start: number, end: number};
 
-    constructor(props: BarChartProps) {
+    constructor(props: ChartProps) {
         super(props);
         this.chartNodeRef = React.createRef();
         this.pannableNodeRef = React.createRef();
@@ -69,7 +69,22 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
      * is provided. This is done via changing the "key" prop and does not take
      * into account shouldComponentUpdate()'s return value.
      * */
-    shouldComponentUpdate() {
+    shouldComponentUpdate(nextProps: ChartProps, nextState: ChartStates, nextContext: any): boolean {
+        const {defaultData} = nextProps;
+
+        this.mutatedData = [...defaultData];
+
+        // Update chart
+
+        const chartNode = this.getChart();
+        const pannableNode = this.getPannable();
+        if (chartNode && pannableNode) {
+            const chart = select(chartNode);
+            const pannable = select(pannableNode);
+
+            this.updateChart(chart, pannable);
+        }
+
         return false
     }
 
@@ -355,16 +370,7 @@ export default class Chart extends React.PureComponent<BarChartProps, BarChartSt
 
         // TODO:
 
-        // Update chart
 
-        const chartNode = this.getChart();
-        const pannableNode = this.getPannable();
-        if (chartNode && pannableNode) {
-            const chart = select(chartNode);
-            const pannable = select(pannableNode);
-
-            this.updateChart(chart, pannable);
-        }
     };
 
     /** ********** SORT ********** **/

@@ -11,8 +11,12 @@ type FilterChartProps = {
 };
 
 export default class FilterChart extends React.PureComponent<FilterChartProps, {}> {
+    setFilterRange = (min: number, max: number) => {
+        console.log(`min: ${min}, max: ${max}`);
+    };
+
     render() {
-        const {defaultData, updateData} = this.props;
+        const {defaultData} = this.props;
 
         return (
             <div id="cp-filter" className="cp-section">
@@ -27,7 +31,7 @@ export default class FilterChart extends React.PureComponent<FilterChartProps, {
                     stopBar: {width: 10, height: 20},
                 }}
                               defaultData={defaultData}
-                              updateData={updateData} />
+                              setFilterRange={this.setFilterRange} />
             </div>
         )
     }

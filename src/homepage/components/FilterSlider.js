@@ -8,12 +8,17 @@ import type {FundData} from './DataTypes';
 
 /** ********** TEXT STATUS ********** **/
 
-function TextStatus(props: {children?: React.Node}) {
-    const {children} = props;
+type TextStatusProps = {
+    dataRange: {min: number, max: number},
+};
+
+function TextStatus(props: TextStatusProps) {
+    const {dataRange, ...rest} = props;
 
     return (
-        <div className="cp-filter-text-status-container" {...props}>
-            {children || null}
+        <div className="cp-filter-text-status-container" {...rest}>
+            {`Data range: ${(dataRange.min * 100).toFixed(0)}% - `
+            + `${(dataRange.max * 100).toFixed(0)}%`}
         </div>
     )
 }
@@ -68,12 +73,12 @@ type FilterSliderProps = {
         longBar: {width: number, height: number},
         stopBar: {width: number, height: number},
     };
-    defaultData: FundData[],
-    updateData: (data: FundData[]) => void,
+    setFilterRange: (min: number, max: number) => void,
 };
 
 type FilterSliderStates = {
     stopBarOffsets: {x: number, y: number}[],
+    dataRange: {min: number, max: number},
 };
 
 export default class FilterSlider extends React.PureComponent<FilterSliderProps, FilterSliderStates> {
@@ -88,6 +93,10 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
                 {x: 0, y: -props.size.stopBar.height / 4},
                 {x: props.size.longBar.width - props.size.stopBar.width, y: -props.size.stopBar.height / 4},
             ],
+            dataRange: {
+                min: 0,
+                max: 1,
+            },
         };
 
         this.stopBarLimits = [
@@ -117,7 +126,7 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
     );
 
     moveStopBarX = (stopBarIndex: number, movingDistX: number): void => {
-        const {size} = this.props;
+        const {size, setFilterRange} = this.props;
         const {stopBarOffsets} = this.state;
 
         // Calculate new StopBar position
@@ -134,7 +143,7 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
                 this.stopBarLimits[stopBarIndex + 1].xMin = size.stopBar.width + newOffsetX;
             }
 
-            // Re-render
+            // Re-render and update data range
             const newStopBarOffsets = [...stopBarOffsets];
             newStopBarOffsets[stopBarIndex] = {
                 x: newOffsetX,
@@ -143,13 +152,17 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
 
             this.setState({
                 stopBarOffsets: newStopBarOffsets,
+                dataRange: {
+                    min: newStopBarOffsets[0].x / (size.longBar.width - size.stopBar.width),
+                    max: newStopBarOffsets[1].x / (size.longBar.width - size.stopBar.width),
+                },
             });
         }
     };
 
     render() {
         const {size} = this.props;
-        const {stopBarOffsets} = this.state;
+        const {stopBarOffsets, dataRange} = this.state;
 
         const stopBarEls = this.stopBars.map((StopBarWithPanningEvents, i) => (
             <StopBarWithPanningEvents key={i}  // We don't expect the stopBars array to change, so index keys are fine
@@ -164,18 +177,7 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
                 <LongBar style={{width: size.longBar.width, height: size.longBar.height}}>
                     {stopBarEls}
                 </LongBar>
-                <TextStatus>
-                    <div style={{
-                        textAlign: 'right',
-                    }}>
-                        {`From: (${stopBarOffsets[0].x}, ${stopBarOffsets[0].y})`}
-                    </div>
-                    <div style={{
-                        textAlign: 'left',
-                    }}>
-                        {`To: (${stopBarOffsets[1].x}, ${stopBarOffsets[1].y})`}
-                    </div>
-                </TextStatus>
+                <TextStatus dataRange={dataRange} />
             </div>
         )
     }
