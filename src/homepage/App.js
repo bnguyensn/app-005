@@ -81,10 +81,10 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
                 <hr />
 
-                <Chart key={chartKey.toString()}
+                {/*<Chart key={chartKey.toString()}
                        defaultData={data}
                        defaultColorData={colorData}
-                       chartSize={chartSize} />
+                       chartSize={chartSize} />*/}
             </div>
         )
     }

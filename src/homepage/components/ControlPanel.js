@@ -24,9 +24,9 @@ export default class ControlPanel extends React.PureComponent<ControlPanelProps,
             <div id="control-panel">
                 <span>CONTROL PANEL</span>
                 <UploadData setNewData={setNewData} />
-                <SortChart />
                 <FilterChart defaultData={defaultData}
                              updateData={updateData} />
+                <SortChart />
             </div>
         )
     }

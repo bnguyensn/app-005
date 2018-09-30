@@ -3,6 +3,8 @@
     align-items: center;
     flex-flow: column wrap;
 
+    width: 320px;
+
     padding: .5rem;
 }
 
@@ -13,18 +15,21 @@
 }
 
 .cp-section {
-    font-size: .75rem;
+    margin-bottom: .5rem;
+    width: 100%;
+}
+
+.cp-section > * {
     margin-bottom: .5rem;
 }
 
-/** ********** SORT CHART ********** **/
-
-#cp-sort-chart span {
-    display: block;
+.cp-section-title {
+    text-align: center;
 }
 
-#cp-sort-chart select {
-    font: inherit;
+.cp-section-description {
+    text-align: center;
+    font-size: .75rem;
 }
 
 /** ********** UPLOAD DATA ********** **/
@@ -47,4 +52,46 @@
 #cp-upload input {
     position: absolute;
     opacity: 0;
+}
+
+/** ********** FILTER ********** **/
+
+#cp-filter {}
+
+.cp-filter-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: .5rem 0 .5rem 0;
+}
+
+.cp-filter-long-bar {
+    position: relative;
+    border-radius: 5px;
+    background-color: #DBC4B0;
+}
+
+.cp-filter-stop-bar-container {}
+
+.cp-filter-stop-bar {}
+
+.cp-filter-text-status-container {
+    display: flex;
+    margin-top: 1rem;
+    width: 100%;
+    font-size: .75rem;
+}
+
+.cp-filter-text-status-container > * {
+    flex-grow: 1;
+    user-select: none;
+}
+
+/** ********** SORT ********** **/
+
+#cp-sort-chart select {
+    width: 100%;
+    font-family: inherit;
+    font-size: .75rem;
 }

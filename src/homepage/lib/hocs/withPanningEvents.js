@@ -4,10 +4,20 @@ import * as React from 'react';
 
 import getDisplayName from '../utils/getDisplayName';
 
-type WithPannningEventsStates = {
-    offsetX: number,
-    offsetY: number,
-};
+type withPanningEventsProps = {
+    id: number,
+    moveX: (id: number, moveDistX: number) => void;
+}
+
+type WithPanningEventsProps = {
+    onMouseClick: (e: SyntheticMouseEvent<HTMLElement>) => void,
+    onMouseDown: (e: SyntheticMouseEvent<HTMLElement>) => void,
+    onMouseUp: (e: SyntheticMouseEvent<HTMLElement>) => void,
+    onMouseEnter: (e: SyntheticMouseEvent<HTMLElement>) => void,
+    onMouseLeave: (e: SyntheticMouseEvent<HTMLElement>) => void,
+    onMouseMove: (e: SyntheticMouseEvent<HTMLElement>) => void,
+    style: {}
+}
 
 /**
  * A component with panning events will "move" on mouse drag via the CSS
@@ -15,41 +25,61 @@ type WithPannningEventsStates = {
  *
  * Note: currently only X movements are implemented
  * */
-export default function withPanningEvents<C: React.ComponentType<{}>>(WrappedComponent: C): C {
-    class WithPanningEvents extends React.PureComponent<{}, WithPannningEventsStates> {
+export default function withPanningEvents<C: React.ComponentType<{}>>(
+    WrappedComponent: C,
+): React.ComponentType<{}> {
+    class WithPanningEvents extends React.PureComponent<withPanningEventsProps, {}> {
         mouseDown: boolean;
         mouseXY: {x: number, y: number};
 
-        constructor(props: {}) {
+        constructor(props: withPanningEventsProps) {
             super(props);
             this.mouseDown = false;
             this.mouseXY = {
                 x: 0,
                 y: 0,
             };
-            this.state = {
-                offsetX: 0,
-                offsetY: 0,
-            };
         }
 
         // $FlowFixMe
         handleClick = (e: SyntheticMouseEvent<HTMLElement>) => {
-            // Nothing here for now...
+
         };
 
         // $FlowFixMe
         handleMouseDown = (e: SyntheticMouseEvent<HTMLElement>) => {
+            e.stopPropagation();
+
+            const {clientX, clientY} = e;
+
             this.mouseDown = true;
+            this.mouseXY.x = clientX;
+            this.mouseXY.y = clientY;
+
+            const rootEl = document.getElementById('root');
+            if (rootEl) {
+                rootEl.addEventListener('mousemove', this.handleMouseMove);
+                rootEl.addEventListener('mouseup', this.handleMouseUp);
+            }
         };
 
         // $FlowFixMe
         handleMouseUp = (e: SyntheticMouseEvent<HTMLElement>) => {
+            e.stopPropagation();
+
             this.mouseDown = false;
+
+            const rootEl = document.getElementById('root');
+            if (rootEl) {
+                rootEl.removeEventListener('mousemove', this.handleMouseMove);
+                rootEl.removeEventListener('mouseup', this.handleMouseUp);
+            }
         };
 
         // $FlowFixMe
         handleMouseEnter = (e: SyntheticMouseEvent<HTMLElement>) => {
+            e.stopPropagation();
+
             const {clientX, clientY} = e;
 
             this.mouseXY.x = clientX;
@@ -58,44 +88,96 @@ export default function withPanningEvents<C: React.ComponentType<{}>>(WrappedCom
 
         // $FlowFixMe
         handleMouseLeave = (e: SyntheticMouseEvent<HTMLElement>) => {
-            this.mouseDown = false;
+
         };
 
         // $FlowFixMe
         handleMouseMove = (e: SyntheticMouseEvent<HTMLElement>) => {
-            let {offsetX} = this.state;
+            e.stopPropagation();
+
+            const {id, moveX} = this.props;
             const {clientX, clientY, currentTarget} = e;
 
-            if (this.mouseDown && currentTarget) {
-                offsetX += clientX - this.mouseXY.x;
-                this.setState({
-                    offsetX,
-                });
+            const moveDistX = clientX - this.mouseXY.x;
+
+            if (this.mouseDown && currentTarget && moveDistX) {
+                moveX(id, moveDistX);
             }
 
             this.mouseXY.x = clientX;
             this.mouseXY.y = clientY;
         };
 
+        // $FlowFixMe
+        handleTouchStart = (e: SyntheticTouchEvent<HTMLElement>) => {
+            e.stopPropagation();
+
+            const {clientX, clientY} = e.touches[0];
+
+            this.mouseDown = true;
+            this.mouseXY.x = clientX;
+            this.mouseXY.y = clientY;
+
+            const rootEl = document.getElementById('root');
+            if (rootEl) {
+                rootEl.addEventListener('touchmove', this.handleTouchMove);
+                rootEl.addEventListener('touchend', this.handleTouchEnd);
+            }
+        };
+
+        // $FlowFixMe
+        handleTouchEnd = (e: SyntheticTouchEvent<HTMLElement>) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            this.mouseDown = false;
+
+            const rootEl = document.getElementById('root');
+            if (rootEl) {
+                rootEl.removeEventListener('touchmove', this.handleTouchMove);
+                rootEl.removeEventListener('touchend', this.handleTouchEnd);
+            }
+        };
+
+        // $FlowFixMe
+        handleTouchMove = (e: SyntheticTouchEvent<HTMLElement>) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const {id, moveX} = this.props;
+            const {clientX, clientY} = e.touches[0];
+
+            const moveDistX = clientX - this.mouseXY.x;
+
+            if (this.mouseDown && moveDistX) {
+                moveX(id, moveDistX);
+            }
+
+            this.mouseXY.x = clientX;
+            this.mouseXY.y = clientY;
+        };
+
+        // $FlowFixMe
+        handleTouchCancel = (e: SyntheticTouchEvent<HTMLElement>) => {
+            e.preventDefault();
+        };
+
         render() {
-            const {offsetX, offsetY} = this.state;
+            const {id, moveX, ...props} = this.props;
 
             return (
-                <WrappedComponent onMouseClick={this.handleClick}
+                <WrappedComponent onClick={this.handleClick}
                                   onMouseDown={this.handleMouseDown}
-                                  onMouseUp={this.handleMouseUp}
                                   onMouseEnter={this.handleMouseEnter}
                                   onMouseLeave={this.handleMouseLeave}
-                                  onMouseMove={this.handleMouseMove}
-                                  style={{
-                                      transform: `translate(${offsetX}, ${offsetY})`,
-                                  }}
-                                  {...this.props} />
+                                  onTouchStart={this.handleTouchStart}
+                                  {...props} />
             )
         }
     }
 
     WithPanningEvents.displayName = `WithPanningEvents(${getDisplayName(WrappedComponent)})`;
 
+    // $FlowFixMe
     return WithPanningEvents
 }

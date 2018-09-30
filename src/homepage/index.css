@@ -56,6 +56,8 @@ sup {
 .width-100p { width: 100%; }
 .min-width-100p { min-width: 100%; }
 
+.flex-space { flex-grow: 1; }
+
 /* ********** RESPONSIVE WEB DESIGN ********** */
 
 #root {
