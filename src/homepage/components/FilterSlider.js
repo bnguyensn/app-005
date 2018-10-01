@@ -28,8 +28,13 @@ function TextStatus(props: TextStatusProps) {
 function LongBar(props: {children?: React.Node}) {
     const {children} = props;
 
+    const drag = (e: SyntheticMouseEvent<HTMLElement>) => {
+        e.preventDefault();
+    };
+
     return (
-        <div className="cp-filter-long-bar" {...props}>
+        <div className="cp-filter-long-bar" {...props}
+             onDrag={drag}>
             {children || null}
         </div>
     )
@@ -85,6 +90,8 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
     stopBars: any[];
     stopBarLimits: {xMin: number, xMax: number, yMin: number, yMax: number}[];
 
+    sliderReseter: boolean;
+
     constructor(props: FilterSliderProps) {
         super(props);
 
@@ -118,6 +125,8 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
             withPanningEvents(StopBar),
             withPanningEvents(StopBar),
         ];
+
+        this.sliderReseter = false;
     }
 
     offsetWithinLimitX = (stopBarIndex: number, offsetX: number): boolean => (
@@ -150,11 +159,18 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
                 y: stopBarOffsets[stopBarIndex].y,
             };
 
+            const newDataRangeMin = newStopBarOffsets[0].x
+                / (size.longBar.width - size.stopBar.width);
+            const newDataRangeMax = newStopBarOffsets[1].x
+                / (size.longBar.width - size.stopBar.width);
+
+            setFilterRange(newDataRangeMin, newDataRangeMax);
+
             this.setState({
                 stopBarOffsets: newStopBarOffsets,
                 dataRange: {
-                    min: newStopBarOffsets[0].x / (size.longBar.width - size.stopBar.width),
-                    max: newStopBarOffsets[1].x / (size.longBar.width - size.stopBar.width),
+                    min: newDataRangeMin,
+                    max: newDataRangeMax,
                 },
             });
         }
@@ -174,7 +190,8 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
 
         return (
             <div className="cp-filter-slider">
-                <LongBar style={{width: size.longBar.width, height: size.longBar.height}}>
+                <LongBar
+                    style={{width: size.longBar.width, height: size.longBar.height}}>
                     {stopBarEls}
                 </LongBar>
                 <TextStatus dataRange={dataRange} />

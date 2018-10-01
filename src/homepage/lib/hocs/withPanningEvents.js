@@ -31,6 +31,7 @@ export default function withPanningEvents<C: React.ComponentType<{}>>(
     class WithPanningEvents extends React.PureComponent<withPanningEventsProps, {}> {
         mouseDown: boolean;
         mouseXY: {x: number, y: number};
+        throttling: boolean;
 
         constructor(props: withPanningEventsProps) {
             super(props);
@@ -39,6 +40,7 @@ export default function withPanningEvents<C: React.ComponentType<{}>>(
                 x: 0,
                 y: 0,
             };
+            this.throttling = false;
         }
 
         // $FlowFixMe
@@ -80,10 +82,10 @@ export default function withPanningEvents<C: React.ComponentType<{}>>(
         handleMouseEnter = (e: SyntheticMouseEvent<HTMLElement>) => {
             e.stopPropagation();
 
-            const {clientX, clientY} = e;
+            /*const {clientX, clientY} = e;
 
             this.mouseXY.x = clientX;
-            this.mouseXY.y = clientY;
+            this.mouseXY.y = clientY;*/
         };
 
         // $FlowFixMe
@@ -100,7 +102,7 @@ export default function withPanningEvents<C: React.ComponentType<{}>>(
 
             const moveDistX = clientX - this.mouseXY.x;
 
-            if (this.mouseDown && currentTarget && moveDistX) {
+            if (this.mouseDown && currentTarget && moveDistX && !this.throttling) {
                 moveX(id, moveDistX);
             }
 
@@ -149,7 +151,7 @@ export default function withPanningEvents<C: React.ComponentType<{}>>(
 
             const moveDistX = clientX - this.mouseXY.x;
 
-            if (this.mouseDown && moveDistX) {
+            if (this.mouseDown && moveDistX && !this.throttling) {
                 moveX(id, moveDistX);
             }
 
@@ -162,6 +164,11 @@ export default function withPanningEvents<C: React.ComponentType<{}>>(
             e.preventDefault();
         };
 
+        // $FlowFixMe
+        handleDrag = (e: SyntheticTouchEvent<HTMLElement>) => {
+            e.preventDefault();
+        };
+
         render() {
             const {id, moveX, ...props} = this.props;
 
@@ -171,6 +178,7 @@ export default function withPanningEvents<C: React.ComponentType<{}>>(
                                   onMouseEnter={this.handleMouseEnter}
                                   onMouseLeave={this.handleMouseLeave}
                                   onTouchStart={this.handleTouchStart}
+                                  onDrag={this.handleDrag}
                                   {...props} />
             )
         }

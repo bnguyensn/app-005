@@ -8,7 +8,7 @@ import processXlsx from '../lib/utils/xlsx/processXlsx';
 import type {FundData} from './DataTypes';
 
 type UploadDataProps = {
-    setNewData: (data: FundData) => void,
+    setNewData: (data: FundData[]) => void,
 };
 
 export default class UploadData extends React.PureComponent<UploadDataProps, {}> {

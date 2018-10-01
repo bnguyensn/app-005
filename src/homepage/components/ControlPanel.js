@@ -12,19 +12,21 @@ import '../css/control-panel.css';
 
 type ControlPanelProps = {
     defaultData: FundData[],
+    currentData: FundData[],
     setNewData: (data: FundData[]) => void,
     updateData: (data: FundData[]) => void,
 };
 
 export default class ControlPanel extends React.PureComponent<ControlPanelProps, {}> {
     render() {
-        const {defaultData, setNewData, updateData} = this.props;
+        const {defaultData, currentData, setNewData, updateData} = this.props;
 
         return (
             <div id="control-panel">
                 <span>CONTROL PANEL</span>
                 <UploadData setNewData={setNewData} />
                 <FilterChart defaultData={defaultData}
+                             currentData={currentData}
                              updateData={updateData} />
                 <SortChart />
             </div>

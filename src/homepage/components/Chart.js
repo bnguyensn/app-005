@@ -7,7 +7,7 @@ import {axis, axisBottom, axisLeft} from 'd3-axis';
 import {stack, line} from 'd3-shape';
 import {transition} from 'd3-transition';
 
-import type {FundData, AssetData, ColorData} from './DataTypes';
+import type {FundData, ColorData} from './DataTypes';
 
 import {findMaxInArray} from '../lib/utils/arrayMaths';
 
@@ -44,8 +44,11 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     mouseDown: boolean;
     chartOffset: {x: number, y: number};
 
-    // Filter variables
-    dataRange: {start: number, end: number};
+    // Line generator
+    lineGen: any;
+
+    // Transition variables
+    trans1: any;
 
     constructor(props: ChartProps) {
         super(props);
@@ -55,6 +58,11 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         this.mouseXY = {x: 0, y: 0};
         this.mouseDown = false;
         this.chartOffset = {x: 0, y: 0};
+
+        this.lineGen = line().defined(d => d !== null);
+
+        this.trans1 = transition()
+            .duration(2000);
     }
 
     componentDidMount() {
@@ -89,12 +97,12 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     }
 
     componentDidUpdate() {
-        this.handleNewDataset();
+
     }
 
     /**
      * This is called when a completely new dataset is used, which can be
-     * triggered * by the user uploading a new .xlsx and replacing
+     * triggered by the user uploading a new .xlsx and replacing
      * props.defaultData.
      * */
     handleNewDataset = () => {
@@ -121,6 +129,16 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
             chart.selectAll('.clearable').remove();
 
+            // Add one-time stuff
+
+            // Background
+
+            const bkgRect = pannable.insert('rect', ':first-child')
+                .classed('bkg-rect clearable', true)
+                .attr('width', this.pannableSize.width)
+                .attr('height', chartSize.height)
+                .attr('fill-opacity', 0);
+
             // Update chart
 
             this.updateChart(chart, pannable);
@@ -137,22 +155,26 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         // ********** Update axes ********** //
 
-        const xAxis = this.createAxisBottom(pannable, x);
-        const yAxis = this.createAxisLeft(chart, y);
+        const xAxis = this.createAxisBottom(chart.select('.x-axis'), x);
+        const yAxis = this.createAxisLeft(chart.select('.y-axis'), y);
 
         // ********** Update shapes ********** //
-
-        // Set up generic transitions
-
-        const trans1 = transition()
-            .duration(750);
 
         // Stacked series vertical bars
 
         const stackedSeries = this.createStackedSeries();
 
-        const seriesU = pannable.selectAll('.vbar-series')
-            .data(stackedSeries);
+        function seriesKeyFn(d) {
+            return d.key
+        }
+
+        const seriesU = pannable
+            .select('.vbars')
+            .selectAll('.vbar-series')
+            .data(stackedSeries, seriesKeyFn);
+
+        seriesU.exit().remove();
+
         const seriesE = seriesU.enter();
         const seriesUE = seriesE.append('g')
             .classed('vbar-series clearable', true)
@@ -160,54 +182,57 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         seriesUE.attr('fill', d => this.chartAssetData[d.key].color);  // Colorise series
 
-        seriesU.exit().remove();
-
         // Individual rect
-
-        const rectU = seriesUE.selectAll('rect')
-            .data(d => d);
-        const rectE = rectU.enter();
-        const rectUE = rectE.append('rect')
-            .merge(rectU);
 
         const getRectHeight = (a, b) => y(y.domain()[1] - (b - a));
         const getRectY = (a, b) => y(a) - getRectHeight(a, b);
 
-        rectUE.attr('width', x.bandwidth())
-            .attr('x', d => x(d.data.name))
+        function rectKeyFn(d) {
+            return `${d.data.name}}`
+        }
+
+        const rectU = seriesUE.selectAll('rect')
+            .data(d => d, rectKeyFn);
+
+        const rectX = rectU.exit();
+        const transRectX = rectX.transition().duration(500);
+        transRectX.attr('x', chartSize.width + chartSize.marginRight + chartSize.marginLeft).remove();
+
+        const rectE = rectU.enter();
+
+        const rectUE = rectE.append('rect')
+            .merge(rectU);
+        rectUE//.attr('width', x.bandwidth())
+            //.attr('x', d => x(d.data.name))
             .attr('y', d => getRectY(d[0], d[1]));
-
-        const rectUETrans = rectUE.transition(trans1)
-            .attr('height', d => getRectHeight(d[0], d[1]));
-
-        rectUE.exit().remove();
+        const transRectUE = rectUE.transition().duration(500);
+        transRectUE.attr('width', x.bandwidth())
+            .attr('height', d => getRectHeight(d[0], d[1]))
+            .attr('x', d => x(d.data.name));
 
         // ********** Update limiter line ********** //
 
         const lineData = this.createLineData(x, y);
-        const lineGen = line().defined(d => d !== null);
 
         // Lines
 
-        pannable.append('g')
-            .classed('limit-line clearable', true);
+        pannable.select('.limit-lines')
+            .selectAll('path')
+            .remove();
 
-        const lineU = pannable.selectAll('.limit-line')
+        const lineU = pannable.select('.limit-lines')
             .append('path')
-            .attr('d', lineGen(lineData))
+            .classed('clearable', true)
+            .attr('d', this.lineGen(lineData))
+            .attr('transform', `translate(0, ${this.pannableSize.height})`)
             .attr('stroke', '#63201E')
-            .attr('stroke-width', 0);
-
-        const lineUTrans = lineU.transition(trans1)
             .attr('stroke-width', 5);
 
-        // ********** Update background rect ********** //
+        const transLineU = lineU.transition().duration(500);
+        transLineU.attr('transform', `translate(0, 0)`);
 
-        const bkgRect = pannable.insert('rect', ':first-child')
-            .classed('bkg-rect clearable', true)
-            .attr('width', this.pannableSize.width)
-            .attr('height', chartSize.height)
-            .attr('fill-opacity', 0);
+        /*const lineUTrans = lineU.transition(this.trans1)
+            .attr('stroke-width', 5);*/
     };
 
     /** ********** SCALES ********** **/
@@ -250,19 +275,14 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         const axis = axisBottom(scale);
 
-        return parent.append('g')
-            .classed('x-axis clearable', true)
-            .attr('transform', `translate(0, ${chartSize.height})`)
-            .call(axis);
+        return parent.call(axis);
     };
 
     createAxisLeft = (parent: any, scale: any) => {
         const axis = axisLeft(scale)
             .ticks(5, ',f');
 
-        return parent.append('g')
-            .classed('y-axis clearable', true)
-            .call(axis);
+        return parent.call(axis);
     };
 
     /** ********** SHAPES ********** **/
@@ -318,7 +338,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
     /** ********** PANNING ********** **/
 
-    // $FlowFixMe
+        // $FlowFixMe
     handlePannableClick = (e: SyntheticMouseEvent<SVGGElement>) => {
         // Nothing here for now...
     };
@@ -396,6 +416,8 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     /** ********** RENDER ********** **/
 
     render() {
+        console.log('chart re-rendered');
+
         const {chartSize} = this.props;
 
         return (
@@ -405,6 +427,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                     <g ref={this.chartNodeRef}
                        className="chart"
                        transform={`translate(${chartSize.marginLeft}, ${chartSize.marginTop})`}>
+                        <g className="y-axis" />
                         <g ref={this.pannableNodeRef}
                            className="pannable-x-only"
                            onClick={this.handlePannableClick}
@@ -412,7 +435,12 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                            onMouseUp={this.handlePannableMouseUp}
                            onMouseEnter={this.handlePannableMouseEnter}
                            onMouseLeave={this.handlePannableMouseLeave}
-                           onMouseMove={this.handlePannableMouseMove} />
+                           onMouseMove={this.handlePannableMouseMove}>
+                            <g className="x-axis"
+                               transform={`translate(0, ${chartSize.height})`} />
+                            <g className="vbars" />
+                            <g className="limit-lines" />
+                        </g>
                     </g>
                 </svg>
             </div>

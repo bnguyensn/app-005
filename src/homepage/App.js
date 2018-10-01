@@ -76,6 +76,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
                 Chart
 
                 <ControlPanel defaultData={this.defaultData}
+                              currentData={data}
                               setNewData={this.setNewData}
                               updateData={this.updateData} />
 
