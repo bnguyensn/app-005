@@ -11,14 +11,14 @@ import type {FundData} from './DataTypes';
 import '../css/control-panel.css';
 
 type ControlPanelProps = {
-    defaultData: FundData[],
     setNewData: (data: FundData[]) => void,
-    updateData: (data: FundData[]) => void,
+    filterData: (min: number, max: number) => void,
+    sortData: (sortKey: string) => void,
 };
 
 export default class ControlPanel extends React.PureComponent<ControlPanelProps, {}> {
     render() {
-        const {defaultData, currentData, setNewData, updateData} = this.props;
+        const {setNewData, sortData, filterData} = this.props;
 
         return (
             <div id="control-panel">
@@ -26,9 +26,8 @@ export default class ControlPanel extends React.PureComponent<ControlPanelProps,
                     <UploadData setNewData={setNewData} />
                 </section>
                 <section className="cp-section">
-                    <FilterChart defaultData={defaultData}
-                                 updateData={updateData} />
-                    <SortChart />
+                    <FilterChart filterData={filterData} />
+                    <SortChart sortData={sortData} />
                 </section>
 
             </div>

@@ -6,6 +6,8 @@ import Intro from './components/Intro';
 import ControlPanel from './components/ControlPanel';
 import Chart from './components/Chart';
 
+import {filterData, sortData} from './lib/utils/dataMutation';
+
 import type {FundData, ColorData} from './components/DataTypes';
 
 import './app.css';
@@ -13,7 +15,12 @@ import './app.css';
 import sampleData from './json/sample-01';
 import sampleColorData from './json/sample-colors-01';
 
-const chartMargin = {top: 50, right: 50, bottom: 50, left: 50};
+const chartMargin = {
+    top: 50,
+    right: 50,
+    bottom: 50,
+    left: 50,
+};
 const chartSize = {
     width: 640 - chartMargin.left - chartMargin.right,
     height: 640 - chartMargin.top - chartMargin.bottom,
@@ -24,21 +31,22 @@ const chartSize = {
 };
 
 type AppStates = {
-    chartKey: boolean,
+    chartKey: boolean,  // Used to "reset" page elements on data upload
     data: FundData[],
+    mutatedData: FundData[],
     colorData: ColorData,
+    filterRange: {min: number, max: number},
 }
 
 export default class App extends React.PureComponent<{}, AppStates> {
-    defaultData: FundData[];
-
     constructor(props: {}) {
         super(props);
-        this.defaultData = [...sampleData];
         this.state = {
-            chartKey: false,  // Used to "reset" the chart element via the "key" prop
+            chartKey: false,
             data: [...sampleData],
+            mutatedData: [...sampleData],
             colorData: sampleColorData,
+            filterRange: {min: 0, max: 1},
         };
     }
 
@@ -51,37 +59,60 @@ export default class App extends React.PureComponent<{}, AppStates> {
      * changing its "key" prop.
      * */
     setNewData = (data: FundData[]) => {
-        this.defaultData = [...data];
         this.setState((prevState: AppStates) => ({
             chartKey: !prevState.chartKey,
             data: [...data],
+            mutatedData: [...data],
+            filterRange: {min: 0, max: 1},
         }));
     };
 
-    /**
-     * Called after "mutation" functions such as filter or sort. This does not
-     * reset the chart element. It merely pass on the filtered / sorted data
-     * and let d3js handle the "rendering" part.
-     * */
-    updateData = (data: FundData[]) => {
-        this.setState({
-            data: [...data],
-        });
+    filterData = (min: number, max: number) => {
+        const {data, mutatedData} = this.state;
+
+        const nextMutatedData = filterData(data, mutatedData, min, max);
+
+        if (nextMutatedData) {
+            this.setState({
+                mutatedData: [...nextMutatedData],
+                filterRange: {min, max},
+            });
+        }
+    };
+
+    sortData = (sortKey: string) => {
+        const {data} = this.state;
+
+        const sortedData = sortData(data, sortKey);
+
+        if (sortedData) {
+            this.setState(prevState => ({
+                data: [...sortedData],
+                mutatedData: [...filterData(
+                    sortedData,
+                    prevState.mutatedData,
+                    prevState.filterRange.min,
+                    prevState.filterRange.max,
+                    true,
+                )],
+            }));
+        }
     };
 
     render() {
-        const {chartKey, data, colorData} = this.state;
+        const {chartKey, mutatedData, colorData} = this.state;
 
         return (
             <div id="app">
                 <Intro />
-                <ControlPanel defaultData={this.defaultData}
+                <ControlPanel key={`CP-${chartKey.toString()}`}
                               setNewData={this.setNewData}
-                              updateData={this.updateData} />
-                <Chart key={chartKey.toString()}
-                       defaultData={data}
-                       defaultColorData={colorData}
-                       chartSize={chartSize} />
+                              filterData={this.filterData}
+                              sortData={this.sortData} />
+                <Chart key={`Ch-${chartKey.toString()}`}
+                       chartSize={chartSize}
+                       data={mutatedData}
+                       colorData={colorData} />
             </div>
         )
     }

@@ -12,8 +12,11 @@ export type FundData = {
     id: number,
     name: string,
     iCom: number,  // Investors' commitments
-    iCal: 1000,  // Investors' money already called
-    fCom: 2000,  // Fund's commitments
-    fCal: 1250,  // Funds' money already called
-    assets: AssetData[]
+    iCal: number,  // Investors' money already called
+    fCom: number,  // Fund's commitments in investments
+    fCal: number,  // Fund's commitments in investments already called
+    assets: AssetData[],
+    totalAssets: number,  // Total fund's assets
+    remFCom: number,  // Fund's remaining investment commitments not yet called
+    goingConcern: number,  // Ratio of remFCom / totalAssets
 };

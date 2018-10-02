@@ -22,8 +22,8 @@ type ChartProps = {
         marginBottom: number,
         marginRight: number,
     },
-    defaultData: FundData[],
-    defaultColorData: ColorData,
+    data: FundData[],
+    colorData: ColorData,
 };
 
 type ChartStates = {};
@@ -35,7 +35,6 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
     // Data variables - These initialise using props but will mutate when sort
     // or filter functions are called
-    mutatedData: FundData[];
     pannableSize: {width: number, height: number};
     chartAssetData: {[key: string]: {lvl: number, color: string}};
 
@@ -70,18 +69,12 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     }
 
     /**
-     * The chart element never re-renders on prop changes. This is because we
-     * want d3js to handle re-rendering on data "mutation".
+     * We want d3js to handle re-rendering on data "mutation".
      *
      * The chart element still "reset" (unmount and remount) when a new dataset
-     * is provided. This is done via changing the "key" prop and does not take
-     * into account shouldComponentUpdate()'s return value.
+     * is provided. This is done via changing the "key" prop up in <App />.
      * */
-    shouldComponentUpdate(nextProps: ChartProps, nextState: ChartStates, nextContext: any): boolean {
-        const {defaultData} = nextProps;
-
-        this.mutatedData = [...defaultData];
-
+    componentDidUpdate() {
         // Update chart
 
         const chartNode = this.getChart();
@@ -92,31 +85,24 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
             this.updateChart(chart, pannable);
         }
-
-        return false
-    }
-
-    componentDidUpdate() {
-
     }
 
     /**
      * This is called when a completely new dataset is used, which can be
      * triggered by the user uploading a new .xlsx and replacing
-     * props.defaultData.
+     * props.data.
      * */
     handleNewDataset = () => {
-        const {defaultData, chartSize, defaultColorData} = this.props;
+        const {data, chartSize, colorData} = this.props;
 
-        this.mutatedData = [...defaultData];
         this.pannableSize = Object.assign({}, chartSize);
 
         // Warning: specific to data type
         this.chartAssetData = {};
-        defaultData[0].assets.forEach((asset) => {
+        data[0].assets.forEach((asset) => {
             this.chartAssetData[asset.name] = {lvl: 0, color: ''};
             this.chartAssetData[asset.name].lvl = asset.lvl;
-            this.chartAssetData[asset.name].color = defaultColorData[asset.lvl.toString()];
+            this.chartAssetData[asset.name].color = colorData[asset.lvl.toString()];
         });
 
         const chartNode = this.getChart();
@@ -238,7 +224,9 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     /** ********** SCALES ********** **/
 
     createScaleX = () => {
-        const fundNames = this.mutatedData.map(fundData => fundData.name);
+        const {data} = this.props;
+
+        const fundNames = data.map(fundData => fundData.name);
 
         // Using band scale for x
         return scaleBand()
@@ -248,12 +236,12 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     };
 
     createScaleY = () => {
-        const {chartSize} = this.props;
+        const {chartSize, data} = this.props;
 
         // Warning: specific to data type
-        const fCalRems = this.mutatedData.map(fundData => Math.min(fundData.fCom - fundData.fCal, 0));
+        const fCalRems = data.map(fundData => Math.min(fundData.fCom - fundData.fCal, 0));
         const totalAssetsReducer = (acc, curVal): number => acc + curVal.amt;
-        const totalAssets = this.mutatedData.map(fundData => fundData.assets.reduce(totalAssetsReducer, 0));
+        const totalAssets = data.map(fundData => fundData.assets.reduce(totalAssetsReducer, 0));
 
         const dataMax = findMaxInArray([fCalRems, totalAssets]);
 
@@ -288,8 +276,10 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     /** ********** SHAPES ********** **/
 
     createStackedSeries = () => {
+        const {data} = this.props;
+
         // Create stack data - Warning: specific to data type
-        const stackData = this.mutatedData.map((fundData) => {
+        const stackData = data.map((fundData) => {
             const fundObj = {};
             fundObj.name = fundData.name;
             fundData.assets.forEach((asset) => {
@@ -299,7 +289,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         });
 
         // Create stack keys - Warning: specific to data type
-        const anAssetsObj = this.mutatedData[0].assets;
+        const anAssetsObj = data[0].assets;
         const compareFn = (a, b) => {
             if (a.lvl === b.lvl) {
                 return a.name.localeCompare(b.name, 'en', {
@@ -321,14 +311,16 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     };
 
     createLineData = (xScale: any, yScale: any) => {
+        const {data} = this.props;
+
         // Warning: specific to data type
         const lineData = [];
-        this.mutatedData.forEach((fundData, index) => {
+        data.forEach((fundData, index) => {
             const fRem = fundData.fCom - fundData.fCal;
             const valueHeight = yScale(fRem);
             lineData.push([xScale(fundData.name), valueHeight]);  // start [x, y]
             lineData.push([xScale(fundData.name) + xScale.bandwidth(), valueHeight]);  // end [x, y]
-            if (index < this.mutatedData.length - 1) {
+            if (index < data.length - 1) {
                 lineData.push(null);  // gap
             }
         });
@@ -383,12 +375,6 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         this.mouseXY.y = clientY;
     };
 
-    /** ********** FILTER ********** **/
-
-    /** ********** SORT ********** **/
-
-    // TODO
-
     /** ********** UTILITIES ********** **/
 
     getChart = () => {
@@ -408,8 +394,6 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     /** ********** RENDER ********** **/
 
     render() {
-        console.log('chart re-rendered');
-
         const {chartSize} = this.props;
 
         return (

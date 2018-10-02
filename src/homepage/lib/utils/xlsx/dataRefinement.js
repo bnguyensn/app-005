@@ -3,11 +3,14 @@
 import type {FundData} from '../../../components/DataTypes';
 
 /**
+ * Convert validAssetData to something more useful
+ *
  * Note: the passed fundSheetData and assetSheetData must be valid i.e. have
  * gone through validation
  * */
 export function refineFundData(validFundSheetData: any[], validAssetSheetData: any[]): FundData[] {
-    // Convert validAssetData to something more useful
+    // Create asset level object
+
     const assetsLvl = {};
     validAssetSheetData.forEach((assetData, rowIndex) => {
         if (rowIndex > 0) {
@@ -16,32 +19,50 @@ export function refineFundData(validFundSheetData: any[], validAssetSheetData: a
         }
     });
 
+    // Create asset names array
+
     const maxCol = validFundSheetData[0].length;
     const assetsCount = maxCol - 5;
     const assetNames = !assetsCount
         ? []
         : validFundSheetData[0].filter((header, colIndex) => colIndex > 4);
 
-    const resData = [];
-    validFundSheetData.forEach((fundData, rowIndex) => {
-        if (rowIndex > 0) {
-            resData.push({
+    // Create refined data
+
+    return validFundSheetData
+        .filter((fundData, rowIndex) => rowIndex > 0)
+        .map((fundData, rowIndex) => {
+            // Create the asset array
+
+            const assets = !assetsCount
+                ? []
+                : assetNames.map((assetName, index) => ({
+                    name: assetName,
+                    lvl: assetsLvl[assetName] || 1,
+                    amt: fundData[index + 5] || 0,
+                }));
+
+            // Create misc. data for sorting function
+
+            const totalAssets = assets.reduce(
+                (acc, curVal) => acc + curVal.amt, 0,
+            );
+            const remFCom = Math.max(fundData[3] - fundData[4], 0);
+            const goingConcern = remFCom / totalAssets;
+
+            // Return refined data
+
+            return {
                 id: rowIndex,
                 name: fundData[0],
                 iCom: fundData[1],
                 iCal: fundData[2],
                 fCom: fundData[3],
                 fCal: fundData[4],
-                assets: !assetsCount
-                    ? []
-                    : assetNames.map((assetName, index) => ({
-                        name: assetName,
-                        lvl: assetsLvl[assetName] || 1,
-                        amt: fundData[index + 5] || 0,
-                    })),
-            });
-        }
-    });
-
-    return resData
+                assets,
+                totalAssets,
+                remFCom,
+                goingConcern,
+            }
+        });
 }
