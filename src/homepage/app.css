@@ -1,33 +1,17 @@
 /** ********** APP GENERICS ********** **/
 
 #app {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: center;
+
+    width: 1280px;
     padding: 1rem;
 }
 
-.app-section {
-    margin-bottom: 1rem;
-    width: 100%;
-    max-width: 640px;
-    padding: .25rem;
-}
-
-.img-link-container {
-    display: flex;
-    justify-content: center;
-}
-
-.img-link-container a {
-    display: block
-}
-
-.img-link-container img {
-    display: block;
-}
-
-.font-size-75 {
-    font-size: .75rem;
-}
-
-label > span {
-    cursor: text;
+@media only screen and (max-width: 1279px) {
+    #app {
+        width: 100%;
+    }
 }

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 
+import Intro from './components/Intro';
 import ControlPanel from './components/ControlPanel';
 import Chart from './components/Chart';
 
@@ -73,15 +74,10 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
         return (
             <div id="app">
-                Chart
-
+                <Intro />
                 <ControlPanel defaultData={this.defaultData}
-                              currentData={data}
                               setNewData={this.setNewData}
                               updateData={this.updateData} />
-
-                <hr />
-
                 <Chart key={chartKey.toString()}
                        defaultData={data}
                        defaultColorData={colorData}

@@ -3,38 +3,68 @@
     align-items: center;
     flex-flow: column wrap;
 
+    margin: 0 1rem 0 0;
     width: 320px;
-
     padding: .5rem;
+
+    background-color: #DBC4B0;
+
+    border-radius: 5px;
 }
 
-#control-panel > span {
-    /* This is the title */
-    display: block;
-    margin-bottom: .5rem;
+@media only screen and (max-width: 1279px) and (min-width: 687px) {
+    #control-panel {
+        margin: 0 0 1rem 0;
+        width: 640px;
+    }
+}
+
+@media only screen and (max-width: 687px) {
+    #control-panel {
+        margin: 0 0 1rem 0;
+        width: 100%;
+    }
 }
 
 .cp-section {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.cp-section:first-child {
     margin-bottom: .5rem;
-    width: 100%;
 }
 
-.cp-section > * {
-    margin-bottom: .5rem;
+.cp-section > *:not(:first-child) {
+    margin-top: .5rem;
 }
 
-.cp-section-title {
+@media only screen and (max-width: 1279px) {
+    .cp-section {
+        flex-flow: row nowrap;
+    }
+
+    .cp-section > *:not(:first-child) {
+        margin-top: 0;
+    }
+}
+
+.cp-section .title {
     text-align: center;
+    user-select: none;
 }
 
-.cp-section-description {
-    text-align: center;
+.cp-section .description {
     font-size: .75rem;
+    text-align: center;
+    user-select: none;
 }
 
-/** ********** UPLOAD DATA ********** **/
+/** ********** SECTION 1 ********** **/
 
-#cp-upload label span {
+/** ***** UPLOAD DATA ***** **/
+
+.cp-upload-btn {
     display: flex;
 
     padding: .5rem;
@@ -46,7 +76,20 @@
     border-radius: 5px;
     box-shadow: 0 2px 5px #20484A;
 
+    transition: box-shadow .2s;
+}
+
+.cp-upload-btn:hover {
+    box-shadow: 0 4px 7px #20484A;
+}
+
+.cp-upload-btn, .cp-upload-btn * {
     cursor: pointer;
+    user-select: none;
+}
+
+.cp-upload-btn:active {
+    box-shadow: 0 1px 3px #20484A;
 }
 
 #cp-upload input {
@@ -54,22 +97,26 @@
     opacity: 0;
 }
 
-/** ********** FILTER ********** **/
+/** ********** SECTION 2 ********** **/
 
-#cp-filter {}
+/** ***** FILTER ***** **/
+
+#cp-filter {
+    flex: 1 1 0;
+}
 
 .cp-filter-slider {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    margin: .5rem 0 .5rem 0;
+    margin: .5rem 0 0 0;
 }
 
 .cp-filter-long-bar {
     position: relative;
     border-radius: 5px;
-    background-color: #DBC4B0;
+    background-color: #8B999A;
 }
 
 .cp-filter-stop-bar-container {}
@@ -84,9 +131,13 @@
     user-select: none;
 }
 
-/** ********** SORT ********** **/
+/** ***** SORT ***** **/
 
-#cp-sort-chart select {
+#cp-sort {
+    flex: 1 1 0;
+}
+
+#cp-sort select {
     width: 100%;
     font-family: inherit;
     font-size: .75rem;

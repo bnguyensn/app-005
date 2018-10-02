@@ -7,23 +7,28 @@ import FilterSlider from './FilterSlider';
 
 type FilterChartProps = {
     defaultData: FundData[],
-    currentData: FundData[],
     updateData: (data: FundData[]) => void,
 };
 
 export default class FilterChart extends React.PureComponent<FilterChartProps, {}> {
+    constructor(props: FilterChartProps) {
+        super(props);
+        this.currentData = [...props.defaultData];
+    }
+
     setFilterRange = (min: number, max: number) => {
-        const {defaultData, currentData, updateData} = this.props;
+        const {defaultData, updateData} = this.props;
 
         const ogDataCount = defaultData.length;
-        const curDataCount = currentData.length;
+        const curDataCount = this.currentData.length;
 
         const filteredData = defaultData.filter((d, i) => (
             (i + 1) >= Math.ceil(min * ogDataCount)
             && (i + 1) <= Math.ceil(max * ogDataCount)
         ));
 
-        if (curDataCount !== filteredData.length) {
+        if (curDataCount !== filteredData.length && !this.isUpdating) {
+            this.currentData = [...filteredData];
             updateData(filteredData);
         }
     };
@@ -32,11 +37,11 @@ export default class FilterChart extends React.PureComponent<FilterChartProps, {
         const {defaultData} = this.props;
 
         return (
-            <div id="cp-filter" className="cp-section">
-                <div className="cp-section-title">
+            <div id="cp-filter" draggable={false}>
+                <div className="title" draggable={false}>
                     FILTER
                 </div>
-                <div className="cp-section-description">
+                <div className="description" draggable={false}>
                     Filter data range by dragging the slider below
                 </div>
                 <FilterSlider

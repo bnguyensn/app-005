@@ -64,7 +64,7 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
     render() {
         return (
             <div id="cp-upload" className="cp-section">
-                <label htmlFor="cp-uploader">
+                <label className="cp-upload-btn" htmlFor="cp-uploader">
                     <span>UPLOAD DATA</span>
                     <input id="cp-uploader"
                            type="file"

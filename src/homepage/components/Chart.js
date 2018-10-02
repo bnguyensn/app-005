@@ -385,14 +385,6 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
     /** ********** FILTER ********** **/
 
-    filterData = () => {
-        // Mutate data
-
-        // TODO:
-
-
-    };
-
     /** ********** SORT ********** **/
 
     // TODO

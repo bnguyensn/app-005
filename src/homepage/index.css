@@ -61,27 +61,27 @@ sup {
 /* ********** RESPONSIVE WEB DESIGN ********** */
 
 #root {
-    /* Nothing will go below 320px wide */
-    min-width: 320px;
-    width: 100vw;
+    min-width: 688px;
 
     /* Potential stylings as needed */
     display: flex;
     justify-content: center;
+
     min-height: 100vh;
+
     background-color: #fff1e5;
 }
 
-/* Texts won't go larger than body font size */
-@media only screen and (max-width: 1280px) and (min-width: 854px) {
+/* Texts won't go larger than body font size - NOT ACTIVE */
+/*@media only screen and (max-width: 1280px) and (min-width: 854px) {
     html {
-        /*font-size: 1.875vw;  !* 1.875% = 24px (body font size) / 1280px (limit width) *!*/
+        font-size: 1.875vw;  !* 1.875% = 24px (body font size) / 1280px (limit width) *!
     }
-}
+}*/
 
-/* Texts won't go smaller than this */
-@media only screen and (max-width: 639px) {
+/* Texts won't go smaller than this - NOT ACTIVE */
+/*@media only screen and (max-width: 639px) {
     html {
-        font-size: 20px;  /* 512px is the cut-off when our font stops shrinking. 853 = 16px / 1.875% */
+        font-size: 20px;  !* 512px is the cut-off when our font stops shrinking. 853 = 16px / 1.875% *!
     }
-}
+}*/

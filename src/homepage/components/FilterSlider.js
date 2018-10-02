@@ -16,7 +16,8 @@ function TextStatus(props: TextStatusProps) {
     const {dataRange, ...rest} = props;
 
     return (
-        <div className="cp-filter-text-status-container" {...rest}>
+        <div className="cp-filter-text-status-container" {...rest}
+             draggable={false}>
             {`Data range: ${(dataRange.min * 100).toFixed(0)}% - `
             + `${(dataRange.max * 100).toFixed(0)}%`}
         </div>
@@ -34,6 +35,7 @@ function LongBar(props: {children?: React.Node}) {
 
     return (
         <div className="cp-filter-long-bar" {...props}
+             draggable={false}
              onDrag={drag}>
             {children || null}
         </div>
@@ -52,16 +54,18 @@ function StopBar(props: StopBarProps) {
 
     return (
         <div className="cp-filter-stop-bar-container"
+             draggable={false}
              style={{
                  position: 'absolute',
                  width: 0,
                  height: 0,
              }}>
             <div className="cp-filter-stop-bar"
+                 draggable={false}
                  style={{
                      position: 'relative',
                      borderRadius: '5px',
-                     backgroundColor: '#9B7758',
+                     backgroundColor: '#4C6F71',
                      width: size.width,
                      height: size.height,
                      transform: `translate(${offset.x}px, ${offset.y}px)`,
@@ -127,6 +131,16 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
         ];
 
         this.sliderReseter = false;
+
+        this.isUpdating = false;
+    }
+
+    componentDidUpdate() {
+        this.isUpdating = false;
+    }
+
+    componentWillUnmount() {
+        console.log('FilterSlider unmounting!');
     }
 
     offsetWithinLimitX = (stopBarIndex: number, offsetX: number): boolean => (
@@ -141,8 +155,10 @@ export default class FilterSlider extends React.PureComponent<FilterSliderProps,
         // Calculate new StopBar position
         const newOffsetX = stopBarOffsets[stopBarIndex].x + movingDistX;
 
-        if (this.offsetWithinLimitX(stopBarIndex, newOffsetX)) {
+        if (this.offsetWithinLimitX(stopBarIndex, newOffsetX) && !this.isUpdating) {
             // New StopBar position is valid
+
+            this.isUpdating = true;
 
             // Calculate new limits
             // Moving a StopBar affects the limits of its sandwiching StopBars
