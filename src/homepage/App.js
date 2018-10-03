@@ -80,6 +80,10 @@ export default class App extends React.PureComponent<{}, AppStates> {
         }
     };
 
+    /**
+     * When sorting data, we should sort the unfiltered data to prevent data
+     * jumping around when filters are unset
+     * */
     sortData = (sortKey: string) => {
         const {data} = this.state;
 

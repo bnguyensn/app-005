@@ -6,12 +6,17 @@ import {scaleLinear, scaleBand} from 'd3-scale';
 import {axis, axisBottom, axisLeft} from 'd3-axis';
 import {stack, line} from 'd3-shape';
 import {transition} from 'd3-transition';
-
-import type {FundData, ColorData} from './DataTypes';
+import {formatLocale, format} from 'd3-format';
 
 import {findMaxInArray} from '../lib/utils/arrayMaths';
 
+import type {FundData, ColorData} from './DataTypes';
+
+import enUKLocaleDef from '../json/d3-locales/en-UK';
+
 import '../css/chart.css';
+
+const EN_UK = formatLocale(enUKLocaleDef);
 
 type ChartProps = {
     chartSize: {
@@ -95,7 +100,12 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     handleNewDataset = () => {
         const {data, chartSize, colorData} = this.props;
 
-        this.pannableSize = Object.assign({}, chartSize);
+        this.pannableSize = {
+            width: data.length <= 10
+                ? chartSize.width
+                : 54 * data.length,
+            height: chartSize.height,
+        };
 
         // Warning: specific to data type
         this.chartAssetData = {};
@@ -140,6 +150,8 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         const y = this.createScaleY();  // Linear scale
 
         // ********** Update axes ********** //
+
+        // Axes
 
         const xAxis = this.createAxisBottom(chart.select('.x-axis'), x);
         const yAxis = this.createAxisLeft(chart.select('.y-axis'), y);
@@ -188,9 +200,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         const rectUE = rectE.append('rect')
             .merge(rectU);
-        rectUE//.attr('width', x.bandwidth())
-            //.attr('x', d => x(d.data.name))
-            .attr('y', d => getRectY(d[0], d[1]));
+        rectUE.attr('y', d => getRectY(d[0], d[1]));
         const transRectUE = rectUE.transition().duration(500);
         transRectUE.attr('width', x.bandwidth())
             .attr('height', d => getRectHeight(d[0], d[1]))
@@ -215,10 +225,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
             .attr('stroke-width', 5);
 
         const transLineU = lineU.transition().duration(500);
-        transLineU.attr('transform', `translate(0, 0)`);
-
-        /*const lineUTrans = lineU.transition(this.trans1)
-            .attr('stroke-width', 5);*/
+        transLineU.attr('transform', 'translate(0, 0)');
     };
 
     /** ********** SCALES ********** **/
@@ -268,9 +275,12 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
     createAxisLeft = (parent: any, scale: any) => {
         const axis = axisLeft(scale)
-            .ticks(5, ',f');
+            .ticks(5)
+            .tickFormat(EN_UK.format('$~s'));
+        //.tickFormat(EN_UK.format('$,.0f'));
 
-        return parent.call(axis);
+        return parent.call(axis)
+
     };
 
     /** ********** SHAPES ********** **/
@@ -403,7 +413,6 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                     <g ref={this.chartNodeRef}
                        className="chart"
                        transform={`translate(${chartSize.marginLeft}, ${chartSize.marginTop})`}>
-                        <g className="y-axis" />
                         <g ref={this.pannableNodeRef}
                            className="pannable-x-only"
                            onClick={this.handlePannableClick}
@@ -416,6 +425,13 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                                transform={`translate(0, ${chartSize.height})`} />
                             <g className="vbars" />
                             <g className="limit-lines" />
+                        </g>
+                        <g className="y-axis">
+                            <rect className="bkg-rect"
+                                  width={chartSize.marginLeft}
+                                  height={chartSize.height + chartSize.marginBottom}
+                                  transform={`translate(-${chartSize.marginLeft}, 0)`}
+                                  fill="#fff1e5" />
                         </g>
                     </g>
                 </svg>

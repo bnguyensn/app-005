@@ -32,7 +32,7 @@ export function refineFundData(validFundSheetData: any[], validAssetSheetData: a
     return validFundSheetData
         .filter((fundData, rowIndex) => rowIndex > 0)
         .map((fundData, rowIndex) => {
-            // Create the asset array
+            // Create this fund's asset array
 
             const assets = !assetsCount
                 ? []
@@ -42,7 +42,7 @@ export function refineFundData(validFundSheetData: any[], validAssetSheetData: a
                     amt: fundData[index + 5] || 0,
                 }));
 
-            // Create misc. data for sorting function
+            // Create this fund's misc. data for sorting function
 
             const totalAssets = assets.reduce(
                 (acc, curVal) => acc + curVal.amt, 0,

@@ -49,7 +49,7 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
                         console.log(processedData);
                     } else {
                         console.log('Successfullly read .xlsx. Result data:');
-                        console.log(processedData);
+                        console.log(JSON.stringify(processedData));
 
                         setNewData(processedData);
                     }

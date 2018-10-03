@@ -1,71 +1,143 @@
 [
   {
-    "id": 1,
+    "id": 0,
     "name": "Fund 1",
-    "iCom": 1000,
-    "iCal": 750,
-    "fCom": 1500,
-    "fCal": 750,
+    "iCom": 5000,
+    "iCal": 2500,
+    "fCom": 10000,
+    "fCal": 2500,
     "assets": [
       {
         "name": "Cash",
         "lvl": 1,
-        "amt": 250
+        "amt": 3000
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 1,
-        "amt": 250
+        "lvl": 2,
+        "amt": 2500
       },
       {
         "name": "Debtors",
         "lvl": 2,
-        "amt": 250
+        "amt": 1500
       },
       {
-        "name": "Average annual investment distributions received",
+        "name": "Avg. annual investment distributions",
         "lvl": 3,
-        "amt": 250
+        "amt": 1500
       }
-    ]
+    ],
+    "totalAssets": 8500,
+    "remFCom": 7500,
+    "goingConcern": 0.8823529411764706
   },
   {
-    "id": 2,
+    "id": 1,
     "name": "Fund 2",
-    "iCom": 3000,
-    "iCal": 1000,
-    "fCom": 2000,
-    "fCal": 1250,
+    "iCom": 10000,
+    "iCal": 4000,
+    "fCom": 5000,
+    "fCal": 2500,
     "assets": [
       {
         "name": "Cash",
         "lvl": 1,
+        "amt": 4500
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 2,
         "amt": 1000
       },
       {
-        "name": "Uncalled investors' capital",
-        "lvl": 1,
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 3000
+      },
+      {
+        "name": "Avg. annual investment distributions",
+        "lvl": 3,
         "amt": 2000
+      }
+    ],
+    "totalAssets": 10500,
+    "remFCom": 2500,
+    "goingConcern": 0.23809523809523808
+  },
+  {
+    "id": 2,
+    "name": "Fund 3",
+    "iCom": 7500,
+    "iCal": 3500,
+    "fCom": 6000,
+    "fCal": 1500,
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 2500
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 2,
+        "amt": 2500
       },
       {
         "name": "Debtors",
         "lvl": 2,
-        "amt": 500
+        "amt": 2500
       },
       {
-        "name": "Average annual investment distributions received",
+        "name": "Avg. annual investment distributions",
         "lvl": 3,
-        "amt": 1250
+        "amt": 2500
       }
-    ]
+    ],
+    "totalAssets": 10000,
+    "remFCom": 4500,
+    "goingConcern": 0.45
   },
   {
     "id": 3,
-    "name": "Fund 3",
-    "iCom": 4500,
-    "iCal": 4250,
-    "fCom": 5000,
-    "fCal": 2500,
+    "name": "Fund 4",
+    "iCom": 6000,
+    "iCal": 2000,
+    "fCom": 7500,
+    "fCal": 6500,
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 3000
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 2,
+        "amt": 3000
+      },
+      {
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 2500
+      },
+      {
+        "name": "Avg. annual investment distributions",
+        "lvl": 3,
+        "amt": 1000
+      }
+    ],
+    "totalAssets": 9500,
+    "remFCom": 1000,
+    "goingConcern": 0.10526315789473684
+  },
+  {
+    "id": 4,
+    "name": "Fund 5",
+    "iCom": 4000,
+    "iCal": 4000,
+    "fCom": 10000,
+    "fCal": 9000,
     "assets": [
       {
         "name": "Cash",
@@ -74,8 +146,8 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 1,
-        "amt": 250
+        "lvl": 2,
+        "amt": 3500
       },
       {
         "name": "Debtors",
@@ -83,10 +155,178 @@
         "amt": 500
       },
       {
-        "name": "Average annual investment distributions received",
+        "name": "Avg. annual investment distributions",
         "lvl": 3,
-        "amt": 1000
+        "amt": 500
       }
-    ]
+    ],
+    "totalAssets": 6000,
+    "remFCom": 1000,
+    "goingConcern": 0.16666666666666666
+  },
+  {
+    "id": 5,
+    "name": "Fund 6",
+    "iCom": 5000,
+    "iCal": 4000,
+    "fCom": 12000,
+    "fCal": 1500,
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 2000
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 2,
+        "amt": 3500
+      },
+      {
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 6000
+      },
+      {
+        "name": "Avg. annual investment distributions",
+        "lvl": 3,
+        "amt": 1500
+      }
+    ],
+    "totalAssets": 13000,
+    "remFCom": 10500,
+    "goingConcern": 0.8076923076923077
+  },
+  {
+    "id": 6,
+    "name": "Fund 7",
+    "iCom": 6500,
+    "iCal": 6000,
+    "fCom": 13000,
+    "fCal": 3000,
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 3000
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 2,
+        "amt": 4000
+      },
+      {
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 7000
+      },
+      {
+        "name": "Avg. annual investment distributions",
+        "lvl": 3,
+        "amt": 1500
+      }
+    ],
+    "totalAssets": 15500,
+    "remFCom": 10000,
+    "goingConcern": 0.6451612903225806
+  },
+  {
+    "id": 7,
+    "name": "Fund 8",
+    "iCom": 7000,
+    "iCal": 6500,
+    "fCom": 11000,
+    "fCal": 3500,
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 4000
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 2,
+        "amt": 2000
+      },
+      {
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 8000
+      },
+      {
+        "name": "Avg. annual investment distributions",
+        "lvl": 3,
+        "amt": 1500
+      }
+    ],
+    "totalAssets": 15500,
+    "remFCom": 7500,
+    "goingConcern": 0.4838709677419355
+  },
+  {
+    "id": 8,
+    "name": "Fund 9",
+    "iCom": 7500,
+    "iCal": 5000,
+    "fCom": 9000,
+    "fCal": 4000,
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 5000
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 2,
+        "amt": 1000
+      },
+      {
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 9000
+      },
+      {
+        "name": "Avg. annual investment distributions",
+        "lvl": 3,
+        "amt": 500
+      }
+    ],
+    "totalAssets": 15500,
+    "remFCom": 5000,
+    "goingConcern": 0.3225806451612903
+  },
+  {
+    "id": 9,
+    "name": "A very long name",
+    "iCom": 8000,
+    "iCal": 5000,
+    "fCom": 10500,
+    "fCal": 5000,
+    "assets": [
+      {
+        "name": "Cash",
+        "lvl": 1,
+        "amt": 5500
+      },
+      {
+        "name": "Uncalled investors' capital",
+        "lvl": 2,
+        "amt": 1500
+      },
+      {
+        "name": "Debtors",
+        "lvl": 2,
+        "amt": 10000
+      },
+      {
+        "name": "Avg. annual investment distributions",
+        "lvl": 3,
+        "amt": 500
+      }
+    ],
+    "totalAssets": 17500,
+    "remFCom": 5500,
+    "goingConcern": 0.3142857142857143
   }
 ]

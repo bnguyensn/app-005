@@ -33,6 +33,7 @@ export default class SortChart extends React.PureComponent<SortChartProps, {}> {
                     <select id="sort-chart-select"
                             draggable={false}
                             onChange={this.handleSelect}>
+                        <option value="n/a">-- Select a sort option --</option>
                         <option value="name">Fund name</option>
                         <option value="goingConcern">Going concern</option>
                         <option value="remFCom">Remaining calls from investments</option>

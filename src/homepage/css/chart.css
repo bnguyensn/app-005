@@ -1,3 +1,11 @@
 .chart-container {
     border: 1px solid #212121;
 }
+
+.pannable-x-only {
+    cursor: grab;
+}
+
+.pannable-x-only:active {
+    cursor: grabbing;
+}

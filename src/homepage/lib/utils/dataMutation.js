@@ -46,8 +46,6 @@ export function sortData(
         if (typeof sampleFundData[sortKey] === 'string') {
             // Sort values are strings
 
-            console.log('sorting strings!');
-
             return sortedData.sort((fundDataA, fundDataB) => {
                 const casedA = fundDataA[sortKey].toUpperCase();
                 const casedB = fundDataB[sortKey].toUpperCase();
@@ -61,8 +59,6 @@ export function sortData(
         if (typeof sampleFundData[sortKey] === 'number'
             && !Number.isNaN(sampleFundData[sortKey])) {
             // Sort values are numbers
-
-            console.log('sorting numbers!');
 
             return sortedData.sort((fundDataA, fundDataB) => (
                 fundDataA[sortKey] - fundDataB[sortKey]
