@@ -2,6 +2,7 @@
   {
     "id": 0,
     "name": "Fund 1",
+    "dispName": "Fund 1",
     "iCom": 5000,
     "iCal": 2500,
     "fCom": 10000,
@@ -35,6 +36,7 @@
   {
     "id": 1,
     "name": "Fund 2",
+    "dispName": "Fund 2",
     "iCom": 10000,
     "iCal": 4000,
     "fCom": 5000,
@@ -68,6 +70,7 @@
   {
     "id": 2,
     "name": "Fund 3",
+    "dispName": "Fund 3",
     "iCom": 7500,
     "iCal": 3500,
     "fCom": 6000,
@@ -100,7 +103,8 @@
   },
   {
     "id": 3,
-    "name": "Fund 4",
+    "name": "Fund A",
+    "dispName": "Fund A",
     "iCom": 6000,
     "iCal": 2000,
     "fCom": 7500,
@@ -133,7 +137,8 @@
   },
   {
     "id": 4,
-    "name": "Fund 5",
+    "name": "Fund B",
+    "dispName": "Fund B",
     "iCom": 4000,
     "iCal": 4000,
     "fCom": 10000,
@@ -166,7 +171,8 @@
   },
   {
     "id": 5,
-    "name": "Fund 6",
+    "name": "Long name",
+    "dispName": "Long ..",
     "iCom": 5000,
     "iCal": 4000,
     "fCom": 12000,
@@ -199,7 +205,8 @@
   },
   {
     "id": 6,
-    "name": "Fund 7",
+    "name": "Another one",
+    "dispName": "Anoth..",
     "iCom": 6500,
     "iCal": 6000,
     "fCom": 13000,
@@ -233,6 +240,7 @@
   {
     "id": 7,
     "name": "Fund 8",
+    "dispName": "Fund 8",
     "iCom": 7000,
     "iCal": 6500,
     "fCom": 11000,
@@ -266,6 +274,7 @@
   {
     "id": 8,
     "name": "Fund 9",
+    "dispName": "Fund 9",
     "iCom": 7500,
     "iCal": 5000,
     "fCom": 9000,
@@ -298,7 +307,8 @@
   },
   {
     "id": 9,
-    "name": "A very long name",
+    "name": "Fund 10",
+    "dispName": "Fund 10",
     "iCom": 8000,
     "iCal": 5000,
     "fCom": 10500,

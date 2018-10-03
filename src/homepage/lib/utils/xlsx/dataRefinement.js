@@ -32,6 +32,14 @@ export function refineFundData(validFundSheetData: any[], validAssetSheetData: a
     return validFundSheetData
         .filter((fundData, rowIndex) => rowIndex > 0)
         .map((fundData, rowIndex) => {
+            // Create a short display name for the fund in case its name is too
+            // long
+
+            const cutOff = 7;
+            const dispName = fundData[0].length > cutOff
+            ? `${fundData[0].slice(0, cutOff - 2)}..`
+            : fundData[0];
+
             // Create this fund's asset array
 
             const assets = !assetsCount
@@ -55,6 +63,7 @@ export function refineFundData(validFundSheetData: any[], validAssetSheetData: a
             return {
                 id: rowIndex,
                 name: fundData[0],
+                dispName,
                 iCom: fundData[1],
                 iCal: fundData[2],
                 fCom: fundData[3],

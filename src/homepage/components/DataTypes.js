@@ -11,6 +11,7 @@ export type AssetData = {
 export type FundData = {
     id: number,
     name: string,
+    dispName: string,
     iCom: number,  // Investors' commitments
     iCal: number,  // Investors' money already called
     fCom: number,  // Fund's commitments in investments

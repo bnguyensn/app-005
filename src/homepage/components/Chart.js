@@ -38,6 +38,9 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     chartNodeRef: any;
     pannableNodeRef: any;
 
+    // Complete fund Ids - Used to map x-axis label
+    nameToDispNameMap: {[key: string]: string};
+
     // Data variables - These initialise using props but will mutate when sort
     // or filter functions are called
     pannableSize: {width: number, height: number};
@@ -58,6 +61,11 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         super(props);
         this.chartNodeRef = React.createRef();
         this.pannableNodeRef = React.createRef();
+
+        this.nameToDispNameMap = {};
+        props.data.forEach((fundData) => {
+            this.nameToDispNameMap[fundData.name] = fundData.dispName;
+        });
 
         this.mouseXY = {x: 0, y: 0};
         this.mouseDown = false;
@@ -266,9 +274,8 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     createAxisBottom = (parent: any, scale: any) => {
         // Note: band and point scales do not implement scale.ticks
 
-        const {chartSize} = this.props;
-
-        const axis = axisBottom(scale);
+        const axis = axisBottom(scale)
+            .tickFormat(d => this.nameToDispNameMap[d]);
 
         return parent.call(axis);
     };
