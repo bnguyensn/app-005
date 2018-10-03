@@ -39,9 +39,9 @@
     margin-top: .5rem;
 }
 
-@media only screen and (max-width: 1279px) {
-    .cp-section {
-        flex-flow: row nowrap;
+    @media only screen and (max-width: 1279px) {
+        .cp-section {
+            flex-flow: row nowrap;
     }
 
     .cp-section > *:not(:first-child) {

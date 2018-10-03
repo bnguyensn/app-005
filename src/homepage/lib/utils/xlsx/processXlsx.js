@@ -5,7 +5,7 @@ import XLSX from 'xlsx';
 import type {FundData} from '../../../components/DataTypes';
 
 import {validateFundSheetData, validateAssetSheetData} from './dataValidation';
-import {refineFundData, refineAssetData} from './dataRefinement';
+import {refineFundData} from './dataRefinement';
 
 export default function processXlsx(data: ArrayBuffer): FundData[] | Error {
     try {

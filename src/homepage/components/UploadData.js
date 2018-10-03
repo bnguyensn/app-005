@@ -4,8 +4,13 @@ import * as React from 'react';
 
 import {isFileOfType} from '../lib/utils/validation';
 import processXlsx from '../lib/utils/xlsx/processXlsx';
+import createColorData from '../lib/utils/xlsx/createColorData';
 
 import type {FundData} from './DataTypes';
+
+import defaultColorBank from '../json/default-color-bank';
+
+const DEBUG = true;  // TODO: remove in production
 
 type UploadDataProps = {
     setNewData: (data: FundData[]) => void,
@@ -46,13 +51,21 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
                     const processedData = processXlsx(data);
 
                     if (processedData instanceof Error) {
-                        console.log(processedData);
+                        if (DEBUG) console.log(processedData);
                     } else {
-                        console.log('Successfullly read .xlsx. Result data:');
-                        console.log(processedData);
-                        console.log(JSON.stringify(processedData));
+                        // Update color data using a sample fund
 
-                        setNewData(processedData);
+                        const colorData = createColorData(processedData[0].assets);
+
+                        // Update fund data
+
+                        if (DEBUG) {
+                            console.log('Successfullly read .xlsx. Result data:');
+                            console.log(processedData);
+                            // console.log(JSON.stringify(processedData));
+                        }
+
+                        setNewData(processedData, colorData);
                     }
                 };
 

@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import {select} from 'd3-selection';
+import {select, event} from 'd3-selection';
 import {scaleLinear, scaleBand} from 'd3-scale';
 import {axis, axisBottom, axisLeft} from 'd3-axis';
 import {stack, line} from 'd3-shape';
@@ -15,6 +15,7 @@ import type {FundData, ColorData} from './DataTypes';
 import enUKLocaleDef from '../json/d3-locales/en-UK';
 
 import '../css/chart.css';
+import ChartTooltip from './ChartTooltip';
 
 const EN_UK = formatLocale(enUKLocaleDef);
 
@@ -31,7 +32,14 @@ type ChartProps = {
     colorData: ColorData,
 };
 
-type ChartStates = {};
+type ChartStates = {
+    tooltipChangeFlag: boolean,
+    tooltip: {
+        show: boolean,
+        text: string,
+        pos: {top: number, left: number},
+    },
+};
 
 export default class Chart extends React.Component<ChartProps, ChartStates> {
     // React refs
@@ -46,7 +54,11 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     pannableSize: {width: number, height: number};
     chartAssetData: {[key: string]: {lvl: number, color: string}};
 
-    // Panning variables
+    // Scales
+    scaleX: any;
+    scaleY: any;
+
+    // Panning variables  // TODO: Move to HOC
     mouseXY: {x: number, y: number};
     mouseDown: boolean;
     chartOffset: {x: number, y: number};
@@ -59,6 +71,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
     constructor(props: ChartProps) {
         super(props);
+
         this.chartNodeRef = React.createRef();
         this.pannableNodeRef = React.createRef();
 
@@ -75,6 +88,15 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         this.trans1 = transition()
             .duration(2000);
+
+        this.state = {
+            tooltipChangeFlag: false,
+            tooltip: {
+                show: false,
+                text: '',
+                pos: {top: 0, left: 0},
+            },
+        }
     }
 
     componentDidMount() {
@@ -87,16 +109,23 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
      * The chart element still "reset" (unmount and remount) when a new dataset
      * is provided. This is done via changing the "key" prop up in <App />.
      * */
-    componentDidUpdate() {
-        // Update chart
+    componentDidUpdate(prevProps: ChartProps, prevState: ChartStates, snapshot: any) {
+        const {tooltipChangeFlag: prevTooltipChangeFlag} = prevState;
+        const {tooltipChangeFlag} = this.state;
 
-        const chartNode = this.getChart();
-        const pannableNode = this.getPannable();
-        if (chartNode && pannableNode) {
-            const chart = select(chartNode);
-            const pannable = select(pannableNode);
+        if (tooltipChangeFlag === prevTooltipChangeFlag) {
+            // Component did not update due to tooltip state changes
 
-            this.updateChart(chart, pannable);
+            // Update chart
+
+            const chartNode = this.getChart();
+            const pannableNode = this.getPannable();
+            if (chartNode && pannableNode) {
+                const chart = select(chartNode);
+                const pannable = select(pannableNode);
+
+                this.updateChart(chart, pannable);
+            }
         }
     }
 
@@ -116,12 +145,16 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         };
 
         // Warning: specific to data type
+        // Create chart asset data which is an object of the form:
+        // {assetName: {lvl: n, color: s}, ...}
         this.chartAssetData = {};
         data[0].assets.forEach((asset) => {
             this.chartAssetData[asset.name] = {lvl: 0, color: ''};
             this.chartAssetData[asset.name].lvl = asset.lvl;
-            this.chartAssetData[asset.name].color = colorData[asset.lvl.toString()];
+            this.chartAssetData[asset.name].color = colorData[asset.name];
         });
+
+        // Update chart
 
         const chartNode = this.getChart();
         const pannableNode = this.getPannable();
@@ -154,15 +187,15 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         // ********** Update scale ********** //
 
-        const x = this.createScaleX();  // Band scale
-        const y = this.createScaleY();  // Linear scale
+        this.scaleX = this.createScaleX();  // Band scale
+        this.scaleY = this.createScaleY();  // Linear scale
 
         // ********** Update axes ********** //
 
         // Axes
 
-        const xAxis = this.createAxisBottom(chart.select('.x-axis'), x);
-        const yAxis = this.createAxisLeft(chart.select('.y-axis'), y);
+        const xAxis = this.createAxisBottom(chart.select('.x-axis'), this.scaleX);
+        const yAxis = this.createAxisLeft(chart.select('.y-axis'), this.scaleY);
 
         // ********** Update shapes ********** //
 
@@ -190,8 +223,8 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         // Individual rect
 
-        const getRectHeight = (a, b) => y(y.domain()[1] - (b - a));
-        const getRectY = (a, b) => y(a) - getRectHeight(a, b);
+        const getRectHeight = (a, b) => this.scaleY(this.scaleY.domain()[1] - (b - a));
+        const getRectY = (a, b) => this.scaleY(a) - getRectHeight(a, b);
 
         function rectKeyFn(d) {
             return `${d.data.name}}`
@@ -201,22 +234,28 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
             .data(d => d, rectKeyFn);
 
         const rectX = rectU.exit();
+
         const transRectX = rectX.transition().duration(500);
         transRectX.attr('x', chartSize.width + chartSize.marginRight + chartSize.marginLeft).remove();
 
         const rectE = rectU.enter();
 
         const rectUE = rectE.append('rect')
+            .classed('asset-bar', true)
             .merge(rectU);
         rectUE.attr('y', d => getRectY(d[0], d[1]));
+
         const transRectUE = rectUE.transition().duration(500);
-        transRectUE.attr('width', x.bandwidth())
+        transRectUE.attr('width', this.scaleX.bandwidth())
             .attr('height', d => getRectHeight(d[0], d[1]))
-            .attr('x', d => x(d.data.name));
+            .attr('x', d => this.scaleX(d.data.name));
+
+        rectUE.on('mouseenter', this.showTooltip);
+        rectUE.on('mouseleave', this.hideTooltip);
 
         // ********** Update limiter line ********** //
 
-        const lineData = this.createLineData(x, y);
+        const lineData = this.createLineData(this.scaleX, this.scaleY);
 
         // Lines
 
@@ -287,7 +326,6 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         //.tickFormat(EN_UK.format('$,.0f'));
 
         return parent.call(axis)
-
     };
 
     /** ********** SHAPES ********** **/
@@ -392,6 +430,52 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         this.mouseXY.y = clientY;
     };
 
+    /** ********** TOOLTIP ********** **/
+
+    showTooltip = (d, i, nodes) => {
+        const {colorData} = this.props;
+
+        const parentNode = nodes[i].parentElement;
+        const elRect = nodes[i].getBoundingClientRect();
+
+        if (parentNode && elRect) {
+            const assetName = parentNode.__data__.key;
+            const assetAmount = d[1] - d[0];
+            const ttText = `${assetName}: ${EN_UK.format('$,.0f')(assetAmount)}`;
+            const ttPos = {
+                top: elRect.top,
+                left: elRect.left + this.scaleX.bandwidth() + 5,
+            };
+
+            this.setState(prevState => ({
+                tooltipChangeFlag: !prevState.tooltipChangeFlag,
+                tooltip: {
+                    show: true,
+                    text: ttText,
+                    pos: ttPos,
+                    color: colorData[assetName],
+                },
+            }));
+        }
+    };
+
+    hideTooltip = () => {
+        const relTarget = event.relatedTarget;
+        const relTargetClass = relTarget.getAttribute('class');
+
+        // Only need to hide tooltip if not moving to another asset bar
+
+        if (relTargetClass !== 'asset-bar') {
+            this.setState(prevState => ({
+                tooltipChangeFlag: !prevState.tooltipChangeFlag,
+                tooltip: {
+                    ...prevState.tooltip,
+                    show: false,
+                },
+            }));
+        }
+    };
+
     /** ********** UTILITIES ********** **/
 
     getChart = () => {
@@ -412,6 +496,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
     render() {
         const {chartSize} = this.props;
+        const {tooltip} = this.state;
 
         return (
             <div className="chart-container">
@@ -442,6 +527,10 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                         </g>
                     </g>
                 </svg>
+                <ChartTooltip show={tooltip.show}
+                              text={tooltip.text}
+                              pos={tooltip.pos}
+                              color={tooltip.color} />
             </div>
         )
     }

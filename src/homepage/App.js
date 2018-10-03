@@ -58,11 +58,12 @@ export default class App extends React.PureComponent<{}, AppStates> {
      * Called when a new dataset is uploaded. This resets the chart element via
      * changing its "key" prop.
      * */
-    setNewData = (data: FundData[]) => {
+    setNewData = (data: FundData[], colorData: ColorData) => {
         this.setState((prevState: AppStates) => ({
             chartKey: !prevState.chartKey,
             data: [...data],
             mutatedData: [...data],
+            colorData: {...colorData},
             filterRange: {min: 0, max: 1},
         }));
     };
@@ -85,20 +86,17 @@ export default class App extends React.PureComponent<{}, AppStates> {
      * jumping around when filters are unset
      * */
     sortData = (sortKey: string) => {
-        const {data} = this.state;
+        const {data, mutatedData, filterRange} = this.state;
 
         const sortedData = sortData(data, sortKey);
 
         if (sortedData) {
+            const nextMutatedData = filterData(sortedData, mutatedData,
+                filterRange.min, filterRange.max, true);
+
             this.setState(prevState => ({
                 data: [...sortedData],
-                mutatedData: [...filterData(
-                    sortedData,
-                    prevState.mutatedData,
-                    prevState.filterRange.min,
-                    prevState.filterRange.max,
-                    true,
-                )],
+                mutatedData: nextMutatedData || prevState.mutatedData,
             }));
         }
     };
