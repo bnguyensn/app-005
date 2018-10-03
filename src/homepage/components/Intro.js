@@ -10,6 +10,9 @@ export default function Intro() {
             <div className="title">
                 INVESTMENT FUND OVERCOMMITMENT CHARTING TOOL
             </div>
+            <div className="subtitle">
+                by Binh Nguyen
+            </div>
             <div className="description">
                 {"A common assessment of an investment fund's going concern"
                 + ' involves looking at its remaining investment commitments '
