@@ -9,22 +9,26 @@ import defaultColorBank from '../../../json/default-color-bank';
  *
  * Note: the assets array should have already been validated
  * */
-export default function createColorData(assets: AssetData[]) {
-    const sortedAssets = [...assets].sort((assetA, assetB) => {
-        // Compare asset names if their levels are equal
+export default function createColorData(
+    assets: AssetData[],
+): {[key: string]: string} {
+    const sortedAssets = assets.length > 0
+        ? [...assets].sort((assetA, assetB) => {
+            // Compare asset names if their levels are equal
 
-        if (assetA.lvl === assetB.lvl) {
-            return assetA.name.localeCompare(assetB.name, 'en', {
-                sensitivity: 'base',
-                ignorePunctuation: true,
-                numeric: true,
-            })
-        }
+            if (assetA.lvl === assetB.lvl) {
+                return assetA.name.localeCompare(assetB.name, 'en', {
+                    sensitivity: 'base',
+                    ignorePunctuation: true,
+                    numeric: true,
+                })
+            }
 
-        // Else compare asset levels
+            // Else compare asset levels
 
-        return assetA.lvl - assetB.lvl
-    });
+            return assetA.lvl - assetB.lvl
+        })
+        : [];
 
     return sortedAssets.reduce((acc, curVal, i) => {
         acc[curVal.name] = defaultColorBank[i % defaultColorBank.length];
