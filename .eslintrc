@@ -86,6 +86,7 @@
         "uninitialized": "always"
       }
     ],
+    "one-var-declaration-per-line": "off",
     "react/jsx-filename-extension": 0,
     "react/jsx-indent": [
       true,

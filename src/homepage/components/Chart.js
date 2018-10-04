@@ -19,6 +19,8 @@ import ChartTooltip from './ChartTooltip';
 
 const EN_UK = formatLocale(enUKLocaleDef);
 
+type Line2Points = [[number, number], [number, number]];
+
 type ChartProps = {
     chartSize: {
         width: number,
@@ -183,7 +185,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     };
 
     updateChart = (chart: any, pannable: any) => {
-        const {chartSize} = this.props;
+        const {data, chartSize} = this.props;
 
         // ********** Update scale ********** //
 
@@ -203,14 +205,10 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         const stackedSeries = this.createStackedSeries();
 
-        function seriesKeyFn(d) {
-            return d.key
-        }
-
         const seriesU = pannable
             .select('.vbars')
             .selectAll('.vbar-series')
-            .data(stackedSeries, seriesKeyFn);
+            .data(stackedSeries, d => d.key);
 
         seriesU.exit().remove();
 
@@ -226,17 +224,16 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         const getRectHeight = (a, b) => this.scaleY(this.scaleY.domain()[1] - (b - a));
         const getRectY = (a, b) => this.scaleY(a) - getRectHeight(a, b);
 
-        function rectKeyFn(d) {
-            return `${d.data.name}}`
-        }
-
         const rectU = seriesUE.selectAll('rect')
-            .data(d => d, rectKeyFn);
+            .data(d => d, d => d.data.name);
 
         const rectX = rectU.exit();
 
         const transRectX = rectX.transition().duration(500);
         transRectX.attr('x', chartSize.width + chartSize.marginRight + chartSize.marginLeft).remove();
+
+        rectX.on('mouseenter', null);
+        rectX.on('mouseleave', null);
 
         const rectE = rectU.enter();
 
@@ -259,20 +256,40 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         // Lines
 
-        pannable.select('.limit-lines')
+        /*pannable.select('.limit-lines')
             .selectAll('path')
+            .remove();*/
+
+        const pathU = pannable.selectAll('.limit-line')
+            .data(lineData, d => d.name);
+
+        const pathX = pathU.exit();
+
+        const transPathX = pathX.transition().duration(500);
+        transPathX.attr('transform', `translate(0, -${this.pannableSize.height})`)
+            .attr('stroke-opacity', 0)
             .remove();
 
-        const lineU = pannable.select('.limit-lines')
-            .append('path')
-            .classed('clearable', true)
-            .attr('d', this.lineGen(lineData))
+        pathX.on('mouseenter', null);
+        pathX.on('mouseleave', null);
+
+        const pathE = pathU.enter();
+
+        const pathUE = pathE.append('path')
+            .classed('limit-line', true)
+            .merge(pathU);
+        pathUE.attr('d', d => d.d)
             .attr('transform', `translate(0, ${this.pannableSize.height})`)
+            .attr('stroke-opacity', 0)
             .attr('stroke', '#63201E')
             .attr('stroke-width', 5);
 
-        const transLineU = lineU.transition().duration(500);
-        transLineU.attr('transform', 'translate(0, 0)');
+        const transPathUE = pathUE.transition().duration(500);
+        transPathUE.attr('transform', 'translate(0, 0)')
+            .attr('stroke-opacity', 1);
+
+        pathUE.on('mouseenter', this.showTooltip);
+        pathUE.on('mouseleave', this.hideTooltip);
     };
 
     /** ********** SCALES ********** **/
@@ -365,22 +382,29 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         return stackGen(stackData)
     };
 
-    createLineData = (xScale: any, yScale: any) => {
+    createLineData = (xScale: any, yScale: any): {
+        name: string,
+        points: Line2Points,
+        d: string,
+    }[] => {
         const {data} = this.props;
 
         // Warning: specific to data type
-        const lineData = [];
-        data.forEach((fundData, index) => {
-            const fRem = fundData.fCom - fundData.fCal;
-            const valueHeight = yScale(fRem);
-            lineData.push([xScale(fundData.name), valueHeight]);  // start [x, y]
-            lineData.push([xScale(fundData.name) + xScale.bandwidth(), valueHeight]);  // end [x, y]
-            if (index < data.length - 1) {
-                lineData.push(null);  // gap
+
+        return data.map((fundData) => {
+            const valueHeight = yScale(fundData.remFCom);
+            const points = [
+                [xScale(fundData.name), valueHeight],  // start [x, y]
+                [xScale(fundData.name) + xScale.bandwidth(), valueHeight],  // end [x, y]
+            ];
+
+            return {
+                name: 'Remaining calls from investments',
+                amount: fundData.remFCom,
+                points,
+                d: this.lineGen(points),
             }
         });
-
-        return lineData
     };
 
     /** ********** PANNING ********** **/
@@ -439,9 +463,20 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         const elRect = nodes[i].getBoundingClientRect();
 
         if (parentNode && elRect) {
-            const assetName = parentNode.__data__.key;
-            const assetAmount = d[1] - d[0];
-            const ttText = `${assetName}: ${EN_UK.format('$,.0f')(assetAmount)}`;
+            const className = nodes[i].getAttribute('class');
+
+            let name, amount, color;
+            if (className === 'asset-bar') {
+                name = parentNode.__data__.key;
+                amount = d[1] - d[0];
+                color = colorData[name];
+            } else {
+                name = d.name;  // eslint-disable-line prefer-destructuring
+                amount = d.amount;  // eslint-disable-line prefer-destructuring
+                color = '#63201E';
+            }
+
+            const ttText = `${name}: ${EN_UK.format('$,.0f')(amount)}`;
             const ttPos = {
                 top: elRect.top,
                 left: elRect.left + this.scaleX.bandwidth() + 5,
@@ -453,7 +488,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                     show: true,
                     text: ttText,
                     pos: ttPos,
-                    color: colorData[assetName],
+                    color,
                 },
             }));
         }
@@ -465,7 +500,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         // Only need to hide tooltip if not moving to another asset bar
 
-        if (relTargetClass !== 'asset-bar') {
+        if (relTargetClass !== 'asset-bar' || relTargetClass !== 'limit-line') {
             this.setState(prevState => ({
                 tooltipChangeFlag: !prevState.tooltipChangeFlag,
                 tooltip: {
