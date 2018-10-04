@@ -496,18 +496,21 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
     hideTooltip = () => {
         const relTarget = event.relatedTarget;
-        const relTargetClass = relTarget.getAttribute('class');
 
-        // Only need to hide tooltip if not moving to another asset bar
+        if (relTarget) {
+            const relTargetClass = relTarget.getAttribute('class');
 
-        if (relTargetClass !== 'asset-bar' || relTargetClass !== 'limit-line') {
-            this.setState(prevState => ({
-                tooltipChangeFlag: !prevState.tooltipChangeFlag,
-                tooltip: {
-                    ...prevState.tooltip,
-                    show: false,
-                },
-            }));
+            // Only need to hide tooltip if not moving to another asset bar
+
+            if (relTargetClass !== 'asset-bar' || relTargetClass !== 'limit-line') {
+                this.setState(prevState => ({
+                    tooltipChangeFlag: !prevState.tooltipChangeFlag,
+                    tooltip: {
+                        ...prevState.tooltip,
+                        show: false,
+                    },
+                }));
+            }
         }
     };
 

@@ -1,10 +1,12 @@
 // @flow
 
 import * as React from 'react';
+import Loadable from 'react-loadable';
 
+import Loading from './components/Loading';
 import Intro from './components/Intro';
-import ControlPanel from './components/ControlPanel';
-import Chart from './components/Chart';
+/*import ControlPanel from './components/ControlPanel';
+import Chart from './components/Chart';*/
 
 import {filterData, sortData} from './lib/utils/dataMutation';
 
@@ -37,6 +39,16 @@ type AppStates = {
     colorData: ColorData,
     filterRange: {min: number, max: number},
 }
+
+const LoadableControlPanel = Loadable({
+    loader: () => import('./components/ControlPanel'),
+    loading: Loading,
+});
+
+const LoadableChart = Loadable({
+    loader: () => import('./components/Chart'),
+    loading: Loading,
+});
 
 export default class App extends React.PureComponent<{}, AppStates> {
     constructor(props: {}) {
@@ -107,11 +119,11 @@ export default class App extends React.PureComponent<{}, AppStates> {
         return (
             <div id="app">
                 <Intro />
-                <ControlPanel key={`CP-${chartKey.toString()}`}
+                <LoadableControlPanel key={`CP-${chartKey.toString()}`}
                               setNewData={this.setNewData}
                               filterData={this.filterData}
                               sortData={this.sortData} />
-                <Chart key={`Ch-${chartKey.toString()}`}
+                <LoadableChart key={`Ch-${chartKey.toString()}`}
                        chartSize={chartSize}
                        data={mutatedData}
                        colorData={colorData} />
