@@ -36,8 +36,8 @@ stats.json
 
 # ########## MISC. ########## #
 
-# dist folder
-dist
+# dist folder - should revise once deployment pipeline changes
+# dist
 
 # data
 /server/db/mysql-cfg.json
