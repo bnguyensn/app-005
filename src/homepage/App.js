@@ -5,8 +5,6 @@ import Loadable from 'react-loadable';
 
 import Loading from './components/Loading';
 import Intro from './components/Intro';
-/*import ControlPanel from './components/ControlPanel';
-import Chart from './components/Chart';*/
 
 import {filterData, sortData} from './lib/utils/dataMutation';
 
@@ -37,7 +35,10 @@ type AppStates = {
     data: FundData[],
     mutatedData: FundData[],
     colorData: ColorData,
+
     filterRange: {min: number, max: number},
+
+    curHoveredAsset: string,
 }
 
 const LoadableControlPanel = Loadable({
@@ -50,6 +51,11 @@ const LoadableChart = Loadable({
     loading: Loading,
 });
 
+const LoadableLegend = Loadable({
+    loader: () => import('./components/legend/Legend'),
+    loading: Loading,
+});
+
 export default class App extends React.PureComponent<{}, AppStates> {
     constructor(props: {}) {
         super(props);
@@ -59,11 +65,8 @@ export default class App extends React.PureComponent<{}, AppStates> {
             mutatedData: [...sampleData],
             colorData: sampleColorData,
             filterRange: {min: 0, max: 1},
+            curHoveredAsset: '',
         };
-    }
-
-    componentDidMount() {
-        // Fetch data
     }
 
     /**
@@ -113,20 +116,41 @@ export default class App extends React.PureComponent<{}, AppStates> {
         }
     };
 
+    updateCurHoveredAsset = (asset: string) => {
+
+    };
+
+    changeChartComponentColor = (asset: string, newColor: string) => {
+        this.setState((prevState: AppStates) => ({
+            colorData: {
+                ...prevState.colorData,
+                [asset]: newColor || prevState.colorData[asset],
+            },
+        }));
+    };
+
     render() {
         const {chartKey, mutatedData, colorData} = this.state;
+
+        // Note that keys MUST be unique among siblings
 
         return (
             <div id="app">
                 <Intro />
                 <LoadableControlPanel key={`CP-${chartKey.toString()}`}
-                              setNewData={this.setNewData}
-                              filterData={this.filterData}
-                              sortData={this.sortData} />
+                                      setNewData={this.setNewData}
+                                      filterData={this.filterData}
+                                      sortData={this.sortData} />
                 <LoadableChart key={`Ch-${chartKey.toString()}`}
-                       chartSize={chartSize}
-                       data={mutatedData}
-                       colorData={colorData} />
+                               chartSize={chartSize}
+                               data={mutatedData}
+                               colorData={colorData}>
+                    <LoadableLegend key={`Le-${chartKey.toString()}`}
+                                    data={mutatedData}
+                                    colorData={colorData}
+                                    changeChartComponentColor={this.changeChartComponentColor} />
+                </LoadableChart>
+
             </div>
         )
     }

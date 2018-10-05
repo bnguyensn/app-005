@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import Input from './Input';
-import '../css/newfund.css';
 
 type InputBoardProps = {}
 

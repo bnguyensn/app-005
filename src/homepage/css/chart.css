@@ -1,4 +1,9 @@
 .chart-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column nowrap;
+
     border: 1px solid #212121;
 }
 

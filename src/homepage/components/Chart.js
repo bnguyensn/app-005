@@ -10,7 +10,7 @@ import {formatLocale, format} from 'd3-format';
 
 import {findMaxInArray} from '../lib/utils/arrayMaths';
 
-import type {FundData, ColorData} from './DataTypes';
+import type {ColorData, FundData} from './DataTypes';
 
 import enUKLocaleDef from '../json/d3-locales/en-UK';
 
@@ -32,6 +32,7 @@ type ChartProps = {
     },
     data: FundData[],
     colorData: ColorData,
+    children?: React.Node,
 };
 
 type ChartStates = {
@@ -185,7 +186,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     };
 
     updateChart = (chart: any, pannable: any) => {
-        const {data, chartSize} = this.props;
+        const {data, colorData, chartSize} = this.props;
 
         // ********** Update scale ********** //
 
@@ -217,7 +218,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
             .classed('vbar-series clearable', true)
             .merge(seriesU);
 
-        seriesUE.attr('fill', d => this.chartAssetData[d.key].color);  // Colorise series
+        seriesUE.attr('fill', d => colorData[d.key]);  // Colorise series
 
         // Individual rect
 
@@ -281,7 +282,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         pathUE.attr('d', d => d.d)
             .attr('transform', `translate(0, ${this.pannableSize.height})`)
             .attr('stroke-opacity', 0)
-            .attr('stroke', '#63201E')
+            .attr('stroke', colorData['Remaining investment commitments'])
             .attr('stroke-width', 5);
 
         const transPathUE = pathUE.transition().duration(500);
@@ -399,7 +400,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
             ];
 
             return {
-                name: 'Remaining calls from investments',
+                name: 'Remaining investment commitments',
                 amount: fundData.remFCom,
                 points,
                 d: this.lineGen(points),
@@ -533,7 +534,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     /** ********** RENDER ********** **/
 
     render() {
-        const {chartSize} = this.props;
+        const {chartSize, children} = this.props;
         const {tooltip} = this.state;
 
         return (
@@ -569,6 +570,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                               text={tooltip.text}
                               pos={tooltip.pos}
                               color={tooltip.color} />
+                {children}
             </div>
         )
     }

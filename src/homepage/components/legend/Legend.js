@@ -2,59 +2,67 @@
 
 import * as React from 'react';
 
-import type {ColorData, FundData} from './DataTypes';
+import Label from './Label';
+import ColorMenu from './ColorMenu';
 
-type LabelProps = {
-    color: string,
-    text: string,  // This is the asset name
-    changeAssetColor: (asset: string) => void,
-};
+import type {ColorData, FundData} from '../DataTypes';
 
-function Label(props: LabelProps) {
-    const {color, text, changeAssetColor} = props;
-
-    const handleColorSquareClick = () => {
-        changeAssetColor(text);
-    };
-
-    const handleColorSquareKeyPress = (e: SyntheticKeyboardEvent<HTMLElement>) => {
-        if (e.key === 'enter') {
-            changeAssetColor(text);
-        }
-    };
-
-    return (
-        <div className="legend-label">
-            <div className="legend-label-color"
-                 role="button" tabIndex={0}
-                 style={{
-                     backgroundColor: color,
-                 }}
-                 onClick={handleColorSquareClick}
-                 onKeyPress={handleColorSquareKeyPress} />
-            <div className="legend-label-text">
-                {text}
-            </div>
-        </div>
-    )
-}
+import './legend.css';
 
 type LegendProps = {
     data: FundData[],
-    colorData: ColorData[],
-    changeAssetColor: (asset: string) => void,
+    colorData: ColorData,
+    changeChartComponentColor: (asset: string, newColor: string) => void,
 };
 
-export default class Legend extends React.PureComponent<LegendProps, {}> {
+type LegendStates = {
+    colorMenuShow: boolean,
+    colorMenuPos: {top: number, left: number},
+    curAsset: string,
+};
+
+export default class Legend extends React.PureComponent<LegendProps, LegendStates> {
     constructor(props: LegendProps) {
         super(props);
-        
+
+        this.state = {
+            colorMenuShow: false,
+            colorMenuPos: {top: 0, left: 0},
+            curAsset: '',
+        };
     }
 
-    render() {
-        return (
-            <div className="legend">
+    toggleColorMenu = (asset: string, el: HTMLDivElement) => {
+        this.setState(prevState => ({
+            colorMenuShow: prevState.curAsset === asset
+                ? !prevState.colorMenuShow
+                : true,
+            colorMenuPos: {top: el.offsetTop, left: el.offsetLeft},
+            curAsset: asset,
+        }));
+    };
 
+    render() {
+        const {data, colorData, changeChartComponentColor} = this.props;
+        const {colorMenuShow, colorMenuPos, curAsset} = this.state;
+
+        const chartComponents = Object.keys(colorData);
+        const labels = chartComponents.length > 0
+            ? chartComponents.map(chartComponent => (
+                <Label key={chartComponent}
+                       color={colorData[chartComponent]}
+                       asset={chartComponent}
+                       toggleColorMenu={this.toggleColorMenu} />
+            ))
+            : [];
+
+        return (
+            <div id="legend">
+                {labels}
+                <ColorMenu show={colorMenuShow}
+                           pos={colorMenuPos}
+                           asset={curAsset}
+                           changeAssetColor={changeChartComponentColor} />
             </div>
         )
     }

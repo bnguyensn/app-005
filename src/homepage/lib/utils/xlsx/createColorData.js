@@ -5,7 +5,9 @@ import {AssetData} from '../../../components/DataTypes';
 import defaultColorBank from '../../../json/default-color-bank';
 
 /**
- * Generate a default color scheme for a given array of assets
+ * Generate a default color scheme for a given array of assets.
+ *
+ * The returned object has asset names for keys and color strings for values.
  *
  * Note: the assets array should have already been validated
  * */
@@ -30,8 +32,12 @@ export default function createColorData(
         })
         : [];
 
-    return sortedAssets.reduce((acc, curVal, i) => {
+    const colorData = sortedAssets.reduce((acc, curVal, i) => {
         acc[curVal.name] = defaultColorBank[i % defaultColorBank.length];
         return acc
     }, {});
+
+    colorData['Remaining investment commitments'] = '#63201E';
+
+    return colorData
 }
