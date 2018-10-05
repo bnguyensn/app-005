@@ -6,9 +6,9 @@ import UploadData from './UploadData';
 import SortChart from './SortChart';
 import FilterChart from './FilterChart';
 
-import type {FundData} from './DataTypes';
+import type {FundData} from '../DataTypes';
 
-import '../css/control-panel.css';
+import './control-panel.css';
 
 type ControlPanelProps = {
     setNewData: (data: FundData[]) => void,

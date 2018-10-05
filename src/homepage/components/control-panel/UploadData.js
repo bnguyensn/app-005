@@ -2,13 +2,11 @@
 
 import * as React from 'react';
 
-import {isFileOfType} from '../lib/utils/validation';
-import processXlsx from '../lib/utils/xlsx/processXlsx';
-import createColorData from '../lib/utils/xlsx/createColorData';
+import {isFileOfType} from '../../lib/utils/validation';
+import processXlsx from '../../lib/utils/xlsx/processXlsx';
+import createColorData from '../../lib/utils/xlsx/createColorData';
 
-import type {FundData} from './DataTypes';
-
-import defaultColorBank from '../json/default-color-bank';
+import type {FundData} from '../DataTypes';
 
 const DEBUG = true;  // TODO: remove in production
 

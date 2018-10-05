@@ -2,9 +2,7 @@
 
 import * as React from 'react';
 
-import withPanningEvents from '../lib/hocs/withPanningEvents';
-
-import type {FundData} from './DataTypes';
+import withPanningEvents from '../helpers/withPanningEvents';
 
 /** ********** TEXT STATUS ********** **/
 

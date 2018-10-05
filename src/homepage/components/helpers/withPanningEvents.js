@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import getDisplayName from '../utils/getDisplayName';
+import getDisplayName from '../../lib/utils/getDisplayName';
 
 type withPanningEventsProps = {
     id: number,

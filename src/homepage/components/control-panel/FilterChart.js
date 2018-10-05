@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 
-import type {FundData} from './DataTypes';
 import FilterSlider from './FilterSlider';
 
 type FilterChartProps = {

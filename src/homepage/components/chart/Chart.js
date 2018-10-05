@@ -8,13 +8,13 @@ import {stack, line} from 'd3-shape';
 import {transition} from 'd3-transition';
 import {formatLocale, format} from 'd3-format';
 
-import {findMaxInArray} from '../lib/utils/arrayMaths';
+import {findMaxInArray} from '../../lib/utils/arrayMaths';
 
-import type {ColorData, FundData} from './DataTypes';
+import type {ColorData, FundData} from '../DataTypes';
 
-import enUKLocaleDef from '../json/d3-locales/en-UK';
+import enUKLocaleDef from '../../json/d3-locales/en-UK';
 
-import '../css/chart.css';
+import './chart.css';
 import ChartTooltip from './ChartTooltip';
 
 const EN_UK = formatLocale(enUKLocaleDef);

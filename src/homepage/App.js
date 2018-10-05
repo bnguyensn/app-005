@@ -42,12 +42,12 @@ type AppStates = {
 }
 
 const LoadableControlPanel = Loadable({
-    loader: () => import('./components/ControlPanel'),
+    loader: () => import('./components/control-panel/ControlPanel'),
     loading: Loading,
 });
 
 const LoadableChart = Loadable({
-    loader: () => import('./components/Chart'),
+    loader: () => import('./components/chart/Chart'),
     loading: Loading,
 });
 
