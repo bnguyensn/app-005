@@ -8,7 +8,7 @@ type FilterChartProps = {
     filterData: (min: number, max: number) => void;
 };
 
-export default class FilterChart extends React.PureComponent<FilterChartProps, {}> {
+export default class Filter extends React.PureComponent<FilterChartProps, {}> {
     setFilterRange = (min: number, max: number) => {
         const {filterData} = this.props;
 

@@ -41,7 +41,7 @@ export default class ColorMenu extends React.PureComponent<ColorMenuProps, Color
     };
 
     render() {
-        const {show, pos} = this.props;
+        const {show, pos, asset} = this.props;
         const {colorString} = this.state;
 
         const colorButtons = defaultColorBank.map(color => (

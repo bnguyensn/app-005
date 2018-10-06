@@ -16,7 +16,9 @@
 
 .legend-label {
     display: flex;
+
     margin: .25rem;
+    /*width: calc(50% - .25rem * 2);*/
 }
 
 .legend-label-color-square {
@@ -36,6 +38,10 @@
     flex-grow: 1;
 
     font-size: .75rem;
+
+    word-wrap: break-word;
+    /*word-break: break-all;*/
+    hyphens: auto;
 }
 
 /** ********** COLOR MENU ********** **/

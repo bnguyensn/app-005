@@ -6,7 +6,7 @@ type SortChartProps = {
     sortData: (sortKey: string) => void,
 };
 
-export default class SortChart extends React.PureComponent<SortChartProps, {}> {
+export default class Sort extends React.PureComponent<SortChartProps, {}> {
     handleSelect = (e: SyntheticInputEvent<HTMLSelectElement>) => {
         const {sortData} = this.props;
 

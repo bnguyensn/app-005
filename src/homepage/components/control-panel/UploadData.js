@@ -11,6 +11,7 @@ import type {FundData} from '../DataTypes';
 const DEBUG = true;  // TODO: remove in production
 
 type UploadDataProps = {
+    logStatusMsg: (msg: string) => void,
     setNewData: (data: FundData[]) => void,
 };
 
@@ -28,17 +29,19 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
     }
 
     handleFileSelected = (e: SyntheticInputEvent<HTMLElement>) => {
-        const {setNewData} = this.props;
+        const {logStatusMsg, setNewData} = this.props;
 
         const {files} = e.target;
         const f = files[0];
 
         if (files.length === 0) {
-            console.log('No files selected');
+            if (DEBUG) console.log('No files selected');
         } else {
-            console.log(`Selected file's name is ${f.name}`);
-            console.log(`Selected file's size is ${(f.size / 1024).toFixed(0)} kb`);
-            console.log(`Selected file is of type ${f.type}`);
+            if (DEBUG) {
+                console.log(`Selected file's name is ${f.name}`);
+                console.log(`Selected file's size is ${(f.size / 1024).toFixed(0)} kb`);
+                console.log(`Selected file is of type ${f.type}`);
+            }
 
             if (isFileOfType(f, this.fileTypes)) {
                 // Set up FileReader
@@ -46,24 +49,28 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
                 reader.onload = (e) => {
                     const data = e.target.result;
 
-                    const processedData = processXlsx(data);
+                    const processRes = processXlsx(data);
 
-                    if (processedData instanceof Error) {
-                        if (DEBUG) console.log(processedData);
+                    if (!processRes.success) {
+                        // Error parsing uploaded data
+
+                        logStatusMsg(processRes.data);
                     } else {
-                        // Update color data using a sample fund
-
-                        const colorData = createColorData(processedData[0].assets);
-
-                        // Update fund data
+                        // Successfully parsed uploaded data
 
                         if (DEBUG) {
-                            console.log('Successfullly read .xlsx. Result data:');
-                            console.log(processedData);
-                            // console.log(JSON.stringify(processedData));
+                            console.log('Successfully read .xlsx. Result:');
+                            console.log(processRes.data);
+                            console.log(JSON.stringify(processRes.data));
                         }
 
-                        setNewData(processedData, colorData);
+                        // Update color data using a sample fund
+                        const colorData = createColorData(
+                            processRes.data[0].assets,
+                        );
+
+                        // Update fund data
+                        setNewData(processRes.data, colorData);
                     }
                 };
 

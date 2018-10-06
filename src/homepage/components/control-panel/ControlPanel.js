@@ -3,14 +3,15 @@
 import * as React from 'react';
 
 import UploadData from './UploadData';
-import SortChart from './SortChart';
-import FilterChart from './FilterChart';
+import Sort from './Sort';
+import Filter from './Filter';
 
 import type {FundData} from '../DataTypes';
 
 import './control-panel.css';
 
 type ControlPanelProps = {
+    logStatusMsg: (msg: string) => void,
     setNewData: (data: FundData[]) => void,
     filterData: (min: number, max: number) => void,
     sortData: (sortKey: string) => void,
@@ -18,16 +19,17 @@ type ControlPanelProps = {
 
 export default class ControlPanel extends React.PureComponent<ControlPanelProps, {}> {
     render() {
-        const {setNewData, sortData, filterData} = this.props;
+        const {logStatusMsg, setNewData, sortData, filterData} = this.props;
 
         return (
             <div id="control-panel">
                 <section className="cp-section">
-                    <UploadData setNewData={setNewData} />
+                    <UploadData logStatusMsg={logStatusMsg}
+                                setNewData={setNewData} />
                 </section>
                 <section className="cp-section">
-                    <FilterChart filterData={filterData} />
-                    <SortChart sortData={sortData} />
+                    <Filter filterData={filterData} />
+                    <Sort sortData={sortData} />
                 </section>
 
             </div>

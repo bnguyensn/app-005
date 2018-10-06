@@ -25,15 +25,16 @@ export function filterData(
     return null
 }
 
-export function sortData(
-    data: FundData[],
+export function sortData<T>(
+    data: T[],
     sortKey: string,
-): FundData[] | null {
+    asc?: boolean = true,  // Ascending flag
+): T[] | null {
     // Create a dummy fund data for certain checks within this function
 
     const sampleFundData = data[0];
 
-    // Only sort if sort values exist
+    // Only sort if sort key exists
 
     if (objHasKey(sampleFundData, sortKey)) {
         // Array.prototype.sort() mutates, so let's copy the original data
@@ -50,8 +51,14 @@ export function sortData(
                 const casedA = fundDataA[sortKey].toUpperCase();
                 const casedB = fundDataB[sortKey].toUpperCase();
 
-                if (casedA < casedB) return -1;
-                if (casedA > casedB) return 1;
+                if (asc) {
+                    if (casedA < casedB) return -1;
+                    if (casedA > casedB) return 1;
+                } else {
+                    if (casedA > casedB) return -1;
+                    if (casedA < casedB) return 1;
+                }
+
                 return 0
             })
         }
@@ -61,7 +68,9 @@ export function sortData(
             // Sort values are numbers
 
             return sortedData.sort((fundDataA, fundDataB) => (
-                fundDataA[sortKey] - fundDataB[sortKey]
+                asc
+                    ? fundDataA[sortKey] - fundDataB[sortKey]
+                    : fundDataB[sortKey] - fundDataA[sortKey]
             ))
         }
 

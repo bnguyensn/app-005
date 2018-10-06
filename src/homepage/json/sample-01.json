@@ -15,7 +15,7 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
+        "lvl": 1,
         "amt": 2500
       },
       {
@@ -31,7 +31,13 @@
     ],
     "totalAssets": 8500,
     "remFCom": 7500,
-    "goingConcern": 0.8823529411764706
+    "goingConcern": 1.1333333333333333,
+    "sortIndices": {
+      "name": 0,
+      "goingConcern": 7,
+      "remFCom": 6,
+      "totalAssets": 2
+    }
   },
   {
     "id": 1,
@@ -49,8 +55,8 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
-        "amt": 1000
+        "lvl": 1,
+        "amt": 6000
       },
       {
         "name": "Debtors",
@@ -63,9 +69,15 @@
         "amt": 2000
       }
     ],
-    "totalAssets": 10500,
+    "totalAssets": 15500,
     "remFCom": 2500,
-    "goingConcern": 0.23809523809523808
+    "goingConcern": 6.2,
+    "sortIndices": {
+      "name": 2,
+      "goingConcern": 1,
+      "remFCom": 2,
+      "totalAssets": 7
+    }
   },
   {
     "id": 2,
@@ -83,8 +95,8 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
-        "amt": 2500
+        "lvl": 1,
+        "amt": 4000
       },
       {
         "name": "Debtors",
@@ -97,14 +109,20 @@
         "amt": 2500
       }
     ],
-    "totalAssets": 10000,
+    "totalAssets": 11500,
     "remFCom": 4500,
-    "goingConcern": 0.45
+    "goingConcern": 2.5555555555555554,
+    "sortIndices": {
+      "name": 3,
+      "goingConcern": 4,
+      "remFCom": 3,
+      "totalAssets": 5
+    }
   },
   {
     "id": 3,
-    "name": "Fund A",
-    "dispName": "Fund A",
+    "name": "Fund 4",
+    "dispName": "Fund 4",
     "iCom": 6000,
     "iCal": 2000,
     "fCom": 7500,
@@ -117,8 +135,8 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
-        "amt": 3000
+        "lvl": 1,
+        "amt": 4000
       },
       {
         "name": "Debtors",
@@ -131,14 +149,20 @@
         "amt": 1000
       }
     ],
-    "totalAssets": 9500,
+    "totalAssets": 10500,
     "remFCom": 1000,
-    "goingConcern": 0.10526315789473684
+    "goingConcern": 10.5,
+    "sortIndices": {
+      "name": 4,
+      "goingConcern": 0,
+      "remFCom": 0,
+      "totalAssets": 3
+    }
   },
   {
     "id": 4,
-    "name": "Fund B",
-    "dispName": "Fund B",
+    "name": "Fund 5",
+    "dispName": "Fund 5",
     "iCom": 4000,
     "iCal": 4000,
     "fCom": 10000,
@@ -151,8 +175,8 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
-        "amt": 3500
+        "lvl": 1,
+        "amt": 0
       },
       {
         "name": "Debtors",
@@ -162,17 +186,23 @@
       {
         "name": "Avg. annual investment distributions",
         "lvl": 3,
-        "amt": 500
+        "amt": 0
       }
     ],
-    "totalAssets": 6000,
+    "totalAssets": 2000,
     "remFCom": 1000,
-    "goingConcern": 0.16666666666666666
+    "goingConcern": 2,
+    "sortIndices": {
+      "name": 5,
+      "goingConcern": 5,
+      "remFCom": 1,
+      "totalAssets": 0
+    }
   },
   {
     "id": 5,
-    "name": "Long name",
-    "dispName": "Long ..",
+    "name": "Fund 6",
+    "dispName": "Fund 6",
     "iCom": 5000,
     "iCal": 4000,
     "fCom": 12000,
@@ -185,8 +215,8 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
-        "amt": 3500
+        "lvl": 1,
+        "amt": 1000
       },
       {
         "name": "Debtors",
@@ -199,14 +229,20 @@
         "amt": 1500
       }
     ],
-    "totalAssets": 13000,
+    "totalAssets": 10500,
     "remFCom": 10500,
-    "goingConcern": 0.8076923076923077
+    "goingConcern": 1,
+    "sortIndices": {
+      "name": 6,
+      "goingConcern": 8,
+      "remFCom": 9,
+      "totalAssets": 4
+    }
   },
   {
     "id": 6,
-    "name": "Another one",
-    "dispName": "Anoth..",
+    "name": "Fund 7",
+    "dispName": "Fund 7",
     "iCom": 6500,
     "iCal": 6000,
     "fCom": 13000,
@@ -219,8 +255,8 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
-        "amt": 4000
+        "lvl": 1,
+        "amt": 500
       },
       {
         "name": "Debtors",
@@ -233,9 +269,15 @@
         "amt": 1500
       }
     ],
-    "totalAssets": 15500,
+    "totalAssets": 12000,
     "remFCom": 10000,
-    "goingConcern": 0.6451612903225806
+    "goingConcern": 1.2,
+    "sortIndices": {
+      "name": 7,
+      "goingConcern": 6,
+      "remFCom": 8,
+      "totalAssets": 6
+    }
   },
   {
     "id": 7,
@@ -253,13 +295,13 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
-        "amt": 2000
+        "lvl": 1,
+        "amt": 500
       },
       {
         "name": "Debtors",
         "lvl": 2,
-        "amt": 8000
+        "amt": 0
       },
       {
         "name": "Avg. annual investment distributions",
@@ -267,9 +309,15 @@
         "amt": 1500
       }
     ],
-    "totalAssets": 15500,
+    "totalAssets": 6000,
     "remFCom": 7500,
-    "goingConcern": 0.4838709677419355
+    "goingConcern": 0.8,
+    "sortIndices": {
+      "name": 8,
+      "goingConcern": 9,
+      "remFCom": 7,
+      "totalAssets": 1
+    }
   },
   {
     "id": 8,
@@ -287,8 +335,8 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
-        "amt": 1000
+        "lvl": 1,
+        "amt": 2500
       },
       {
         "name": "Debtors",
@@ -301,9 +349,15 @@
         "amt": 500
       }
     ],
-    "totalAssets": 15500,
+    "totalAssets": 17000,
     "remFCom": 5000,
-    "goingConcern": 0.3225806451612903
+    "goingConcern": 3.4,
+    "sortIndices": {
+      "name": 9,
+      "goingConcern": 3,
+      "remFCom": 4,
+      "totalAssets": 8
+    }
   },
   {
     "id": 9,
@@ -321,8 +375,8 @@
       },
       {
         "name": "Uncalled investors' capital",
-        "lvl": 2,
-        "amt": 1500
+        "lvl": 1,
+        "amt": 3000
       },
       {
         "name": "Debtors",
@@ -335,8 +389,14 @@
         "amt": 500
       }
     ],
-    "totalAssets": 17500,
+    "totalAssets": 19000,
     "remFCom": 5500,
-    "goingConcern": 0.3142857142857143
+    "goingConcern": 3.4545454545454546,
+    "sortIndices": {
+      "name": 1,
+      "goingConcern": 2,
+      "remFCom": 5,
+      "totalAssets": 9
+    }
   }
 ]

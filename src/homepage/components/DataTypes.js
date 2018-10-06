@@ -19,5 +19,8 @@ export type FundData = {
     assets: AssetData[],
     totalAssets: number,  // Total fund's assets
     remFCom: number,  // Fund's remaining investment commitments not yet called
-    goingConcern: number,  // Ratio of remFCom / totalAssets
+    goingConcern: number,  // Ratio of totalAssets / remFCom
+
+    // Ranking of this fund in whatever field there is
+    sortIndices: {[key: string]: number},
 };

@@ -310,12 +310,9 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     createScaleY = () => {
         const {chartSize, data} = this.props;
 
-        // Warning: specific to data type
-        const fCalRems = data.map(fundData => Math.min(fundData.fCom - fundData.fCal, 0));
-        const totalAssetsReducer = (acc, curVal): number => acc + curVal.amt;
-        const totalAssets = data.map(fundData => fundData.assets.reduce(totalAssetsReducer, 0));
-
-        const dataMax = findMaxInArray([fCalRems, totalAssets]);
+        const dataMax = findMaxInArray(data.map(
+            fundData => [fundData.remFCom, fundData.totalAssets],
+        ));
 
         // Using linear scale for y
         // y scale's range runs from negative to 0 because svg's coordinate

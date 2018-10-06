@@ -69,6 +69,15 @@ export default class App extends React.PureComponent<{}, AppStates> {
         };
     }
 
+    logStatusMsg = (msg: string | string[]) => {
+        // Log status message for user
+        if (Array.isArray(msg)) {
+            msg.forEach((m) => {console.log(m);});
+        } else {
+            console.log(msg);
+        }
+    };
+
     /**
      * Called when a new dataset is uploaded. This resets the chart element via
      * changing its "key" prop.
@@ -103,9 +112,25 @@ export default class App extends React.PureComponent<{}, AppStates> {
     sortData = (sortKey: string) => {
         const {data, mutatedData, filterRange} = this.state;
 
-        const sortedData = sortData(data, sortKey);
-
+        /*const sortedData = sortData(data, sortKey);
         if (sortedData) {
+            const nextMutatedData = filterData(sortedData, mutatedData,
+                filterRange.min, filterRange.max, true);
+
+            this.setState(prevState => ({
+                data: [...sortedData],
+                mutatedData: nextMutatedData || prevState.mutatedData,
+            }));
+        }*/
+
+        if (data[0].sortIndices[sortKey]) {
+            // Sort index exists
+
+            const sortedData = [];
+            data.forEach((fundData) => {
+                sortedData[fundData.sortIndices[sortKey]] = {...fundData};
+            });
+
             const nextMutatedData = filterData(sortedData, mutatedData,
                 filterRange.min, filterRange.max, true);
 
@@ -138,6 +163,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
             <div id="app">
                 <Intro />
                 <LoadableControlPanel key={`CP-${chartKey.toString()}`}
+                                      logStatusMsg={this.logStatusMsg}
                                       setNewData={this.setNewData}
                                       filterData={this.filterData}
                                       sortData={this.sortData} />
@@ -150,7 +176,6 @@ export default class App extends React.PureComponent<{}, AppStates> {
                                     colorData={colorData}
                                     changeChartComponentColor={this.changeChartComponentColor} />
                 </LoadableChart>
-
             </div>
         )
     }

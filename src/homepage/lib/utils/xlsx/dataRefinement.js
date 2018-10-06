@@ -1,5 +1,7 @@
 // @flow
 
+import {sortData} from '../dataMutation';
+
 import type {FundData} from '../../../components/DataTypes';
 
 /**
@@ -8,28 +10,35 @@ import type {FundData} from '../../../components/DataTypes';
  * Note: the passed fundSheetData and assetSheetData must be valid i.e. have
  * gone through validation
  * */
-export function refineFundData(validFundSheetData: any[], validAssetSheetData: any[]): FundData[] {
-    // Create asset level object
+export default function refineFundData(fundSheetData: any[],
+                                       assetSheetData: any[]): FundData[] {
+    // ********** Create asset names array ********** //
+    // Type: [assetName1, ...]
 
-    const assetsLvl = {};
-    validAssetSheetData.forEach((assetData, rowIndex) => {
-        if (rowIndex > 0) {
+    // By our specification, asset data in the fund sheet starts from column 5
+    const assetIndexStart = 5;
+
+    const assetNames = fundSheetData[0].length - assetIndexStart > 0
+        ? fundSheetData[0].filter((v, colIndex) => colIndex >= assetIndexStart)
+        : [];
+
+    console.log(`assetNames = ${assetNames}`);
+
+    // ********** Create asset levels object ********** //
+    // Type: {assetName: assetLvl, ...}
+
+    const assetLevels = {};
+
+    assetSheetData
+        .filter((assetData, rowIndex) => rowIndex > 0)
+        .forEach((assetData) => {
             const [assetName, assetLvl] = assetData;
-            assetsLvl[assetName] = assetLvl;
-        }
-    });
+            assetLevels[assetName] = assetLvl;
+        });
 
-    // Create asset names array
+    // ********** Create refined fund data ********** //
 
-    const maxCol = validFundSheetData[0].length;
-    const assetsCount = maxCol - 5;
-    const assetNames = !assetsCount
-        ? []
-        : validFundSheetData[0].filter((header, colIndex) => colIndex > 4);
-
-    // Create refined data
-
-    return validFundSheetData
+    const fundData = fundSheetData
         .filter((fundData, rowIndex) => rowIndex > 0)
         .map((fundData, rowIndex) => {
             // Create a short display name for the fund in case its name is too
@@ -37,18 +46,23 @@ export function refineFundData(validFundSheetData: any[], validAssetSheetData: a
 
             const cutOff = 7;
             const dispName = fundData[0].length > cutOff
-            ? `${fundData[0].slice(0, cutOff - 2)}..`
-            : fundData[0];
+                ? `${fundData[0].slice(0, cutOff - 2)}..`
+                : fundData[0];
 
-            // Create this fund's asset array
+            // Create this fund's asset array. Could be empty if there are no
+            // assets based on the headers
 
-            const assets = !assetsCount
-                ? []
-                : assetNames.map((assetName, index) => ({
+            const assets = assetNames.length > 0
+                ? assetNames.map((assetName, index) => ({
                     name: assetName,
-                    lvl: assetsLvl[assetName] || 1,
-                    amt: fundData[index + 5] || 0,
-                }));
+
+                    // Any asset found in the fund sheet but not found in the
+                    // asset sheet has level = 1
+                    lvl: assetLevels[assetName] || 1,
+
+                    amt: fundData[index + assetIndexStart],
+                }))
+                : [];
 
             // Create this fund's misc. data for sorting function
 
@@ -56,7 +70,9 @@ export function refineFundData(validFundSheetData: any[], validAssetSheetData: a
                 (acc, curVal) => acc + curVal.amt, 0,
             );
             const remFCom = Math.max(fundData[3] - fundData[4], 0);
-            const goingConcern = remFCom / totalAssets;
+            const goingConcern = remFCom !== 0
+                ? totalAssets / remFCom
+                : 1;
 
             // Return refined data
 
@@ -72,6 +88,36 @@ export function refineFundData(validFundSheetData: any[], validAssetSheetData: a
                 totalAssets,
                 remFCom,
                 goingConcern,
+                sortIndices: {},
             }
         });
+
+    // Create sort indices
+
+    const sortKeys = ['name', 'goingConcern', 'remFCom', 'totalAssets'];
+
+    const sortedArrs = sortKeys.map((sortKey) => {
+        const arrToSort = fundData.map(f => ({
+            ogIndex: f.id,
+            k: sortKey,
+            [sortKey]: f[sortKey],
+        }));
+
+        // Will return null if cannot sort
+        const sortedArr = sortKey !== 'goingConcern'
+            ? sortData(arrToSort, sortKey)
+            : sortData(arrToSort, sortKey, false);
+
+        return sortedArr || arrToSort
+    });
+
+    // Warning: fundData mutation below
+    sortedArrs.forEach((sortedArr) => {
+        sortedArr.forEach((obj, i) => {
+            const {ogIndex, k} = obj;
+            fundData[ogIndex].sortIndices[k] = i;
+        });
+    });
+
+    return fundData
 }
