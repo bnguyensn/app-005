@@ -8,6 +8,8 @@ import {stack, line} from 'd3-shape';
 import {transition} from 'd3-transition';
 import {formatLocale, format} from 'd3-format';
 
+import ChartTooltip from './ChartTooltip';
+
 import {findMaxInArray} from '../../lib/utils/arrayMaths';
 
 import type {ColorData, FundData} from '../DataTypes';
@@ -15,7 +17,6 @@ import type {ColorData, FundData} from '../DataTypes';
 import enUKLocaleDef from '../../json/d3-locales/en-UK';
 
 import './chart.css';
-import ChartTooltip from './ChartTooltip';
 
 const EN_UK = formatLocale(enUKLocaleDef);
 
@@ -41,6 +42,7 @@ type ChartStates = {
         show: boolean,
         text: string,
         pos: {top: number, left: number},
+        color: string,
     },
 };
 
@@ -98,8 +100,9 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                 show: false,
                 text: '',
                 pos: {top: 0, left: 0},
+                color: '',
             },
-        }
+        };
     }
 
     componentDidMount() {
@@ -154,7 +157,8 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         data[0].assets.forEach((asset) => {
             this.chartAssetData[asset.name] = {lvl: 0, color: ''};
             this.chartAssetData[asset.name].lvl = asset.lvl;
-            this.chartAssetData[asset.name].color = colorData[asset.name];
+            this.chartAssetData[asset.name]
+                .color = colorData.assets[asset.name];
         });
 
         // Update chart
@@ -186,7 +190,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     };
 
     updateChart = (chart: any, pannable: any) => {
-        const {data, colorData, chartSize} = this.props;
+        const {colorData, chartSize} = this.props;
 
         // ********** Update scale ********** //
 
@@ -218,7 +222,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
             .classed('vbar-series clearable', true)
             .merge(seriesU);
 
-        seriesUE.attr('fill', d => colorData[d.key]);  // Colorise series
+        seriesUE.attr('fill', d => colorData.assets[d.key]);  // Colorise series
 
         // Individual rect
 
@@ -257,10 +261,6 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         // Lines
 
-        /*pannable.select('.limit-lines')
-            .selectAll('path')
-            .remove();*/
-
         const pathU = pannable.selectAll('.limit-line')
             .data(lineData, d => d.name);
 
@@ -282,7 +282,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         pathUE.attr('d', d => d.d)
             .attr('transform', `translate(0, ${this.pannableSize.height})`)
             .attr('stroke-opacity', 0)
-            .attr('stroke', colorData['Remaining investment commitments'])
+            .attr('stroke', colorData.assets['Remaining investment commitments'])
             .attr('stroke-width', 5);
 
         const transPathUE = pathUE.transition().duration(500);
@@ -454,9 +454,9 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
     /** ********** TOOLTIP ********** **/
 
-    showTooltip = (d, i, nodes) => {
+    showTooltip = (d: any, i: number, nodes: any) => {
         const {colorData} = this.props;
-
+        console.log('showing chart tooltip');
         const parentNode = nodes[i].parentElement;
         const elRect = nodes[i].getBoundingClientRect();
 
@@ -467,11 +467,11 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
             if (className === 'asset-bar') {
                 name = parentNode.__data__.key;
                 amount = d[1] - d[0];
-                color = colorData[name];
+                color = colorData.assets[name];
             } else {
                 name = d.name;  // eslint-disable-line prefer-destructuring
                 amount = d.amount;  // eslint-disable-line prefer-destructuring
-                color = '#63201E';
+                color = colorData.assets['Remaining investment commitments'];
             }
 
             const ttText = `${name}: ${EN_UK.format('$,.0f')(amount)}`;

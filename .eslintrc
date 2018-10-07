@@ -43,6 +43,7 @@
       "error",
       120
     ],
+    "no-confusing-arrow": "off",
     "no-param-reassign": [
       "error",
       {

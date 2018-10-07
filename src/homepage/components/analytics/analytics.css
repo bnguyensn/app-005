@@ -1,0 +1,40 @@
+.assets-chart-container {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 320px;
+    height: 320px;
+}
+
+.assets-chart {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.assets-chart-tooltip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.assets-chart-tooltip > * {
+    text-align: center;
+}
+
+.assets-chart-tooltip-top, .assets-chart-tooltip-bot {
+    font-size: calc(1rem * (2 / 3));
+}
+
+.assets-chart-tooltip-mid {
+    font-weight: bold;
+    font-size: 0.75rem;
+}

@@ -1,6 +1,9 @@
 // @flow
 
-export type ColorData = {[key: string]: string}  // {asset name: color, ...}
+export type ColorData = {
+    assets: {[key: string]: string},  // {asset name: color, ...}
+    assetLvls: {[key: string]: string}  // {asset level: color, ...}
+}
 
 export type AssetData = {
     name: string,

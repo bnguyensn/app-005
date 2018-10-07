@@ -1,0 +1,14 @@
+{
+  "assets": {
+    "Cash": "#567e80",
+    "Uncalled investors' capital": "#618d8f",
+    "Debtors": "#566a80",
+    "Avg. annual investment distributions": "#595680",
+    "Remaining investment commitments": "#63201E"
+  },
+  "assetLvls": {
+    "1": "#4c6f71",
+    "2": "#4c5d71",
+    "3": "#4e4c71"
+  }
+}

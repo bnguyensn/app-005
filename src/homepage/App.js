@@ -12,8 +12,10 @@ import type {FundData, ColorData} from './components/DataTypes';
 
 import './app.css';
 
-import sampleData from './json/sample-01';
-import sampleColorData from './json/sample-colors-01';
+import defaultData from './json/default-data';
+import defaultColorData from './json/default-color-data';
+
+/** ********** CONFIGS ********** **/
 
 const chartMargin = {
     top: 50,
@@ -21,6 +23,7 @@ const chartMargin = {
     bottom: 50,
     left: 50,
 };
+
 const chartSize = {
     width: 640 - chartMargin.left - chartMargin.right,
     height: 640 - chartMargin.top - chartMargin.bottom,
@@ -29,6 +32,20 @@ const chartSize = {
     marginBottom: 50,
     marginLeft: 50,
 };
+
+const sunburstMargin = {top: 10, right: 10, bottom: 10, left: 10};
+
+const sunburstSize = {
+    margin: sunburstMargin,
+    width: 320 - sunburstMargin.left - sunburstMargin.right,
+    height: 320 - sunburstMargin.top - sunburstMargin.bottom,
+    get radius() {
+        return Math.min(this.width, this.height) / 2
+    },
+    scaleFactor: 2,
+};
+
+/** ********** COMPONENT ********** **/
 
 type AppStates = {
     chartKey: boolean,  // Used to "reset" page elements on data upload
@@ -56,14 +73,19 @@ const LoadableLegend = Loadable({
     loading: Loading,
 });
 
+const LoadableAnalytics = Loadable({
+    loader: () => import('./components/analytics/Analytics'),
+    loading: Loading,
+});
+
 export default class App extends React.PureComponent<{}, AppStates> {
     constructor(props: {}) {
         super(props);
         this.state = {
             chartKey: false,
-            data: [...sampleData],
-            mutatedData: [...sampleData],
-            colorData: sampleColorData,
+            data: [...defaultData],
+            mutatedData: [...defaultData],
+            colorData: defaultColorData,
             filterRange: {min: 0, max: 1},
             curHoveredAsset: '',
         };
@@ -72,7 +94,9 @@ export default class App extends React.PureComponent<{}, AppStates> {
     logStatusMsg = (msg: string | string[]) => {
         // Log status message for user
         if (Array.isArray(msg)) {
-            msg.forEach((m) => {console.log(m);});
+            msg.forEach((m) => {
+                console.log(m);
+            });
         } else {
             console.log(msg);
         }
@@ -148,8 +172,11 @@ export default class App extends React.PureComponent<{}, AppStates> {
     changeChartComponentColor = (asset: string, newColor: string) => {
         this.setState((prevState: AppStates) => ({
             colorData: {
-                ...prevState.colorData,
-                [asset]: newColor || prevState.colorData[asset],
+                assets: {
+                    ...prevState.colorData.assets,
+                    [asset]: newColor || prevState.colorData.assets[asset],
+                },
+                assetLvls: {...prevState.colorData.assetLvls},
             },
         }));
     };
@@ -161,21 +188,31 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
         return (
             <div id="app">
-                <Intro />
-                <LoadableControlPanel key={`CP-${chartKey.toString()}`}
-                                      logStatusMsg={this.logStatusMsg}
-                                      setNewData={this.setNewData}
-                                      filterData={this.filterData}
-                                      sortData={this.sortData} />
-                <LoadableChart key={`Ch-${chartKey.toString()}`}
-                               chartSize={chartSize}
-                               data={mutatedData}
-                               colorData={colorData}>
-                    <LoadableLegend key={`Le-${chartKey.toString()}`}
-                                    data={mutatedData}
-                                    colorData={colorData}
-                                    changeChartComponentColor={this.changeChartComponentColor} />
-                </LoadableChart>
+                <section>
+                    <Intro />
+                </section>
+                <section>
+                    <LoadableControlPanel key={`CP-${chartKey.toString()}`}
+                                          logStatusMsg={this.logStatusMsg}
+                                          setNewData={this.setNewData}
+                                          filterData={this.filterData}
+                                          sortData={this.sortData} />
+                </section>
+                <section>
+                    <LoadableAnalytics key={`An-${chartKey.toString()}`}
+                                       size={sunburstSize}
+                                       data={mutatedData[0]}
+                                       colorData={colorData} />
+                    <LoadableChart key={`Ch-${chartKey.toString()}`}
+                                   chartSize={chartSize}
+                                   data={mutatedData}
+                                   colorData={colorData}>
+                        <LoadableLegend key={`Le-${chartKey.toString()}`}
+                                        data={mutatedData}
+                                        colorData={colorData}
+                                        changeChartComponentColor={this.changeChartComponentColor} />
+                    </LoadableChart>
+                </section>
             </div>
         )
     }

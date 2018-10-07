@@ -46,12 +46,12 @@ export default class Legend extends React.PureComponent<LegendProps, LegendState
         const {data, colorData, changeChartComponentColor} = this.props;
         const {colorMenuShow, colorMenuPos, curAsset} = this.state;
 
-        const chartComponents = Object.keys(colorData);
-        const labels = chartComponents.length > 0
-            ? chartComponents.map(chartComponent => (
-                <Label key={chartComponent}
-                       color={colorData[chartComponent]}
-                       asset={chartComponent}
+        const thingsWithColors = Object.keys(colorData.assets);
+        const labels = thingsWithColors.length > 0
+            ? thingsWithColors.map(thingWithColor => (
+                <Label key={thingWithColor}
+                       color={colorData.assets[thingWithColor]}
+                       asset={thingWithColor}
                        toggleColorMenu={this.toggleColorMenu} />
             ))
             : [];

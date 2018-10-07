@@ -2,9 +2,9 @@
 
 #app {
     display: flex;
-    flex-flow: row wrap;
     align-items: flex-start;
     justify-content: center;
+    flex-flow: column;
 
     width: 1280px;
     padding: 1rem;
@@ -14,4 +14,12 @@
     #app {
         width: 100%;
     }
+}
+
+#app > section {
+    display: flex;
+    justify-content: space-evenly;
+
+    margin-bottom: 1rem;
+    width: 100%;
 }

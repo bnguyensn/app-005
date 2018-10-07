@@ -6,7 +6,7 @@ import ColorButton from './ColorButton';
 
 import getRandomColor from '../../lib/utils/getRandomColor';
 
-import defaultColorBank from '../../json/default-color-bank';
+import defaultColorBank from '../../json/default-color-bank-01';
 
 type ColorMenuProps = {
     show: boolean,

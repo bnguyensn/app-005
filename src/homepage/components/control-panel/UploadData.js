@@ -4,7 +4,10 @@ import * as React from 'react';
 
 import {isFileOfType} from '../../lib/utils/validation';
 import processXlsx from '../../lib/utils/xlsx/processXlsx';
-import createColorData from '../../lib/utils/xlsx/createColorData';
+import {
+    createAssetColorData,
+    createAssetLvlColorData,
+} from '../../lib/utils/xlsx/createColorData';
 
 import type {FundData} from '../DataTypes';
 
@@ -61,15 +64,38 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
                         if (DEBUG) {
                             console.log('Successfully read .xlsx. Result:');
                             console.log(processRes.data);
-                            console.log(JSON.stringify(processRes.data));
+                            // console.log(JSON.stringify(processRes.data));
                         }
 
-                        // Update color data using a sample fund
-                        const colorData = createColorData(
-                            processRes.data[0].assets,
+                        // Update color data using a sample fund data
+
+                        const assetLvlsObj = processRes.data[0].assets
+                            .reduce((acc, curVal) => {
+                                if (acc[curVal.lvl] === undefined) {
+                                    acc[curVal.lvl] = curVal.lvl;
+                                }
+                                return acc
+                            }, {});
+                        const colorDataAssetLvls = createAssetLvlColorData(
+                            Object.values(assetLvlsObj),
                         );
 
+                        const colorDataAssets = createAssetColorData(
+                            processRes.data[0].assets,
+                            colorDataAssetLvls,
+                        );
+
+                        const colorData = {
+                            assets: colorDataAssets,
+                            assetLvls: colorDataAssetLvls,
+                        };
+
+                        if (DEBUG) {
+                            console.log(JSON.stringify(colorData));
+                        }
+
                         // Update fund data
+
                         setNewData(processRes.data, colorData);
                     }
                 };
