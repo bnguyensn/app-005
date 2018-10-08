@@ -48,12 +48,15 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
         super(props);
         this.chartNodeRef = React.createRef();
 
+        const totalAssets = props.data ? props.data.totalAssets : 0;
+
         this.state = {
             curHovered: '',
             tooltipTexts: {
                 top: props.data
                     ? restrictTooltipNumberString(
-                        EN_UK.format('$,.0f')(props.data.totalAssets),
+                        EN_UK.format('$,.0f')(totalAssets),
+                        totalAssets,
                     )
                     : '',
                 mid: 'Total assets',
@@ -88,13 +91,15 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
             return
         }
 
-        if (data && prevData && prevData.id !== data.id) {
+        if ((data && !prevData)
+            || (data && prevData && prevData.id !== data.id)) {
             this.setState({
                 ...prevStates,
                 tooltipTexts: {
                     top: data
                         ? restrictTooltipNumberString(
                             EN_UK.format('$,.0f')(data.totalAssets),
+                            data.totalAssets,
                         )
                         : '',
                     mid: 'Total assets',
@@ -216,6 +221,7 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
 
                 const top = restrictTooltipNumberString(
                     EN_UK.format('$,.0f')(amount),
+                    amount,
                 );
 
                 const mid = restrictTooltipString(d.depth === 1
@@ -256,14 +262,15 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
                         tooltipTexts: {
                             top: restrictTooltipNumberString(
                                 EN_UK.format('$,.0f')(data.totalAssets),
+                                data.totalAssets,
                             ),
                             mid: 'Total assets',
                             bot: '',
                         },
                         tooltipColors: {
-                            name: '',
-                            amount: '',
-                            bottomText: '',
+                            topC: '',
+                            midC: '',
+                            botC: '',
                         },
                     });
                 }

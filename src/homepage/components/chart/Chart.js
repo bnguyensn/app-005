@@ -148,12 +148,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     handleNewDataset = () => {
         const {data, chartSize, colorData} = this.props;
 
-        this.pannableSize = {
-            width: data.length <= 10
-                ? chartSize.width
-                : 54 * data.length,
-            height: chartSize.height,
-        };
+
 
         // Warning: specific to data type
         // Create chart asset data which is an object of the form:
@@ -182,11 +177,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
             // Background
 
-            const bkgRect = pannable.insert('rect', ':first-child')
-                .classed('bkg-rect clearable', true)
-                .attr('width', this.pannableSize.width)
-                .attr('height', chartSize.height)
-                .attr('fill-opacity', 0);
+
 
             // Update chart
 
@@ -195,7 +186,22 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     };
 
     updateChart = (chart: any, pannable: any) => {
-        const {colorData, chartSize} = this.props;
+        const {data, colorData, chartSize} = this.props;
+
+        // ********** Update background ********** //
+
+        this.pannableSize = {
+            width: data.length <= 10
+                ? chartSize.width
+                : 54 * data.length,
+            height: chartSize.height,
+        };
+
+        const bkgRect = pannable.insert('rect', ':first-child')
+            .classed('bkg-rect clearable', true)
+            .attr('width', this.pannableSize.width)
+            .attr('height', chartSize.height)
+            .attr('fill-opacity', 0);
 
         // ********** Update scale ********** //
 
