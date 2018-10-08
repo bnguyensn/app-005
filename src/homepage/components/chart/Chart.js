@@ -33,6 +33,8 @@ type ChartProps = {
     },
     data: FundData[],
     colorData: ColorData,
+    mainChartElClickedFlag: boolean,
+    handleChartElClicked: (fundData: FundData) => void,
     children?: React.Node,
 };
 
@@ -116,12 +118,15 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
      * is provided. This is done via changing the "key" prop up in <App />.
      * */
     componentDidUpdate(prevProps: ChartProps, prevState: ChartStates, snapshot: any) {
+        const {mainChartElClickedFlag: prevMainChartElClickedFlag} = prevProps;
+        const {mainChartElClickedFlag} = this.props;
         const {tooltipChangeFlag: prevTooltipChangeFlag} = prevState;
         const {tooltipChangeFlag} = this.state;
 
-        if (tooltipChangeFlag === prevTooltipChangeFlag) {
-            // Component did not update due to tooltip state changes
+        const tooltipChanged = tooltipChangeFlag !== prevTooltipChangeFlag;
+        const mainChartElClicked = mainChartElClickedFlag !== prevMainChartElClickedFlag;
 
+        if (!tooltipChanged && !mainChartElClicked) {
             // Update chart
 
             const chartNode = this.getChart();
@@ -239,6 +244,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         rectX.on('mouseenter', null);
         rectX.on('mouseleave', null);
+        rectX.on('click', null);
 
         const rectE = rectU.enter();
 
@@ -254,6 +260,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         rectUE.on('mouseenter', this.showTooltip);
         rectUE.on('mouseleave', this.hideTooltip);
+        rectUE.on('click', this.handleChartElClicked);
 
         // ********** Update limiter line ********** //
 
@@ -273,6 +280,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         pathX.on('mouseenter', null);
         pathX.on('mouseleave', null);
+        pathX.on('click', null);
 
         const pathE = pathU.enter();
 
@@ -291,6 +299,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
         pathUE.on('mouseenter', this.showTooltip);
         pathUE.on('mouseleave', this.hideTooltip);
+        pathUE.on('click', this.handleChartElClicked);
     };
 
     /** ********** SCALES ********** **/
@@ -355,6 +364,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
             fundData.assets.forEach((asset) => {
                 fundObj[asset.name] = asset.amt;
             });
+            fundObj.fundData = fundData;
             return fundObj
         });
 
@@ -400,6 +410,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                 name: 'Remaining investment commitments',
                 amount: fundData.remFCom,
                 points,
+                fundData,
                 d: this.lineGen(points),
             }
         });
@@ -452,11 +463,23 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         this.mouseXY.y = clientY;
     };
 
+    /** ********** CLICKING ********** **/
+
+    handleChartElClicked = (d: any, i: number, nodes: any) => {
+        const {handleChartElClicked} = this.props;
+
+        if (d.data.fundData) {
+            handleChartElClicked(d.data.fundData);
+        } else if (d.fundData) {
+            handleChartElClicked(d.fundData);
+        }
+    };
+
     /** ********** TOOLTIP ********** **/
 
     showTooltip = (d: any, i: number, nodes: any) => {
         const {colorData} = this.props;
-        console.log('showing chart tooltip');
+
         const parentNode = nodes[i].parentElement;
         const elRect = nodes[i].getBoundingClientRect();
 

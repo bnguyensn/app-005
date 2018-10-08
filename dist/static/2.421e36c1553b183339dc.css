@@ -3,37 +3,43 @@
   align-items: center;
   flex-flow: column wrap;
   margin: 0 1rem 0 0;
-  width: 320px;
+  width: 640px;
   padding: .5rem;
   background-color: #DBC4B0;
   border-radius: 5px; }
 
-@media only screen and (max-width: 1279px) and (min-width: 687px) {
-  #control-panel {
-    margin: 0 0 1rem 0;
-    width: 640px; } }
+/*@media only screen and (max-width: 1279px) and (min-width: 687px) {
+    #control-panel {
+        margin: 0 0 1rem 0;
+        width: 640px;
+    }
+}
 
 @media only screen and (max-width: 687px) {
-  #control-panel {
-    margin: 0 0 1rem 0;
-    width: 100%; } }
-
+    #control-panel {
+        margin: 0 0 1rem 0;
+        width: 100%;
+    }
+}*/
 .cp-section {
   display: flex;
-  flex-flow: column nowrap; }
+  flex-flow: row nowrap; }
 
 .cp-section:first-child {
   margin-bottom: .5rem; }
 
 .cp-section > *:not(:first-child) {
-  margin-top: .5rem; }
+  margin-top: 0; }
 
-@media only screen and (max-width: 1279px) {
-  .cp-section {
-    flex-flow: row nowrap; }
-  .cp-section > *:not(:first-child) {
-    margin-top: 0; } }
+/*@media only screen and (max-width: 1279px) {
+    .cp-section {
+        flex-flow: row nowrap;
+    }
 
+    .cp-section > *:not(:first-child) {
+        margin-top: 0;
+    }
+}*/
 .cp-section .title {
   text-align: center;
   -webkit-user-select: none;

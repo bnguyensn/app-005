@@ -43,7 +43,6 @@ type AssetsChartStates = {
 
 export default class AssetsChart extends React.PureComponent<AssetsChartProps, AssetsChartStates> {
     chartNodeRef: any;
-    defaultTooltipTexts: {top: string, mid: string, bot: string};
 
     constructor(props: AssetsChartProps) {
         super(props);
@@ -52,9 +51,11 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
         this.state = {
             curHovered: '',
             tooltipTexts: {
-                top: restrictTooltipNumberString(
-                    EN_UK.format('$,.0f')(props.data.totalAssets),
-                ),
+                top: props.data
+                    ? restrictTooltipNumberString(
+                        EN_UK.format('$,.0f')(props.data.totalAssets),
+                    )
+                    : '',
                 mid: 'Total assets',
                 bot: '',
             },
@@ -67,29 +68,42 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
     }
 
     componentDidMount() {
+        console.log('assets chart did mount');
+
+        const {data} = this.props;
         const chartNode = this.getChartNode();
-        if (chartNode) {
+        if (chartNode && data) {
             const chart = select(chartNode);
             this.updateChart(chart);
         }
     }
 
     componentDidUpdate(prevProps: AssetsChartProps, prevStates: AssetsChartStates, snapshot: any) {
+        console.log('assets chart did update');
+
         const {data} = this.props;
         const {data: prevData} = prevProps;
 
-        if (prevData.totalAssets !== data.totalAssets) {
+        if (!prevData && !data) {
+            return
+        }
+
+        if (data && prevData && prevData.id !== data.id) {
             this.setState({
                 ...prevStates,
                 tooltipTexts: {
-                    top: restrictTooltipNumberString(
-                        EN_UK.format('$,.0f')(data.totalAssets),
-                    ),
+                    top: data
+                        ? restrictTooltipNumberString(
+                            EN_UK.format('$,.0f')(data.totalAssets),
+                        )
+                        : '',
                     mid: 'Total assets',
                     bot: '',
                 },
             });
-        } else {
+        }
+
+        if (data) {
             const chartNode = this.getChartNode();
             if (chartNode) {
                 const chart = select(chartNode);
@@ -193,62 +207,66 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
         const {data, colorData} = this.props;
         const {curHovered} = this.state;
 
-        const name = d.data.name;  // eslint-disable-line prefer-destructuring
+        if (data) {
+            const name = d.data.name;  // eslint-disable-line prefer-destructuring
 
-        if (!curHovered || name !== curHovered) {
-            const amount = d.value;  // eslint-disable-line prefer-destructuring
-            const p = ((amount / data.totalAssets) * 100).toFixed(0);
+            if (!curHovered || name !== curHovered) {
+                const amount = d.value;  // eslint-disable-line prefer-destructuring
+                const p = ((amount / data.totalAssets) * 100).toFixed(0);
 
-            const top = restrictTooltipNumberString(
-                EN_UK.format('$,.0f')(amount),
-            );
+                const top = restrictTooltipNumberString(
+                    EN_UK.format('$,.0f')(amount),
+                );
 
-            const mid = restrictTooltipString(d.depth === 1
-                ? `${name} assets`
-                : name);
+                const mid = restrictTooltipString(d.depth === 1
+                    ? `${name} assets`
+                    : name);
 
-            const bot = `${p}% of fund's total assets`;
+                const bot = `${p}% of fund's total assets`;
 
-            this.setState({
-                curHovered: name,
-                tooltipTexts: {top, mid, bot},
-                tooltipColors: {
-                    topC: '',
-                    midC: d.depth === 1
-                        ? colorData.assetLvls[d.data.lvl]
-                        : colorData.assets[name],
-                    botC: '',
-                },
-            });
+                this.setState({
+                    curHovered: name,
+                    tooltipTexts: {top, mid, bot},
+                    tooltipColors: {
+                        topC: '',
+                        midC: d.depth === 1
+                            ? colorData.assetLvls[d.data.lvl]
+                            : colorData.assets[name],
+                        botC: '',
+                    },
+                });
+            }
         }
     };
 
     hideTooltip = () => {
         const {data} = this.props;
 
-        const relTarget = event.relatedTarget;
+        if (data) {
+            const relTarget = event.relatedTarget;
 
-        if (relTarget) {
-            const relTargetClass = relTarget.getAttribute('class');
+            if (relTarget) {
+                const relTargetClass = relTarget.getAttribute('class');
 
-            // Only need to hide tooltip if not moving to another asset bar
+                // Only need to hide tooltip if not moving to another asset bar
 
-            if (relTargetClass !== 'asset-arc') {
-                this.setState({
-                    curHovered: '',
-                    tooltipTexts: {
-                        top: restrictTooltipNumberString(
-                            EN_UK.format('$,.0f')(data.totalAssets),
-                        ),
-                        mid: 'Total assets',
-                        bot: '',
-                    },
-                    tooltipColors: {
-                        name: '',
-                        amount: '',
-                        bottomText: '',
-                    },
-                });
+                if (relTargetClass !== 'asset-arc') {
+                    this.setState({
+                        curHovered: '',
+                        tooltipTexts: {
+                            top: restrictTooltipNumberString(
+                                EN_UK.format('$,.0f')(data.totalAssets),
+                            ),
+                            mid: 'Total assets',
+                            bot: '',
+                        },
+                        tooltipColors: {
+                            name: '',
+                            amount: '',
+                            bottomText: '',
+                        },
+                    });
+                }
             }
         }
     };
@@ -256,6 +274,8 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
     /** ********** RENDER ********** **/
 
     render() {
+        console.log('assets chart render');
+
         const {size, data} = this.props;
         const {tooltipTexts, tooltipColors} = this.state;
 
@@ -265,7 +285,7 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
         const chartOffsetX = (size.width / 2) + size.margin.left;
         const chartOffsetY = (size.height / 2) + size.margin.top;
 
-        const tooltipSize = {
+        const ttBoxSize = {
             ...size,
             width: size.width / 2,
             height: size.height / 2,
@@ -273,12 +293,16 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
 
         return (
             <div className="assets-chart-container">
-                <AssetsChartTooltip size={tooltipSize}
-                                    texts={tooltipTexts}
-                                    textColors={tooltipColors} />
                 {data
                     ? (
-                        <svg className="assets-chart"
+                        <AssetsChartTooltip size={ttBoxSize}
+                                            texts={tooltipTexts}
+                                            textColors={tooltipColors} />
+                    )
+                    : null}
+                {data
+                    ? (
+                        <svg className="assets-chart-svg"
                              width={svgWidth}
                              height={svgHeight}>
                             <g ref={this.chartNodeRef}

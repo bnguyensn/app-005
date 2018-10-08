@@ -1,0 +1,83 @@
+/** ********** LEGEND BOX ********** **/
+#legend {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  max-width: 640px;
+  padding: .5rem; }
+
+/** ********** LABEL ********** **/
+.legend-label {
+  display: flex;
+  margin: .25rem;
+  /*width: calc(50% - .25rem * 2);*/ }
+
+.legend-label-color-square {
+  margin-right: .25rem;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid transparent;
+  cursor: pointer; }
+
+.legend-label-color-square:hover {
+  border-color: #212121; }
+
+.legend-label-text {
+  flex-grow: 1;
+  font-size: .75rem;
+  word-wrap: break-word;
+  /*word-break: break-all;*/
+  -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+          hyphens: auto; }
+
+/** ********** COLOR MENU ********** **/
+.legend-color-menu {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column nowrap;
+  width: 15rem;
+  height: 5rem;
+  /*border: 1px solid #212121;*/
+  padding: .25rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px #424242;
+  background-color: #dbc4b0;
+  text-align: center;
+  font-size: .75rem;
+  -webkit-transform: translate(0, calc(-5rem - 10px));
+          transform: translate(0, calc(-5rem - 10px)); }
+
+/** ***** COLOR MENU PRESET COLOR BUTTONS ***** **/
+.legend-color-menu-color-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: row wrap;
+  margin: .25rem 0 .25rem 0; }
+
+.legend-color-menu-color-btn {
+  margin: .25rem;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid transparent;
+  cursor: pointer; }
+
+.legend-color-menu-color-btn:hover {
+  border-color: #212121; }
+
+/** ***** COLOR MENU COLOR STRING INPUT ***** **/
+.legend-color-menu-color-input {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.legend-color-menu-color-input-input {
+  margin: .25rem;
+  font-family: inherit;
+  font-size: .75rem; }
+

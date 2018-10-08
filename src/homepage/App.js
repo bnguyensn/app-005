@@ -5,7 +5,7 @@ import Loadable from 'react-loadable';
 
 import Loading from './components/Loading';
 import Intro from './components/Intro';
-
+import {mainChartSize, assetsChartSize} from './components/chartSizes';
 import {filterData, sortData} from './lib/utils/dataMutation';
 
 import type {FundData, ColorData} from './components/DataTypes';
@@ -14,38 +14,6 @@ import './app.css';
 
 import defaultData from './json/default-data';
 import defaultColorData from './json/default-color-data';
-
-/** ********** CONFIGS ********** **/
-
-const chartMargin = {
-    top: 50,
-    right: 50,
-    bottom: 50,
-    left: 50,
-};
-
-const chartSize = {
-    width: 640 - chartMargin.left - chartMargin.right,
-    height: 640 - chartMargin.top - chartMargin.bottom,
-    marginTop: 50,
-    marginRight: 50,
-    marginBottom: 50,
-    marginLeft: 50,
-};
-
-const sunburstMargin = {top: 10, right: 10, bottom: 10, left: 10};
-
-const sunburstSize = {
-    margin: sunburstMargin,
-    width: 320 - sunburstMargin.left - sunburstMargin.right,
-    height: 320 - sunburstMargin.top - sunburstMargin.bottom,
-    get radius() {
-        return Math.min(this.width, this.height) / 2
-    },
-    scaleFactor: 2,
-};
-
-/** ********** COMPONENT ********** **/
 
 type AppStates = {
     chartKey: boolean,  // Used to "reset" page elements on data upload
@@ -56,6 +24,9 @@ type AppStates = {
     filterRange: {min: number, max: number},
 
     curHoveredAsset: string,
+
+    mainChartElClickedFlag: boolean,
+    lastClickedFundData: ?FundData,
 }
 
 const LoadableControlPanel = Loadable({
@@ -88,6 +59,9 @@ export default class App extends React.PureComponent<{}, AppStates> {
             colorData: defaultColorData,
             filterRange: {min: 0, max: 1},
             curHoveredAsset: '',
+
+            mainChartElClickedFlag: false,
+            lastClickedFundData: null,
         };
     }
 
@@ -113,6 +87,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
             mutatedData: [...data],
             colorData: {...colorData},
             filterRange: {min: 0, max: 1},
+            lastClickedFundData: null,
         }));
     };
 
@@ -181,8 +156,19 @@ export default class App extends React.PureComponent<{}, AppStates> {
         }));
     };
 
+    handleChartElClicked = (fundData: FundData) => {
+        // console.log(JSON.stringify(fundData));
+        this.setState((prevState: AppStates) => ({
+            mainChartElClickedFlag: !prevState.mainChartElClickedFlag,
+            lastClickedFundData: {...fundData},
+        }));
+    };
+
     render() {
-        const {chartKey, mutatedData, colorData} = this.state;
+        const {
+            chartKey, mutatedData, colorData, mainChartElClickedFlag,
+            lastClickedFundData,
+        } = this.state;
 
         // Note that keys MUST be unique among siblings
 
@@ -200,13 +186,15 @@ export default class App extends React.PureComponent<{}, AppStates> {
                 </section>
                 <section>
                     <LoadableAnalytics key={`An-${chartKey.toString()}`}
-                                       size={sunburstSize}
-                                       data={mutatedData[0]}
+                                       size={assetsChartSize}
+                                       data={lastClickedFundData}
                                        colorData={colorData} />
                     <LoadableChart key={`Ch-${chartKey.toString()}`}
-                                   chartSize={chartSize}
+                                   chartSize={mainChartSize}
                                    data={mutatedData}
-                                   colorData={colorData}>
+                                   colorData={colorData}
+                                   mainChartElClickedFlag={mainChartElClickedFlag}
+                                   handleChartElClicked={this.handleChartElClicked}>
                         <LoadableLegend key={`Le-${chartKey.toString()}`}
                                         data={mutatedData}
                                         colorData={colorData}

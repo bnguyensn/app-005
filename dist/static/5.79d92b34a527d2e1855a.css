@@ -1,0 +1,92 @@
+#analytics {
+  display: flex;
+  align-items: center;
+  flex-direction: column; }
+
+/** ********** DESCRIPTION ********** **/
+#analytics > .title {
+  margin-bottom: .5rem; }
+
+#analytics > .subtitle {
+  margin-bottom: .5rem;
+  font-size: .75rem;
+  text-decoration: underline; }
+
+#analytics > .fund-title {
+  margin-bottom: .5rem;
+  font-weight: bold;
+  font-size: 1.25rem; }
+
+/** ********** GOING CONCERN ********** **/
+.gc-chart-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  width: 320px;
+  height: 320px; }
+
+.gc-chart-svg, .gc-chart {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.gc-chart-tooltip {
+  /*position: absolute;*/
+  /*top: 50%;*/
+  /*left: 50%;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
+  font-size: 0.75rem; }
+
+.gc-chart-tooltip-text {
+  text-align: center;
+  font-weight: normal;
+  font-size: 0.75rem; }
+
+.gc-chart-empty {
+  margin: 1rem 0 1rem 0;
+  width: 320px;
+  text-align: center;
+  font-size: 0.75rem; }
+
+/** ********** ASSETS CHART ********** **/
+.assets-chart-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 320px;
+  height: 320px; }
+
+.assets-chart.svg, .assets-chart {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+.assets-chart-tooltip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; }
+
+.assets-chart-tooltip > * {
+  text-align: center; }
+
+.assets-chart-tooltip-top, .assets-chart-tooltip-bot {
+  font-size: calc(1rem * (2 / 3)); }
+
+.assets-chart-tooltip-mid {
+  font-weight: bold;
+  font-size: 0.75rem; }
+
+.assets-chart-empty {
+  margin-top: 1rem;
+  width: 320px;
+  text-align: center;
+  font-size: 0.75rem; }
+
