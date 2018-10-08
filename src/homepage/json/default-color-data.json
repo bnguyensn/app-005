@@ -1,9 +1,11 @@
 {
   "assets": {
     "Cash": "#567e80",
-    "Uncalled investors' capital": "#618d8f",
+    "Very liquid asset": "#618d8f",
     "Debtors": "#566a80",
+    "Uncalled investors' capital": "#61768f",
     "Avg. annual investment distributions": "#595680",
+    "Sellable derivatives": "#63618f",
     "Remaining investment commitments": "#63201E"
   },
   "assetLvls": {
