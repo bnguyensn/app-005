@@ -23,8 +23,6 @@ type AppStates = {
 
     filterRange: {min: number, max: number},
 
-    curHoveredAsset: string,
-
     mainChartElClickedFlag: boolean,
     lastClickedFundData: ?FundData,
 }
@@ -58,7 +56,6 @@ export default class App extends React.PureComponent<{}, AppStates> {
             mutatedData: [...defaultData],
             colorData: defaultColorData,
             filterRange: {min: 0, max: 1},
-            curHoveredAsset: '',
 
             mainChartElClickedFlag: false,
             lastClickedFundData: null,
@@ -108,7 +105,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
      * When sorting data, we should sort the unfiltered data to prevent data
      * jumping around when filters are unset
      * */
-    sortData = (sortKey: string) => {
+    sortData = (sortKey: string, asc: boolean) => {
         const {data, mutatedData, filterRange} = this.state;
 
         /*const sortedData = sortData(data, sortKey);
@@ -125,9 +122,11 @@ export default class App extends React.PureComponent<{}, AppStates> {
         if (data[0].sortIndices[sortKey]) {
             // Sort index exists
 
+            const dir = asc ? 'asc' : 'des';
+
             const sortedData = [];
             data.forEach((fundData) => {
-                sortedData[fundData.sortIndices[sortKey]] = {...fundData};
+                sortedData[fundData.sortIndices[sortKey][dir]] = {...fundData};
             });
 
             const nextMutatedData = filterData(sortedData, mutatedData,
@@ -138,10 +137,6 @@ export default class App extends React.PureComponent<{}, AppStates> {
                 mutatedData: nextMutatedData || prevState.mutatedData,
             }));
         }
-    };
-
-    updateCurHoveredAsset = (asset: string) => {
-
     };
 
     changeChartComponentColor = (asset: string, newColor: string) => {

@@ -25,11 +25,11 @@ export function filterData(
     return null
 }
 
-export function sortData<T>(
-    data: T[],
+export function sortData(
+    data: {[key: string]: any}[],
     sortKey: string,
     asc?: boolean = true,  // Ascending flag
-): T[] | null {
+): {[key: string]: any}[] | null {
     // Create a dummy fund data for certain checks within this function
 
     const sampleFundData = data[0];

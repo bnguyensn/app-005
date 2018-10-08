@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 type SortChartProps = {
-    sortData: (sortKey: string) => void,
+    sortData: (sortKey: string, asc: boolean) => void,
 };
 
 export default class Sort extends React.PureComponent<SortChartProps, {}> {
@@ -11,9 +11,10 @@ export default class Sort extends React.PureComponent<SortChartProps, {}> {
         const {sortData} = this.props;
 
         const selectedVal = e.target.value;
-        const selectedDispVal = e.target.options[e.target.selectedIndex].text;
+        const asc = selectedVal.slice(0, 1) === 'a';
+        const sortKey = selectedVal.slice(2);
 
-        sortData(selectedVal);
+        sortData(sortKey, asc);
     };
 
     render() {
@@ -34,10 +35,14 @@ export default class Sort extends React.PureComponent<SortChartProps, {}> {
                             draggable={false}
                             onChange={this.handleSelect}>
                         <option value="n/a">-- Select a sort option --</option>
-                        <option value="name">Fund name</option>
-                        <option value="goingConcern">Going concern</option>
-                        <option value="remFCom">Remaining calls from investments</option>
-                        <option value="totalAssets">Total assets</option>
+                        <option value="a_name">Fund name (asc.)</option>
+                        <option value="d_name">Fund name (desc.)</option>
+                        <option value="a_goingConcern">Going concern (asc.)</option>
+                        <option value="d_goingConcern">Going concern (desc.)</option>
+                        <option value="a_remFCom">Remaining calls from investments (asc)</option>
+                        <option value="d_remFCom">Remaining calls from investments (desc.)</option>
+                        <option value="a_totalAssets">Total assets (asc.)</option>
+                        <option value="d_totalAssets">Total assets (desc.)</option>
                     </select>
                 </label>
             </div>

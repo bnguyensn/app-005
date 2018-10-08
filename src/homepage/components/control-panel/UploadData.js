@@ -64,7 +64,7 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
                         if (DEBUG) {
                             console.log('Successfully read .xlsx. Result:');
                             console.log(processRes.data);
-                            // console.log(JSON.stringify(processRes.data));
+                            console.log(JSON.stringify(processRes.data));
                         }
 
                         // Update color data using a sample fund data

@@ -35,7 +35,7 @@ export default class Analytics extends React.PureComponent<AnalyticsProps, {}> {
             }
 
             tempTTText = `${data.name}'s going concern ratio is ${data.goingConcern.toFixed(2)} `
-                + `(ranked #${data.sortIndices.goingConcern + 1}). This ${conclusion}`;
+                + `(ranked #${data.sortIndices.goingConcern.des + 1}). This ${conclusion}`;
         }
 
         return (

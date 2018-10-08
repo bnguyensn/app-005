@@ -14,7 +14,7 @@ type ControlPanelProps = {
     logStatusMsg: (msg: string) => void,
     setNewData: (data: FundData[]) => void,
     filterData: (min: number, max: number) => void,
-    sortData: (sortKey: string) => void,
+    sortData: (sortKey: string, asc: boolean) => void,
 };
 
 export default class ControlPanel extends React.PureComponent<ControlPanelProps, {}> {

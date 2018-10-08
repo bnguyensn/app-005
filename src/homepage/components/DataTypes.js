@@ -24,6 +24,6 @@ export type FundData = {
     remFCom: number,  // Fund's remaining investment commitments not yet called
     goingConcern: number,  // Ratio of totalAssets / remFCom
 
-    // Ranking of this fund in whatever field there is
-    sortIndices: {[key: string]: number},
+    // Ranking of this fund in whatever field (sortKey) there is
+    sortIndices: {[key: string]: {asc: number, des: number}},
 };

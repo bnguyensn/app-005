@@ -22,8 +22,6 @@ export default function refineFundData(fundSheetData: any[],
         ? fundSheetData[0].filter((v, colIndex) => colIndex >= assetIndexStart)
         : [];
 
-    console.log(`assetNames = ${assetNames}`);
-
     // ********** Create asset levels object ********** //
     // Type: {assetName: assetLvl, ...}
 
@@ -36,9 +34,9 @@ export default function refineFundData(fundSheetData: any[],
             assetLevels[assetName] = assetLvl;
         });
 
-    // ********** Create refined fund data ********** //
+    // ********** Create refined fund data (no sort indices yet) ********** //
 
-    const fundData = fundSheetData
+    const fundDataNoSortIndices = fundSheetData
         .filter((fundData, rowIndex) => rowIndex > 0)
         .map((fundData, rowIndex) => {
             // Create a short display name for the fund in case its name is too
@@ -88,36 +86,65 @@ export default function refineFundData(fundSheetData: any[],
                 totalAssets,
                 remFCom,
                 goingConcern,
-                sortIndices: {},
+                sortIndices: {
+                    name: {asc: 0, des: 0},
+                    goingConcern: {asc: 0, des: 0},
+                    remFCom: {asc: 0, des: 0},
+                    totalAssets: {asc: 0, des: 0},
+                },
             }
         });
 
-    // Create sort indices
+    // ********** Create sort indices ********** //
 
-    const sortKeys = ['name', 'goingConcern', 'remFCom', 'totalAssets'];
+    // Sort indices Type: {a_IndexA: number, d_IndexA: number, ...}
 
-    const sortedArrs = sortKeys.map((sortKey) => {
-        const arrToSort = fundData.map(f => ({
-            ogIndex: f.id,
+    const sortKeys = Object.keys(fundDataNoSortIndices[0].sortIndices);
+
+    // Generate a sort array object for N sortKey. The sort array object
+    // contains N number of fund object arrays, which in turn contains sorting
+    // information for each fund.
+    // Type: {sortKey: [fundObj, ...], ...}
+
+    const sortArrsObj = sortKeys.reduce((acc, sortKey) => {
+        acc[sortKey] = fundDataNoSortIndices.map(f => ({
+            id: f.id,
             k: sortKey,
-            [sortKey]: f[sortKey],
+            value: f[sortKey],
         }));
+        return acc
+    }, {});
 
-        // Will return null if cannot sort
-        const sortedArr = sortKey !== 'goingConcern'
-            ? sortData(arrToSort, sortKey)
-            : sortData(arrToSort, sortKey, false);
+    // Sort the each fund object array in sortArrsObj, creating an object
+    // containing an ascending sort and a descending sort array for each
+    // sortKey.
 
-        return sortedArr || arrToSort
-    });
+    const sortedArrsObj = Object.keys(sortArrsObj).reduce((acc, sortKey) => {
+        const sortedAsc = sortData(sortArrsObj[sortKey], 'value', true)
+            || sortArrsObj[sortKey];
+        const sortedDes = [...sortedAsc].reverse();
+        acc[sortKey] = {
+            asc: sortedAsc,
+            des: sortedDes,
+        };
+        return acc
+    }, {});
 
-    // Warning: fundData mutation below
-    sortedArrs.forEach((sortedArr) => {
-        sortedArr.forEach((obj, i) => {
-            const {ogIndex, k} = obj;
-            fundData[ogIndex].sortIndices[k] = i;
+    // Finally, bring sortedArrsObj into fundDataNoSortIndices
+
+    Object.keys(sortedArrsObj).forEach((sortKey) => {
+        const sortedAsc = sortedArrsObj[sortKey].asc;
+        const sortedDes = sortedArrsObj[sortKey].des;
+
+        sortedAsc.forEach((f, i) => {
+            fundDataNoSortIndices[f.id].sortIndices[sortKey].asc = i;
+        });
+        sortedDes.forEach((f, i) => {
+            fundDataNoSortIndices[f.id].sortIndices[sortKey].des = i;
         });
     });
 
-    return fundData
+    // ********** End of refinement ********** //
+
+    return fundDataNoSortIndices
 }
