@@ -107,7 +107,6 @@ export default class App extends React.PureComponent<{}, AppStates> {
     };
 
     getNextFilteredData = (data: FundData[], indices: number[]) => {
-
         let nextMutatedData = [];
 
         if (indices.length > 0) {

@@ -474,7 +474,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     handleChartElClicked = (d: any, i: number, nodes: any) => {
         const {handleChartElClicked} = this.props;
 
-        if (d.data.fundData) {
+        if (d.data && d.data.fundData) {
             handleChartElClicked(d.data.fundData);
         } else if (d.fundData) {
             handleChartElClicked(d.fundData);

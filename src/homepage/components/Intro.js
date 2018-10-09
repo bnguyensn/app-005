@@ -11,7 +11,7 @@ export default function Intro() {
                 INVESTMENT FUND OVERCOMMITMENT CHARTING TOOL
             </div>
             <div className="subtitle">
-                by Binh Nguyen
+                A D3.js / SheetJS / React tech demo by Binh Nguyen
             </div>
             <div className="description">
                 {"A common assessment of an investment fund's going concern"
