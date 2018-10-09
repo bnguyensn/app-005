@@ -228,9 +228,10 @@ export const ASSET_SHEET_ASSET_WEIGHTING: ValidationData[] = [
                 + `${colNumToColName(colIndex)}${rowIndex + 1} is not numeric.`
         }
 
-        if (intAmount < 0) {
+        if (intAmount < 0 || intAmount > 1) {
             return `Asset weighting '${amount}' at cell `
-                + `${colNumToColName(colIndex)}${rowIndex + 1} is less than 0.`
+                + `${colNumToColName(colIndex)}${rowIndex + 1} is not between `
+                + '0 and 1.'
         }
 
         return ''
