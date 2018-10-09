@@ -9,17 +9,24 @@ import Filter from './Filter';
 import type {FundData} from '../DataTypes';
 
 import './control-panel.css';
+import FilterTextInput from './FilterTextInput';
+import SortSelection from './SortSelection';
 
 type ControlPanelProps = {
+    fundsCount: number,
     logStatusMsg: (msg: string) => void,
     setNewData: (data: FundData[]) => void,
     filterData: (min: number, max: number) => void,
+    filterData2: (indices: number[]) => void,
     sortData: (sortKey: string, asc: boolean) => void,
 };
 
 export default class ControlPanel extends React.PureComponent<ControlPanelProps, {}> {
     render() {
-        const {logStatusMsg, setNewData, sortData, filterData} = this.props;
+        const {
+            fundsCount, logStatusMsg, setNewData, sortData, filterData,
+            filterData2,
+        } = this.props;
 
         return (
             <div id="control-panel">
@@ -27,11 +34,17 @@ export default class ControlPanel extends React.PureComponent<ControlPanelProps,
                     <UploadData logStatusMsg={logStatusMsg}
                                 setNewData={setNewData} />
                 </section>
+
                 <section className="cp-section">
                     <Filter filterData={filterData} />
-                    <Sort sortData={sortData} />
+                    <Sort />
                 </section>
 
+                <section className="cp-section">
+                    <FilterTextInput filterData2={filterData2}
+                                     fundsCount={fundsCount} />
+                    <SortSelection sortData={sortData} />
+                </section>
             </div>
         )
     }

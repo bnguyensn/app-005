@@ -21,6 +21,7 @@ type AppStates = {
     mutatedData: FundData[],
     colorData: ColorData,
 
+    filterIndices: number[],
     filterRange: {min: number, max: number},
 
     mainChartElClickedFlag: boolean,
@@ -55,6 +56,9 @@ export default class App extends React.PureComponent<{}, AppStates> {
             data: [...defaultData],
             mutatedData: [...defaultData],
             colorData: defaultColorData,
+
+            // filterIndices contains all of data's indices initially
+            filterIndices: Array.from(Array(defaultData.length).keys()),
             filterRange: {min: 0, max: 1},
 
             mainChartElClickedFlag: false,
@@ -83,6 +87,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
             data: [...data],
             mutatedData: [...data],
             colorData: {...colorData},
+            filterIndices: Array.from(Array(defaultData.length).keys()),
             filterRange: {min: 0, max: 1},
             lastClickedFundData: null,
         }));
@@ -101,12 +106,42 @@ export default class App extends React.PureComponent<{}, AppStates> {
         }
     };
 
+    getNextFilteredData = (data: FundData[], indices: number[]) => {
+
+        let nextMutatedData = [];
+
+        if (indices.length > 0) {
+            indices.forEach((index) => {
+                nextMutatedData.push(data[index]);
+            });
+        } else {
+            nextMutatedData = [...data];
+        }
+
+        return nextMutatedData
+    };
+
+    filterData2 = (indices: number[]) => {
+        const {data, filterIndices} = this.state;
+
+        console.log(indices);
+
+        // Only re-set state if filter changes
+        if (indices.length === 0
+            || indices.some((index, i) => index !== filterIndices[i])) {
+            this.setState({
+                mutatedData: this.getNextFilteredData(data, indices),
+                filterIndices: [...indices],
+            });
+        }
+    };
+
     /**
      * When sorting data, we should sort the unfiltered data to prevent data
      * jumping around when filters are unset
      * */
     sortData = (sortKey: string, asc: boolean) => {
-        const {data, mutatedData, filterRange} = this.state;
+        const {data, mutatedData, filterIndices} = this.state;
 
         /*const sortedData = sortData(data, sortKey);
         if (sortedData) {
@@ -129,8 +164,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
                 sortedData[fundData.sortIndices[sortKey][dir]] = {...fundData};
             });
 
-            const nextMutatedData = filterData(sortedData, mutatedData,
-                filterRange.min, filterRange.max, true);
+            const nextMutatedData = this.getNextFilteredData(sortedData, filterIndices);
 
             this.setState(prevState => ({
                 data: [...sortedData],
@@ -161,7 +195,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
     render() {
         const {
-            chartKey, mutatedData, colorData, mainChartElClickedFlag,
+            chartKey, data, mutatedData, colorData, mainChartElClickedFlag,
             lastClickedFundData,
         } = this.state;
 
@@ -174,9 +208,11 @@ export default class App extends React.PureComponent<{}, AppStates> {
                 </section>
                 <section>
                     <LoadableControlPanel key={`CP-${chartKey.toString()}`}
+                                          fundsCount={data.length}
                                           logStatusMsg={this.logStatusMsg}
                                           setNewData={this.setNewData}
                                           filterData={this.filterData}
+                                          filterData2={this.filterData2}
                                           sortData={this.sortData} />
                 </section>
                 <section>

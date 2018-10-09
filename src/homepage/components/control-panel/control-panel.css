@@ -28,7 +28,10 @@
 
 .cp-section {
     display: flex;
+    justify-content: center;
     flex-flow: row nowrap;
+
+    width: 100%;
 }
 
 .cp-section:first-child {
@@ -101,8 +104,16 @@
 
 /** ***** FILTER ***** **/
 
-#cp-filter {
+.cp-filter {
     flex: 1 1 0;
+
+    padding: .25rem;
+}
+
+.cp-filter-text-input-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: .75rem;
 }
 
 .cp-filter-slider {
@@ -135,11 +146,13 @@
 
 /** ***** SORT ***** **/
 
-#cp-sort {
+.cp-sort {
     flex: 1 1 0;
+
+    padding: .25rem;
 }
 
-#cp-sort select {
+.cp-sort select {
     width: 100%;
     font-family: inherit;
     font-size: .75rem;
