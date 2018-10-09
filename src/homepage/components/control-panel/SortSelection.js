@@ -6,7 +6,7 @@ type SortChartProps = {
     sortData: (sortKey: string, asc: boolean) => void,
 };
 
-export default class SortSelection extends React.PureComponent<{}, {}> {
+export default class SortSelection extends React.PureComponent<SortChartProps, {}> {
     handleSelect = (e: SyntheticInputEvent<HTMLSelectElement>) => {
         const {sortData} = this.props;
 
@@ -19,12 +19,9 @@ export default class SortSelection extends React.PureComponent<{}, {}> {
 
     render() {
         return (
-            <div className="cp-sort"
-                 draggable={false}>
-                <label htmlFor="sort-chart-select"
-                       draggable={false}>
+            <div className="cp-sort cp-subsection-320">
+                <label htmlFor="sort-chart-select">
                     <select id="sort-chart-select"
-                            draggable={false}
                             onChange={this.handleSelect}>
                         <option value="n/a">-- Select a sort option --</option>
                         <option value="a_name">Fund name (asc.)</option>

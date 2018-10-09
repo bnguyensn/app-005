@@ -47,7 +47,7 @@ function rangesToIndices(ranges: R[], indices: any) {
 
 type FilterTextInputProps = {
     fundsCount: number,
-    filterData2: (filterIndices: number[]) => void,
+    filterData: (filterIndices: number[]) => void,
 };
 
 type FilterTextInputStates = {
@@ -63,7 +63,7 @@ export default class FilterTextInput extends React.PureComponent<FilterTextInput
     }
 
     handleInputChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
-        const {fundsCount, filterData2} = this.props;
+        const {fundsCount, filterData} = this.props;
 
         const s1 = e.target.value;
 
@@ -139,7 +139,7 @@ export default class FilterTextInput extends React.PureComponent<FilterTextInput
 
                     const finalIndices = Array.from(indices).sort((a, b) => a - b);
 
-                    if (finalIndices.length > 0) filterData2(finalIndices);
+                    if (finalIndices.length > 0) filterData(finalIndices);
                 }
 
                 // ***** Update state ***** //
@@ -149,7 +149,7 @@ export default class FilterTextInput extends React.PureComponent<FilterTextInput
                 });
             }
         } else {
-            filterData2([]);
+            filterData([]);
 
             // ***** Update state ***** //
 
@@ -163,7 +163,7 @@ export default class FilterTextInput extends React.PureComponent<FilterTextInput
         const {filterString} = this.state;
 
         return (
-            <div className="cp-filter">
+            <div className="cp-filter cp-subsection-320">
                 <input className="cp-filter-text-input-input"
                        type="text"
                        placeholder="e.g. 1, 3 - 4, 50% - 100%"

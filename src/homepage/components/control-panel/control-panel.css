@@ -1,10 +1,10 @@
 #control-panel {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-flow: column wrap;
 
-    margin: 0 1rem 0 0;
-    width: 640px;
+    margin: .5rem;
     padding: .5rem;
 
     background-color: #DBC4B0;
@@ -26,21 +26,22 @@
     }
 }*/
 
+/** ********** SECTIONS ********** **/
+
 .cp-section {
     display: flex;
+    align-items: center;
     justify-content: center;
-    flex-flow: row nowrap;
-
-    width: 100%;
+    flex-wrap: wrap;
 }
 
-.cp-section:first-child {
+/*.cp-section:first-child {
     margin-bottom: .5rem;
 }
 
 .cp-section > *:not(:first-child) {
     margin-top: 0;
-}
+}*/
 
 /*@media only screen and (max-width: 1279px) {
     .cp-section {
@@ -53,14 +54,35 @@
 }*/
 
 .cp-section .title {
+    width: 100%;
+
     text-align: center;
-    user-select: none;
 }
 
 .cp-section .description {
+    width: 100%;
+
     font-size: .75rem;
     text-align: center;
-    user-select: none;
+}
+
+/** ********** SUB-SECTIONS ********** **/
+
+.cp-subsection-full, .cp-subsection-320 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    padding: .25rem;
+}
+
+.cp-subsection-full {
+    width: 100%;
+}
+
+.cp-subsection-320 {
+    width: 320px;
 }
 
 /** ********** SECTION 1 ********** **/
@@ -105,9 +127,7 @@
 /** ***** FILTER ***** **/
 
 .cp-filter {
-    flex: 1 1 0;
 
-    padding: .25rem;
 }
 
 .cp-filter-text-input-input {
@@ -130,12 +150,6 @@
     background-color: #8B999A;
 }
 
-.cp-filter-stop-bar-container {
-}
-
-.cp-filter-stop-bar {
-}
-
 .cp-filter-text-status-container {
     margin-top: 1rem;
     width: 100%;
@@ -147,13 +161,25 @@
 /** ***** SORT ***** **/
 
 .cp-sort {
-    flex: 1 1 0;
 
-    padding: .25rem;
 }
 
 .cp-sort select {
     width: 100%;
     font-family: inherit;
     font-size: .75rem;
+}
+
+/** ***** MISC. ***** **/
+
+.cp-misc-checkboxes {
+    width: 100%;
+}
+
+.cp-misc-checkboxes label {
+    font-size: .75rem;
+}
+
+.cp-misc-checkboxes input {
+    margin-right: .25rem;
 }

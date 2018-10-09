@@ -3,29 +3,36 @@
 import * as React from 'react';
 
 import UploadData from './UploadData';
-import Sort from './Sort';
 import Filter from './Filter';
+import Sort from './Sort';
+import Misc from './Misc';
 
 import type {FundData} from '../DataTypes';
+import type {MiscCheckboxes} from './Misc';
 
 import './control-panel.css';
-import FilterTextInput from './FilterTextInput';
-import SortSelection from './SortSelection';
 
 type ControlPanelProps = {
     fundsCount: number,
     logStatusMsg: (msg: string) => void,
     setNewData: (data: FundData[]) => void,
+
     filterData: (min: number, max: number) => void,
     filterData2: (indices: number[]) => void,
+
     sortData: (sortKey: string, asc: boolean) => void,
+
+    checkboxes: MiscCheckboxes,
+    changeCheckbox: (name: string) => void,
 };
 
 export default class ControlPanel extends React.PureComponent<ControlPanelProps, {}> {
     render() {
         const {
-            fundsCount, logStatusMsg, setNewData, sortData, filterData,
-            filterData2,
+            fundsCount, logStatusMsg, setNewData,
+            filterData, filterData2,
+            sortData,
+            checkboxes, changeCheckbox,
         } = this.props;
 
         return (
@@ -36,14 +43,12 @@ export default class ControlPanel extends React.PureComponent<ControlPanelProps,
                 </section>
 
                 <section className="cp-section">
-                    <Filter filterData={filterData} />
-                    <Sort />
-                </section>
-
-                <section className="cp-section">
-                    <FilterTextInput filterData2={filterData2}
-                                     fundsCount={fundsCount} />
-                    <SortSelection sortData={sortData} />
+                    <Filter fundsCount={fundsCount}
+                            filterData={filterData}
+                            filterData2={filterData2} />
+                    <Sort sortData={sortData} />
+                    <Misc checkboxes={checkboxes}
+                          changeCheckbox={changeCheckbox} />
                 </section>
             </div>
         )

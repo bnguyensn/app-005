@@ -9,6 +9,7 @@ import {mainChartSize, assetsChartSize} from './components/chartSizes';
 import {filterData, sortData} from './lib/utils/dataMutation';
 
 import type {FundData, ColorData} from './components/DataTypes';
+import type {MiscCheckboxes} from './components/control-panel/Misc';
 
 import './app.css';
 
@@ -23,6 +24,8 @@ type AppStates = {
 
     filterIndices: number[],
     filterRange: {min: number, max: number},
+
+    miscCheckboxes: MiscCheckboxes,
 
     mainChartElClickedFlag: boolean,
     lastClickedFundData: ?FundData,
@@ -60,6 +63,10 @@ export default class App extends React.PureComponent<{}, AppStates> {
             // filterIndices contains all of data's indices initially
             filterIndices: Array.from(Array(defaultData.length).keys()),
             filterRange: {min: 0, max: 1},
+
+            miscCheckboxes: {
+                weightedAssets: false,
+            },
 
             mainChartElClickedFlag: false,
             lastClickedFundData: null,
@@ -172,6 +179,21 @@ export default class App extends React.PureComponent<{}, AppStates> {
         }
     };
 
+    changeMiscCheckbox = (name: string) => {
+        console.log(`${name} checkbox clicked`);
+
+        const {miscCheckboxes} = this.state;
+
+        const nextMiscCheckboxes = {
+            ...miscCheckboxes,
+            [name]: !miscCheckboxes[name]
+        };
+
+        this.setState({
+            miscCheckboxes: nextMiscCheckboxes,
+        });
+    };
+
     changeChartComponentColor = (asset: string, newColor: string) => {
         this.setState((prevState: AppStates) => ({
             colorData: {
@@ -194,8 +216,9 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
     render() {
         const {
-            chartKey, data, mutatedData, colorData, mainChartElClickedFlag,
-            lastClickedFundData,
+            chartKey, data, mutatedData, colorData,
+            miscCheckboxes,
+            mainChartElClickedFlag, lastClickedFundData,
         } = this.state;
 
         // Note that keys MUST be unique among siblings
@@ -212,7 +235,9 @@ export default class App extends React.PureComponent<{}, AppStates> {
                                           setNewData={this.setNewData}
                                           filterData={this.filterData}
                                           filterData2={this.filterData2}
-                                          sortData={this.sortData} />
+                                          sortData={this.sortData}
+                                          checkboxes={miscCheckboxes}
+                                          changeCheckbox={this.changeMiscCheckbox} />
                 </section>
                 <section>
                     <LoadableAnalytics key={`An-${chartKey.toString()}`}
