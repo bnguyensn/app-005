@@ -2,19 +2,31 @@
 
 import * as React from 'react';
 
+import type {MiscCheckboxes} from './Misc';
+
 type SortChartProps = {
+    miscCheckboxes: MiscCheckboxes,
     sortData: (sortKey: string, asc: boolean) => void,
 };
 
 export default class SortSelection extends React.PureComponent<SortChartProps, {}> {
     handleSelect = (e: SyntheticInputEvent<HTMLSelectElement>) => {
-        const {sortData} = this.props;
+        const {miscCheckboxes, sortData} = this.props;
 
         const selectedVal = e.target.value;
-        const asc = selectedVal.slice(0, 1) === 'a';
-        const sortKey = selectedVal.slice(2);
 
-        sortData(sortKey, asc);
+        const w = miscCheckboxes.weightedAssets;
+        const asc = selectedVal.slice(0, 1) === 'a';
+        const sortKeyNoW = selectedVal.slice(2);
+
+        if (sortKeyNoW === 'goingConcern' || sortKeyNoW === 'totalAssets') {
+            const sortKey = w ? `${sortKeyNoW}W` : sortKeyNoW;
+            sortData(sortKey, asc);
+        } else {
+            sortData(sortKeyNoW, asc);
+        }
+
+
     };
 
     render() {

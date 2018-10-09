@@ -22,7 +22,7 @@ type ControlPanelProps = {
 
     sortData: (sortKey: string, asc: boolean) => void,
 
-    checkboxes: MiscCheckboxes,
+    miscCheckboxes: MiscCheckboxes,
     changeCheckbox: (name: string) => void,
 };
 
@@ -32,7 +32,7 @@ export default class ControlPanel extends React.PureComponent<ControlPanelProps,
             fundsCount, logStatusMsg, setNewData,
             filterData, filterData2,
             sortData,
-            checkboxes, changeCheckbox,
+            miscCheckboxes, changeCheckbox,
         } = this.props;
 
         return (
@@ -46,8 +46,9 @@ export default class ControlPanel extends React.PureComponent<ControlPanelProps,
                     <Filter fundsCount={fundsCount}
                             filterData={filterData}
                             filterData2={filterData2} />
-                    <Sort sortData={sortData} />
-                    <Misc checkboxes={checkboxes}
+                    <Sort sortData={sortData}
+                          miscCheckboxes={miscCheckboxes} />
+                    <Misc miscCheckboxes={miscCheckboxes}
                           changeCheckbox={changeCheckbox} />
                 </section>
             </div>

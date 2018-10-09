@@ -7,7 +7,7 @@ export type MiscCheckboxes = {
 };
 
 type MiscProps = {
-    checkboxes: MiscCheckboxes,
+    miscCheckboxes: MiscCheckboxes,
     changeCheckbox: (name: string) => void,
 };
 
@@ -19,7 +19,7 @@ export default class Misc extends React.PureComponent<MiscProps, {}> {
     };
 
     render() {
-        const {checkboxes} = this.props;
+        const {miscCheckboxes} = this.props;
 
         return (
             <div className="cp-misc cp-subsection-320">
@@ -36,7 +36,7 @@ export default class Misc extends React.PureComponent<MiscProps, {}> {
                     <label>
                         <input type="checkbox"
                                name="weightedAssets"
-                               checked={checkboxes.weightedAssets}
+                               checked={miscCheckboxes.weightedAssets}
                                onChange={this.handleCheckboxChange} />
                         Use weighted assets
                     </label>

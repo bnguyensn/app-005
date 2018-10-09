@@ -14,10 +14,9 @@ import createHierarchyData from './createHierarchyData';
 import {restrictTooltipNumberString, restrictTooltipString} from './restrictTooltipString';
 
 import type {ColorData, FundData} from '../DataTypes';
+import type {MiscCheckboxes} from '../control-panel/Misc';
 
 import enUKLocaleDef from '../../json/d3-locales/en-UK';
-
-import './analytics.css';
 
 const EN_UK = formatLocale(enUKLocaleDef);
 
@@ -29,16 +28,22 @@ export type AssetsChartSize = {
     scaleFactor: number,
 };
 
+type AssetsChartTTTexts = {top: string, mid: string, bot: string};
+
+type AssetsChartTTColors = {topC: string, midC: string, botC: string};
+
 type AssetsChartProps = {
     size: AssetsChartSize,
     data: ?FundData,  // Important: data for 1 fund only
     colorData: ColorData,
+    miscCheckboxes: MiscCheckboxes,
 };
 
 type AssetsChartStates = {
     curHovered: string,
-    tooltipTexts: {top: string, mid: string, bot: string},
-    tooltipColors: {topC: string, midC: string, botC: string},
+    curHoveredAmt: number,
+    curHoveredDepth: number,
+    curHoveredLvl: number,
 };
 
 export default class AssetsChart extends React.PureComponent<AssetsChartProps, AssetsChartStates> {
@@ -48,31 +53,15 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
         super(props);
         this.chartNodeRef = React.createRef();
 
-        const totalAssets = props.data ? props.data.totalAssets : 0;
-
         this.state = {
             curHovered: '',
-            tooltipTexts: {
-                top: props.data
-                    ? restrictTooltipNumberString(
-                        EN_UK.format('$,.0f')(totalAssets),
-                        totalAssets,
-                    )
-                    : '',
-                mid: 'Total assets',
-                bot: '',
-            },
-            tooltipColors: {
-                topC: '',
-                midC: '',
-                botC: '',
-            },
+            curHoveredAmt: 0,
+            curHoveredDepth: 0,
+            curHoveredLvl: 0,
         };
     }
 
     componentDidMount() {
-        console.log('assets chart did mount');
-
         const {data} = this.props;
         const chartNode = this.getChartNode();
         if (chartNode && data) {
@@ -82,31 +71,7 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
     }
 
     componentDidUpdate(prevProps: AssetsChartProps, prevStates: AssetsChartStates, snapshot: any) {
-        console.log('assets chart did update');
-
         const {data} = this.props;
-        const {data: prevData} = prevProps;
-
-        if (!prevData && !data) {
-            return
-        }
-
-        if ((data && !prevData)
-            || (data && prevData && prevData.id !== data.id)) {
-            this.setState({
-                ...prevStates,
-                tooltipTexts: {
-                    top: data
-                        ? restrictTooltipNumberString(
-                            EN_UK.format('$,.0f')(data.totalAssets),
-                            data.totalAssets,
-                        )
-                        : '',
-                    mid: 'Total assets',
-                    bot: '',
-                },
-            });
-        }
 
         if (data) {
             const chartNode = this.getChartNode();
@@ -181,10 +146,12 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
     };
 
     createRootNode = () => {
-        const {data} = this.props;
+        const {data, miscCheckboxes} = this.props;
 
         if (data) {
-            return hierarchy(createHierarchyData(data.assets))
+            const w = miscCheckboxes.weightedAssets;
+
+            return hierarchy(createHierarchyData(data.assets, w))
         }
         return null
     };
@@ -208,72 +175,98 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
 
     /** ********** TOOLTIP ********** **/
 
-    showTooltip = (d: any, i: number, nodes: any) => {
-        const {data, colorData} = this.props;
-        const {curHovered} = this.state;
+    createTooltip = (): [AssetsChartTTTexts, AssetsChartTTColors] => {
+        const {data, colorData, miscCheckboxes} = this.props;
+        const {
+            curHovered: name, curHoveredAmt: amount,
+            curHoveredDepth: depth, curHoveredLvl: lvl,
+        } = this.state;
+
+        const w = miscCheckboxes.weightedAssets;
+
+        if (data && name) {
+            // An asset is being hovered over
+            // Display this asset's information
+
+            const p = ((amount / data.totalAssets) * 100).toFixed(0);
+
+            return [
+                {
+                    top: restrictTooltipNumberString(
+                        EN_UK.format('$,.0f')(amount),
+                        amount,
+                    ),
+                    mid: restrictTooltipString(depth === 1
+                        ? `${name} assets`
+                        : name),
+                    bot: `${p}% of fund's total assets`,
+                },
+                {
+                    topC: '',
+                    midC: depth === 1
+                        ? colorData.assetLvls[lvl]
+                        : colorData.assets[name],
+                    botC: '',
+                },
+            ]
+        }
 
         if (data) {
-            const name = d.data.name;  // eslint-disable-line prefer-destructuring
+            // No assets are being hovered over
+            // Display Total assets level
 
-            if (!curHovered || name !== curHovered) {
-                const amount = d.value;  // eslint-disable-line prefer-destructuring
-                const p = ((amount / data.totalAssets) * 100).toFixed(0);
+            const totalAssets = w ? data.totalAssetsW : data.totalAssets;
 
-                const top = restrictTooltipNumberString(
-                    EN_UK.format('$,.0f')(amount),
-                    amount,
-                );
+            return [
+                {
+                    top: restrictTooltipNumberString(
+                        EN_UK.format('$,.0f')(totalAssets),
+                        totalAssets,
+                    ),
+                    mid: 'Total assets',
+                    bot: '',
+                },
+                {topC: '', midC: '', botC: ''},
+            ]
+        }
 
-                const mid = restrictTooltipString(d.depth === 1
-                    ? `${name} assets`
-                    : name);
+        return [
+            {top: '', mid: '', bot: ''},
+            {topC: '', midC: '', botC: ''},
+        ]
+    };
 
-                const bot = `${p}% of fund's total assets`;
 
-                this.setState({
-                    curHovered: name,
-                    tooltipTexts: {top, mid, bot},
-                    tooltipColors: {
-                        topC: '',
-                        midC: d.depth === 1
-                            ? colorData.assetLvls[d.data.lvl]
-                            : colorData.assets[name],
-                        botC: '',
-                    },
-                });
-            }
+    showTooltip = (d: any, i: number, nodes: any) => {
+        const {curHovered} = this.state;
+
+        const name = d.data.name;  // eslint-disable-line prefer-destructuring
+
+        if (!curHovered || name !== curHovered) {
+            this.setState({
+                curHovered: name,
+                curHoveredAmt: d.value,  // eslint-disable-line prefer-destructuring
+                curHoveredDepth: d.depth,
+                curHoveredLvl: d.data.lvl,
+            });
         }
     };
 
     hideTooltip = () => {
-        const {data} = this.props;
+        const relTarget = event.relatedTarget;
 
-        if (data) {
-            const relTarget = event.relatedTarget;
+        if (relTarget) {
+            const relTargetClass = relTarget.getAttribute('class');
 
-            if (relTarget) {
-                const relTargetClass = relTarget.getAttribute('class');
+            // Only need to hide tooltip if not moving to another asset bar
 
-                // Only need to hide tooltip if not moving to another asset bar
-
-                if (relTargetClass !== 'asset-arc') {
-                    this.setState({
-                        curHovered: '',
-                        tooltipTexts: {
-                            top: restrictTooltipNumberString(
-                                EN_UK.format('$,.0f')(data.totalAssets),
-                                data.totalAssets,
-                            ),
-                            mid: 'Total assets',
-                            bot: '',
-                        },
-                        tooltipColors: {
-                            topC: '',
-                            midC: '',
-                            botC: '',
-                        },
-                    });
-                }
+            if (relTargetClass !== 'asset-arc') {
+                this.setState({
+                    curHovered: '',
+                    curHoveredAmt: 0,
+                    curHoveredDepth: 0,
+                    curHoveredLvl: 0,
+                });
             }
         }
     };
@@ -281,10 +274,7 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
     /** ********** RENDER ********** **/
 
     render() {
-        console.log('assets chart render');
-
         const {size, data} = this.props;
-        const {tooltipTexts, tooltipColors} = this.state;
 
         const svgWidth = size.width + size.margin.right + size.margin.left;
         const svgHeight = size.height + size.margin.top + size.margin.bottom;
@@ -297,6 +287,8 @@ export default class AssetsChart extends React.PureComponent<AssetsChartProps, A
             width: size.width / 2,
             height: size.height / 2,
         };
+
+        const [tooltipTexts, tooltipColors] = this.createTooltip();
 
         return (
             <div className="assets-chart-container">

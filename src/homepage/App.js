@@ -25,6 +25,9 @@ type AppStates = {
     filterIndices: number[],
     filterRange: {min: number, max: number},
 
+    curSortKey: string,
+    curSortAsc: boolean,
+
     miscCheckboxes: MiscCheckboxes,
 
     mainChartElClickedFlag: boolean,
@@ -63,6 +66,9 @@ export default class App extends React.PureComponent<{}, AppStates> {
             // filterIndices contains all of data's indices initially
             filterIndices: Array.from(Array(defaultData.length).keys()),
             filterRange: {min: 0, max: 1},
+
+            curSortKey: '',
+            curSortAsc: true,
 
             miscCheckboxes: {
                 weightedAssets: false,
@@ -134,6 +140,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
         // Only re-set state if filter changes
         if (indices.length === 0
+            || indices.length !== filterIndices.length
             || indices.some((index, i) => index !== filterIndices[i])) {
             this.setState({
                 mutatedData: this.getNextFilteredData(data, indices),
@@ -146,8 +153,10 @@ export default class App extends React.PureComponent<{}, AppStates> {
      * When sorting data, we should sort the unfiltered data to prevent data
      * jumping around when filters are unset
      * */
-    sortData = (sortKey: string, asc: boolean) => {
-        const {data, mutatedData, filterIndices} = this.state;
+    sortData = (sortKey: string, asc: boolean, nextMiscCheckboxes?: MiscCheckboxes) => {
+        const {data, filterIndices} = this.state;
+
+        console.log(`calling sort data with ${sortKey} ; ${asc} ; ${nextMiscCheckboxes}`);
 
         /*const sortedData = sortData(data, sortKey);
         if (sortedData) {
@@ -163,6 +172,8 @@ export default class App extends React.PureComponent<{}, AppStates> {
         if (data[0].sortIndices[sortKey]) {
             // Sort index exists
 
+            console.log(`sorting key ${sortKey} | ${asc ? 'asc' : 'des'}`);
+
             const dir = asc ? 'asc' : 'des';
 
             const sortedData = [];
@@ -175,23 +186,34 @@ export default class App extends React.PureComponent<{}, AppStates> {
             this.setState(prevState => ({
                 data: [...sortedData],
                 mutatedData: nextMutatedData || prevState.mutatedData,
+                curSortKey: sortKey,
+                curSortAsc: asc,
+                miscCheckboxes: nextMiscCheckboxes || prevState.miscCheckboxes,
             }));
         }
     };
 
     changeMiscCheckbox = (name: string) => {
-        console.log(`${name} checkbox clicked`);
-
-        const {miscCheckboxes} = this.state;
+        const {curSortKey, curSortAsc, miscCheckboxes} = this.state;
 
         const nextMiscCheckboxes = {
             ...miscCheckboxes,
-            [name]: !miscCheckboxes[name]
+            [name]: !miscCheckboxes[name],
         };
 
-        this.setState({
-            miscCheckboxes: nextMiscCheckboxes,
-        });
+        const w = nextMiscCheckboxes.weightedAssets;
+
+        if ((curSortKey === 'goingConcern' || curSortKey === 'totalAssets')
+            && w) {
+            this.sortData(`${curSortKey}W`, curSortAsc, nextMiscCheckboxes);
+        } else if ((curSortKey === 'goingConcernW' || curSortKey === 'totalAssetsW')
+            && !w) {
+            this.sortData(curSortKey.slice(0, -1), curSortAsc, nextMiscCheckboxes);
+        } else {
+            this.setState({
+                miscCheckboxes: nextMiscCheckboxes,
+            });
+        }
     };
 
     changeChartComponentColor = (asset: string, newColor: string) => {
@@ -236,18 +258,20 @@ export default class App extends React.PureComponent<{}, AppStates> {
                                           filterData={this.filterData}
                                           filterData2={this.filterData2}
                                           sortData={this.sortData}
-                                          checkboxes={miscCheckboxes}
+                                          miscCheckboxes={miscCheckboxes}
                                           changeCheckbox={this.changeMiscCheckbox} />
                 </section>
                 <section>
                     <LoadableAnalytics key={`An-${chartKey.toString()}`}
                                        size={assetsChartSize}
                                        data={lastClickedFundData}
-                                       colorData={colorData} />
+                                       colorData={colorData}
+                                       miscCheckboxes={miscCheckboxes} />
                     <LoadableChart key={`Ch-${chartKey.toString()}`}
                                    chartSize={mainChartSize}
                                    data={mutatedData}
                                    colorData={colorData}
+                                   miscCheckboxes={miscCheckboxes}
                                    mainChartElClickedFlag={mainChartElClickedFlag}
                                    handleChartElClicked={this.handleChartElClicked}>
                         <LoadableLegend key={`Le-${chartKey.toString()}`}

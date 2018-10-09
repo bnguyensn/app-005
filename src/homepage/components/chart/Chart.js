@@ -13,6 +13,7 @@ import ChartTooltip from './ChartTooltip';
 import {findMaxInArray} from '../../lib/utils/arrayMaths';
 
 import type {ColorData, FundData} from '../DataTypes';
+import type {MiscCheckboxes} from '../control-panel/Misc';
 
 import enUKLocaleDef from '../../json/d3-locales/en-UK';
 
@@ -33,6 +34,7 @@ type ChartProps = {
     },
     data: FundData[],
     colorData: ColorData,
+    miscCheckboxes: MiscCheckboxes,
     mainChartElClickedFlag: boolean,
     handleChartElClicked: (fundData: FundData) => void,
     children?: React.Node,
@@ -323,10 +325,15 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     };
 
     createScaleY = () => {
-        const {chartSize, data} = this.props;
+        const {chartSize, data, miscCheckboxes} = this.props;
+
+        const w = miscCheckboxes.weightedAssets;
 
         const dataMax = findMaxInArray(data.map(
-            fundData => [fundData.remFCom, fundData.totalAssets],
+            fundData => [
+                fundData.remFCom,
+                w ? fundData.totalAssetsW : fundData.totalAssets,
+            ],
         ));
 
         // Using linear scale for y
@@ -361,14 +368,16 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
     /** ********** SHAPES ********** **/
 
     createStackedSeries = () => {
-        const {data} = this.props;
+        const {data, miscCheckboxes} = this.props;
+
+        const w = miscCheckboxes.weightedAssets;
 
         // Create stack data - Warning: specific to data type
         const stackData = data.map((fundData) => {
             const fundObj = {};
             fundObj.name = fundData.name;
             fundData.assets.forEach((asset) => {
-                fundObj[asset.name] = asset.amt;
+                fundObj[asset.name] = w ? asset.amtW : asset.amt;
             });
             fundObj.fundData = fundData;
             return fundObj

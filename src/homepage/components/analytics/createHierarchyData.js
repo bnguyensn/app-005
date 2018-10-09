@@ -14,7 +14,7 @@ type HierarchyData = {
     size?: number,
 }
 
-export default function createHierarchyData(data: AssetData[]) {
+export default function createHierarchyData(data: AssetData[], w: boolean) {
     // Store asset levels encountered
     // Type: {Level N: root.children.index, ...}
     const assetLvls = {};
@@ -49,7 +49,7 @@ export default function createHierarchyData(data: AssetData[]) {
                 tier2.push({
                     name: assetData.name,
                     lvl: assetData.lvl,
-                    size: assetData.amt,
+                    size: w ? assetData.amtW : assetData.amt,
                 });
             }
         }
