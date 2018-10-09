@@ -99,7 +99,7 @@ export default function processXlsx(data: ArrayBuffer): ProcessResult {
         // Data in columns after the last non-blank header will not be parsed
         // and will not be part of our final data set
         const maxFundSheetCol = getMaxIndex(fundSheetData[0]);
-        const maxAssetSheetCol = 2;  // 1 asset name + 1 asset level
+        const maxAssetSheetCol = 3;
 
         const confinedFundSheetData = getConfinedSheetData(
             fundSheetData, maxFundSheetRow, maxFundSheetCol, 0,

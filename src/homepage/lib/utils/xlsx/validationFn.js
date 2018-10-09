@@ -146,35 +146,8 @@ export const FUND_SHEET_AMOUNT: ValidationData[] = [
 
 /** ********** VALIDATION GROUPS - ASSET SHEET ********** **/
 
-export const ASSET_SHEET_ROWS_COUNT: ValidationFn[] = [
-    (data: number): string => (
-        data < 2
-            ? 'Provided asset sheet either does not have any data, or does '
-            + 'not have a header. '
-            + 'Please revise asset sheet to match our specifications.'
-            : ''
-    ),
-];
-
-export const ASSET_SHEET_COLS_COUNT: ValidationFn[] = [
-    (data: number): string => (
-        data < 2
-            ? 'Provided asset sheet does not have enough data columns. '
-            + 'Please revise fund sheet to match our specification.'
-            : ''
-    ),
-];
-
-export const ASSET_SHEET_HEADER: ValidationFn[] = [
-    (data: {header: string, colIndex: number, headers: string[]}): string => (
-        data.headers.includes(data.header)
-            ? `Asset sheet header at cell ${colNumToColName(data.colIndex)}1 `
-            + 'is duplicated.'
-            : ''
-    ),
-];
-
 export const ASSET_SHEET_ASSET_NAME: ValidationData[] = [
+    // Check blank names
     (data: {
         assetName: string,
         rowIndex: number,
@@ -188,6 +161,7 @@ export const ASSET_SHEET_ASSET_NAME: ValidationData[] = [
             : ''
     ),
 
+    // Check duplicate names
     (data: {
         assetName: string,
         rowIndex: number,
@@ -203,8 +177,9 @@ export const ASSET_SHEET_ASSET_NAME: ValidationData[] = [
 ];
 
 export const ASSET_SHEET_ASSET_LEVEL: ValidationData[] = [
+    // Check NaN, non-integer, < 1 amounts
     (data: {
-        level: string | number,
+        amount: string | number,
         rowIndex: number,
         colIndex: number,
     }): string => {
@@ -220,9 +195,42 @@ export const ASSET_SHEET_ASSET_LEVEL: ValidationData[] = [
                 + `${colNumToColName(colIndex)}${rowIndex + 1} is not numeric.`
         }
 
+        if (!Number.isInteger(Number(amount))) {
+            return `Asset level '${amount} at cell `
+                + `${colNumToColName(colIndex)}${rowIndex + 1} is non-integer.`
+        }
+
         if (intAmount < 1) {
             return `Asset data '${amount}' at cell `
                 + `${colNumToColName(colIndex)}${rowIndex + 1} is less than 1.`
+        }
+
+        return ''
+    },
+];
+
+export const ASSET_SHEET_ASSET_WEIGHTING: ValidationData[] = [
+    // Check NaN, < 0 amounts
+    (data: {
+        amount: string | number,
+        rowIndex: number,
+        colIndex: number,
+    }): string => {
+        const {amount, rowIndex, colIndex} = data;
+
+        if (amount === '' || amount === undefined) {
+            return ''
+        }
+
+        const intAmount = parseInt(amount, 10);
+        if (typeof intAmount !== 'number' || Number.isNaN(intAmount)) {
+            return `Asset weighting '${amount} at cell `
+                + `${colNumToColName(colIndex)}${rowIndex + 1} is not numeric.`
+        }
+
+        if (intAmount < 0) {
+            return `Asset weighting '${amount}' at cell `
+                + `${colNumToColName(colIndex)}${rowIndex + 1} is less than 0.`
         }
 
         return ''

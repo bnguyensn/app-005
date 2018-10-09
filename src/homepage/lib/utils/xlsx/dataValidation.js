@@ -4,8 +4,6 @@
 
 // @flow
 
-import {colNumToColName} from './utils';
-
 import * as VALIDATION from './validationFn';
 
 import type {ValidationData, ValidationFn} from './validationFn';
@@ -60,7 +58,6 @@ function validate(data: ValidationData, validationFns: ValidationFn[],
 
 export function validateFundSheetData(fundSheetData: any[]): string[] {
     // Store all error messages
-    // Start with a "header" error message
     const errMsgs = [];
 
     /** ***** CHECK FUND SHEET EMPTINESS ***** **/
@@ -169,31 +166,14 @@ export function validateFundSheetData(fundSheetData: any[]): string[] {
 }
 
 /** ********** ASSET SHEET DATA VALIDATION ********** **/
+/**
+ * The asset sheet is optional, therefore a blank sheet is accepted.
+ * However, data, if present, must still conform to our specifications.
+ * */
 
 export function validateAssetSheetData(assetSheetData: any[]): string[] {
     // Store all error messages
-    // Start with a "header" error message
     const errMsgs = [];
-
-    /** ***** CHECK EMPTINESS ***** **/
-    /**
-     * Should have at least 2 rows (1 header + 1 fund)
-     * */
-
-    if (!validate(assetSheetData.length, VALIDATION.ASSET_SHEET_ROWS_COUNT,
-        errMsgs)) {
-        return errMsgs
-    }
-
-    /** ***** CHECK MINIMUM COLUMN REQUIREMENTS ***** **/
-    /**
-     * Should have at least 2 columns (1 asset name + 1 asset level)
-     * */
-
-    if (!validate(assetSheetData[0].length, VALIDATION.ASSET_SHEET_COLS_COUNT,
-        errMsgs)) {
-        return errMsgs
-    }
 
     /** ***** CHECK DATA TYPE ***** **/
     /**
@@ -211,35 +191,21 @@ export function validateAssetSheetData(assetSheetData: any[]): string[] {
      * */
 
     const assetNames = [];
-    const headers = [];
 
     let stopLoop = false;
     let rowIndex = 0;
     while (rowIndex < assetSheetData.length && !stopLoop) {
-        // Parse every row - It's guaranteed that there are no empty rows
-        // from our confinement activity
+        // Parse every row
 
         const assetData = assetSheetData[rowIndex];
 
         let colIndex = 0;
         while (colIndex < assetSheetData[0].length) {
             // At each row, parse every column
-            // It's guaranteed that there are no empty headers from our
-            // confinement activity, but there might still be empty column
-            // data
 
             if (rowIndex === 0) {
                 // Header row
 
-                if (!validate(
-                    {header: assetData[colIndex], rowIndex, colIndex, headers},
-                    VALIDATION.ASSET_SHEET_HEADER, errMsgs,
-                ) && !REPORT_ALL_ERRORS) {
-                    stopLoop = true;
-                    break;
-                }
-
-                headers.push(assetData[colIndex]);
             } else if (colIndex === 0) {
                 // Asset data row - Name column
 
@@ -257,14 +223,26 @@ export function validateAssetSheetData(assetSheetData: any[]): string[] {
                 }
 
                 assetNames.push(assetData[colIndex]);
-            } else if (!validate(
-                {amount: assetData[colIndex], rowIndex, colIndex},
-                VALIDATION.ASSET_SHEET_ASSET_LEVEL, errMsgs,
-            ) && !REPORT_ALL_ERRORS) {
+            } else if (colIndex === 1) {
                 // Asset data row - Level column
 
-                stopLoop = true;
-                break;
+                if (!validate(
+                    {amount: assetData[colIndex], rowIndex, colIndex},
+                    VALIDATION.ASSET_SHEET_ASSET_LEVEL, errMsgs,
+                ) && !REPORT_ALL_ERRORS) {
+                    stopLoop = true;
+                    break;
+                }
+            } else if (colIndex === 2) {
+                // Asset data row - Weighting column
+
+                if (!validate(
+                    {amount: assetData[colIndex], rowIndex, colIndex},
+                    VALIDATION.ASSET_SHEET_ASSET_WEIGHTING, errMsgs,
+                ) && !REPORT_ALL_ERRORS) {
+                    stopLoop = true;
+                    break;
+                }
             }
 
             colIndex += 1;

@@ -8,7 +8,9 @@ export type ColorData = {
 export type AssetData = {
     name: string,
     lvl: number,  // Lower = more liquid
-    amt: number,
+    w: number,  // Asset's weighting
+    amt: number,  // Amount
+    amtW: number,  // amt x w
 };
 
 export type FundData = {
@@ -21,6 +23,7 @@ export type FundData = {
     fCal: number,  // Fund's commitments in investments already called
     assets: AssetData[],
     totalAssets: number,  // Total fund's assets
+    totalAssetsW: number,  // Total fund's assets (weighted)
     remFCom: number,  // Fund's remaining investment commitments not yet called
     goingConcern: number,  // Ratio of totalAssets / remFCom
 

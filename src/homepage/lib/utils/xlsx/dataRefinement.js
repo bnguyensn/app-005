@@ -22,16 +22,19 @@ export default function refineFundData(fundSheetData: any[],
         ? fundSheetData[0].filter((v, colIndex) => colIndex >= assetIndexStart)
         : [];
 
-    // ********** Create asset levels object ********** //
-    // Type: {assetName: assetLvl, ...}
+    // ********** Create asset levels & weightings object ********** //
+    // Type: {assetName: {lvl: number, w: number}, ...}
 
-    const assetLevels = {};
+    const assetLW: {[key: string]: {lvl: number, w: number}} = {};
 
     assetSheetData
         .filter((assetData, rowIndex) => rowIndex > 0)
         .forEach((assetData) => {
-            const [assetName, assetLvl] = assetData;
-            assetLevels[assetName] = assetLvl;
+            const [assetName, assetLvl, assetW] = assetData;
+            assetLW[assetName] = {
+                lvl: assetLvl,
+                w: assetW,
+            };
         });
 
     // ********** Create refined fund data (no sort indices yet) ********** //
@@ -51,25 +54,37 @@ export default function refineFundData(fundSheetData: any[],
             // assets based on the headers
 
             const assets = assetNames.length > 0
-                ? assetNames.map((assetName, index) => ({
-                    name: assetName,
-
+                ? assetNames.map((assetName, index) => {
                     // Any asset found in the fund sheet but not found in the
-                    // asset sheet has level = 1
-                    lvl: assetLevels[assetName] || 1,
+                    // asset sheet has level = 1 and weighting = 1
+                    const lvl = assetLW[assetName].lvl || 1;
+                    const w = assetLW[assetName].w || 1;
+                    const amt = Math.round(fundData[index + assetIndexStart]);
 
-                    amt: fundData[index + assetIndexStart],
-                }))
+                    return {
+                        name: assetName,
+                        lvl,
+                        w,
+                        amt,
+                        amtW: Math.round(amt * w),
+                    }
+                })
                 : [];
 
             // Create this fund's misc. data for sorting function
 
+            const remFCom = Math.max(fundData[3] - fundData[4], 0);
             const totalAssets = assets.reduce(
                 (acc, curVal) => acc + curVal.amt, 0,
             );
-            const remFCom = Math.max(fundData[3] - fundData[4], 0);
+            const totalAssetsW = assets.reduce(
+                (acc, curVal) => acc + curVal.amtW, 0,
+            );
             const goingConcern = remFCom !== 0
                 ? totalAssets / remFCom
+                : 1;
+            const goingConcernW = remFCom !== 0
+                ? totalAssetsW / remFCom
                 : 1;
 
             // Return refined data
@@ -83,14 +98,18 @@ export default function refineFundData(fundSheetData: any[],
                 fCom: fundData[3],
                 fCal: fundData[4],
                 assets,
-                totalAssets,
                 remFCom,
+                totalAssets,
+                totalAssetsW,
                 goingConcern,
+                goingConcernW,
                 sortIndices: {
                     name: {asc: 0, des: 0},
-                    goingConcern: {asc: 0, des: 0},
                     remFCom: {asc: 0, des: 0},
                     totalAssets: {asc: 0, des: 0},
+                    totalAssetsW: {asc: 0, des: 0},
+                    goingConcern: {asc: 0, des: 0},
+                    goingConcernW: {asc: 0, des: 0},
                 },
             }
         });
