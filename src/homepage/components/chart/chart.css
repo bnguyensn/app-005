@@ -12,11 +12,11 @@
 }
 
 .pannable-x-only {
-    /*cursor: grab;*/
+    cursor: grab;
 }
 
 .pannable-x-only:active {
-    /*cursor: grabbing;*/
+    cursor: grabbing;
 }
 
 .chart-tooltip {

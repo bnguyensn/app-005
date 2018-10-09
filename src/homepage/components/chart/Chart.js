@@ -175,11 +175,8 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
             chart.selectAll('.clearable').remove();
 
-            // Add one-time stuff
-
-            // Background
-
-
+            chart.select('.pannable-x-only')
+                .selectAll('.clearable').remove();
 
             // Update chart
 
