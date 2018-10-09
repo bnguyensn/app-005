@@ -23,7 +23,9 @@
 }*/
 .cp-section {
   display: flex;
-  flex-flow: row nowrap; }
+  justify-content: center;
+  flex-flow: row nowrap;
+  width: 100%; }
 
 .cp-section:first-child {
   margin-bottom: .5rem; }
@@ -85,8 +87,14 @@
 
 /** ********** SECTION 2 ********** **/
 /** ***** FILTER ***** **/
-#cp-filter {
-  flex: 1 1 0; }
+.cp-filter {
+  flex: 1 1 0;
+  padding: .25rem; }
+
+.cp-filter-text-input-input {
+  width: 100%;
+  font-family: inherit;
+  font-size: .75rem; }
 
 .cp-filter-slider {
   display: flex;
@@ -111,10 +119,11 @@
           user-select: none; }
 
 /** ***** SORT ***** **/
-#cp-sort {
-  flex: 1 1 0; }
+.cp-sort {
+  flex: 1 1 0;
+  padding: .25rem; }
 
-#cp-sort select {
+.cp-sort select {
   width: 100%;
   font-family: inherit;
   font-size: .75rem; }
