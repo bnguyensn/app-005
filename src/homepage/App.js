@@ -87,7 +87,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
             data: [...data],
             mutatedData: [...data],
             colorData: {...colorData},
-            filterIndices: Array.from(Array(defaultData.length).keys()),
+            filterIndices: Array.from(Array(data.length).keys()),
             filterRange: {min: 0, max: 1},
             lastClickedFundData: null,
         }));
