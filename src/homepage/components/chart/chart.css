@@ -1,4 +1,6 @@
 .chart-container {
+    position: relative;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,6 +21,8 @@
     cursor: grabbing;
 }
 
+/** ********** CHART TOOLTIP ********** **/
+
 .chart-tooltip {
     position: fixed;
 
@@ -36,4 +40,48 @@
     word-wrap: break-word;
     /*word-break: break-all;*/
     hyphens: auto;
+}
+
+/** ********** CHART BUTTONS ********** **/
+
+.chart-buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: .2rem;
+}
+
+.chart-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1rem;
+    height: 1rem;
+    padding: .2rem;
+
+    background-color: #4C6F71;
+
+    color: #fafafa;
+    font-size: .5rem;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition: box-shadow .2s;
+}
+
+.chart-button:hover {
+    background-color: #6A8687;
+}
+
+.chart-button:active {
+    background-color: #355C5E;
 }

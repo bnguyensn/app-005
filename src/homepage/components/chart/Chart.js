@@ -9,6 +9,7 @@ import {transition} from 'd3-transition';
 import {formatLocale, format} from 'd3-format';
 
 import ChartTooltip from './ChartTooltip';
+import ChartButtons from './ChartButtons';
 
 import {findMaxInArray} from '../../lib/utils/arrayMaths';
 
@@ -178,9 +179,9 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
             pannable.insert('rect', ':first-child')
                 .classed('bkg-rect clearable', true)
                 .attr('fill-opacity', 0);
-                /*.attr('width', this.pannableSize.width)
-                .attr('height', chartSize.height)
-                .attr('fill-opacity', 0);*/
+            /*.attr('width', this.pannableSize.width)
+            .attr('height', chartSize.height)
+            .attr('fill-opacity', 0);*/
 
             // Update chart
 
@@ -484,6 +485,15 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         this.mouseXY.y = clientY;
     };
 
+    resetChartPosition = () => {
+        const pannableNode = this.getPannable();
+        if (pannableNode) {
+            const pannable = select(pannableNode);
+            this.chartOffset.x = 0;
+            pannable.attr('transform', `translate(${this.chartOffset.x}, 0)`);
+        }
+    };
+
     /** ********** CLICKING ********** **/
 
     handleChartElClicked = (d: any, i: number, nodes: any) => {
@@ -611,7 +621,9 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                               text={tooltip.text}
                               pos={tooltip.pos}
                               color={tooltip.color} />
+                <ChartButtons resetChartPosition={this.resetChartPosition} />
                 {children}
+
             </div>
         )
     }
