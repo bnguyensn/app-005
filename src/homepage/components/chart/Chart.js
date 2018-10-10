@@ -148,9 +148,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
      * props.data.
      * */
     handleNewDataset = () => {
-        const {data, chartSize, colorData} = this.props;
-
-
+        const {data, colorData} = this.props;
 
         // Warning: specific to data type
         // Create chart asset data which is an object of the form:
@@ -175,8 +173,14 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
 
             chart.selectAll('.clearable').remove();
 
-            chart.select('.pannable-x-only')
-                .selectAll('.clearable').remove();
+            // Re-insert the background
+
+            pannable.insert('rect', ':first-child')
+                .classed('bkg-rect clearable', true)
+                .attr('fill-opacity', 0);
+                /*.attr('width', this.pannableSize.width)
+                .attr('height', chartSize.height)
+                .attr('fill-opacity', 0);*/
 
             // Update chart
 
@@ -196,11 +200,15 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
             height: chartSize.height,
         };
 
-        const bkgRect = pannable.insert('rect', ':first-child')
+        pannable.select('.bkg-rect')
+            .attr('width', this.pannableSize.width)
+            .attr('height', chartSize.height);
+
+        /*const bkgRect = pannable.insert('rect', ':first-child')
             .classed('bkg-rect clearable', true)
             .attr('width', this.pannableSize.width)
             .attr('height', chartSize.height)
-            .attr('fill-opacity', 0);
+            .attr('fill-opacity', 0);*/
 
         // ********** Update scale ********** //
 
@@ -256,10 +264,11 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
         const rectUE = rectE.append('rect')
             .classed('asset-bar', true)
             .merge(rectU);
-        rectUE.attr('y', d => getRectY(d[0], d[1]));
+        //rectUE.attr('y', d => getRectY(d[0], d[1]));
 
         const transRectUE = rectUE.transition().duration(500);
-        transRectUE.attr('width', this.scaleX.bandwidth())
+        transRectUE.attr('y', d => getRectY(d[0], d[1]))
+            .attr('width', this.scaleX.bandwidth())
             .attr('height', d => getRectHeight(d[0], d[1]))
             .attr('x', d => this.scaleX(d.data.name));
 
@@ -590,7 +599,7 @@ export default class Chart extends React.Component<ChartProps, ChartStates> {
                             <g className="limit-lines" />
                         </g>
                         <g className="y-axis">
-                            <rect className="bkg-rect"
+                            <rect className="bkg-rect-y-axis"
                                   width={chartSize.marginLeft}
                                   height={chartSize.height + chartSize.marginBottom}
                                   transform={`translate(-${chartSize.marginLeft}, 0)`}

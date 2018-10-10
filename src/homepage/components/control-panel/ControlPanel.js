@@ -41,7 +41,7 @@ export default class ControlPanel extends React.PureComponent<ControlPanelProps,
                     <UploadData logStatusMsg={logStatusMsg}
                                 setNewData={setNewData} />
                 </section>
-
+                <hr />
                 <section className="cp-section">
                     <Filter fundsCount={fundsCount}
                             filterData={filterData}

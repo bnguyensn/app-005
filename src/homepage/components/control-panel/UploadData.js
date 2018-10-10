@@ -18,6 +18,10 @@ type UploadDataProps = {
     setNewData: (data: FundData[]) => void,
 };
 
+type UploadDataStates = {
+    statusMsg: string,
+};
+
 export default class UploadData extends React.PureComponent<UploadDataProps, {}> {
     fileTypes: string[];
 
@@ -29,6 +33,10 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
             'application/vnd.ms-excel.sheet.macroEnabled.12',  // .xlsm
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',  // .xlsx
         ];
+
+        this.state = {
+            statusMsg: 'Ready to get new data.',
+        }
     }
 
     handleFileSelected = (e: SyntheticInputEvent<HTMLElement>) => {
@@ -58,13 +66,15 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
                         // Error parsing uploaded data
 
                         logStatusMsg(processRes.data);
+
+                        // this.setStatusMsg('Error parsing data. Please revise and re-upload.');
                     } else {
                         // Successfully parsed uploaded data
 
                         if (DEBUG) {
                             console.log('Successfully read .xlsx. Result:');
                             console.log(processRes.data);
-                            console.log(JSON.stringify(processRes.data));
+                            // console.log(JSON.stringify(processRes.data));
                         }
 
                         // Update color data using a sample fund data
@@ -97,26 +107,51 @@ export default class UploadData extends React.PureComponent<UploadDataProps, {}>
                         // Update fund data
 
                         setNewData(processRes.data, colorData);
+
+                        // this.setStatusMsg('Data parsed successfully. Ready to get new data');
                     }
                 };
 
                 // Read xlsx
                 reader.readAsArrayBuffer(f);
+
+                // this.setStatusMsg('Parsing data...');
             }
         }
     };
 
-    render() {
-        return (
-            <div id="cp-upload" className="cp-subsection-full">
-                <label className="cp-upload-btn" htmlFor="cp-uploader">
-                    <span>UPLOAD DATA</span>
-                    <input id="cp-uploader"
-                           type="file"
-                           accept=".xlsx, .xls, .xlsb, .xlsm, .csv"
-                           onChange={this.handleFileSelected} />
-                </label>
+    setStatusMsg = (msg: string) => {
+        this.setState({
+            statusMsg: msg,
+        })
+    };
 
+    render() {
+        console.log('rendering upload data');
+
+        const {statusMsg} = this.state;
+
+        return (
+            <div id="cp-upload" className="cp-subsection-960">
+                <div className="title">
+                    PROVIDE DATA
+                </div>
+                <div className="description">
+                    <b>Note:</b> selected file is <b>not</b> uploaded anywhere.{' '}
+                    The application parses data locally using your browser.
+                </div>
+                <div className="cp-upload-btn-container">
+                    <label className="cp-upload-btn" htmlFor="cp-uploader">
+                        <span>SELECT FILE</span>
+                        <input id="cp-uploader"
+                               type="file"
+                               accept=".xlsx, .xls, .xlsb, .xlsm, .csv"
+                               onChange={this.handleFileSelected} />
+                    </label>
+                </div>
+                {/*<div className="cp-upload-status">
+                    {statusMsg}
+                </div>*/}
             </div>
         )
     }

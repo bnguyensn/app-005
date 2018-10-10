@@ -26,6 +26,16 @@
     }
 }*/
 
+#control-panel > hr {
+    width: 75%;
+    height: 1px;
+
+    margin: .5rem 0 .5rem 0;
+    border: 0;
+
+    background-image: linear-gradient(to right, #dbc4b0, #212121, #dbc4b0);
+}
+
 /** ********** SECTIONS ********** **/
 
 .cp-section {
@@ -68,7 +78,7 @@
 
 /** ********** SUB-SECTIONS ********** **/
 
-.cp-subsection-full, .cp-subsection-320 {
+.cp-subsection-full, .cp-subsection-960, .cp-subsection-320 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,18 +95,31 @@
     width: 320px;
 }
 
+.cp-subsection-960 {
+    width: 960px;
+}
+
 /** ********** SECTION 1 ********** **/
 
 /** ***** UPLOAD DATA ***** **/
 
-.cp-upload-btn {
+.cp-upload-btn-container {
     display: flex;
+    justify-content: center;
+
+    margin: .5rem;
+    width: 100%;
+}
+
+.cp-upload-btn {
+    display: inline-flex;
 
     padding: .5rem;
 
     background-color: #4C6F71;
 
     color: #fafafa;
+    font-size: .75rem;
 
     border-radius: 5px;
     box-shadow: 0 2px 5px #20484A;
@@ -120,6 +143,21 @@
 #cp-upload input {
     position: absolute;
     opacity: 0;
+}
+
+.cp-upload-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 75%;
+    padding: .5rem;
+
+    background-color: #C0C7C7;
+
+    font-size: .75rem;
+
+    border-radius: 5px;
 }
 
 /** ********** SECTION 2 ********** **/
