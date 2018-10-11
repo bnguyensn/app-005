@@ -1,7 +1,7 @@
 [ignore]
 .*/node_modules/.*
-.*/dist/.*
-.*/flow-typed/.*
+<PROJECT_ROOT>/dist/.*
+<PROJECT_ROOT>/flow-typed/.*
 
 [include]
 
