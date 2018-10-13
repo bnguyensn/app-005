@@ -1,0 +1,23 @@
+#main-chart-control-panel-sort {
+
+}
+
+.cp-sort select {
+    width: 100%;
+    font-family: inherit;
+    font-size: .75rem;
+}
+
+/** ***** MISC. ***** **/
+
+.cp-misc-checkboxes {
+    width: 100%;
+}
+
+.cp-misc-checkboxes label {
+    font-size: .75rem;
+}
+
+.cp-misc-checkboxes input {
+    margin-right: .25rem;
+}

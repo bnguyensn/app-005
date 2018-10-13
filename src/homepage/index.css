@@ -13,11 +13,16 @@ body {
     margin: 0;
     /*font-family: 'Open Sans', sans-serif;*/
     font-family: 'Gentium Basic', serif;
+    color: #212121;
 }
 
 a {
     color: #03A9F4;  /* Light Blue 500 */
     text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 h1 {
@@ -28,7 +33,7 @@ hr {
     margin: 2rem 0;
     border: 0;
     height: 1px;
-    background-image: linear-gradient(to right, #fff1e5, #212121, #fff1e5);
+    background-image: linear-gradient(to right, #fafafa, #212121, #fafafa);
 }
 
 sup {
@@ -56,32 +61,20 @@ sup {
 .width-100p { width: 100%; }
 .min-width-100p { min-width: 100%; }
 
-.flex-space { flex-grow: 1; }
+section.section-320 { max-width: 320px; }
+section.section-640 { max-width: 640px; }
+section.section-960 { max-width: 960px; }
 
-/* ********** RESPONSIVE WEB DESIGN ********** */
-
-#root {
-    min-width: 688px;
-
-    /* Potential stylings as needed */
-    display: flex;
-    justify-content: center;
-
-    min-height: 100vh;
-
-    background-color: #fff1e5;
+.fake-link {
+    color: #03A9F4;  /* Light Blue 500 */
+    text-decoration: none;
+    cursor: pointer;
 }
 
-/* Texts won't go larger than body font size - NOT ACTIVE */
-/*@media only screen and (max-width: 1280px) and (min-width: 854px) {
-    html {
-        font-size: 1.875vw;  !* 1.875% = 24px (body font size) / 1280px (limit width) *!
-    }
-}*/
+.fake-link:hover {
+    text-decoration: underline;
+}
 
-/* Texts won't go smaller than this - NOT ACTIVE */
-/*@media only screen and (max-width: 639px) {
-    html {
-        font-size: 20px;  !* 512px is the cut-off when our font stops shrinking. 853 = 16px / 1.875% *!
-    }
-}*/
+.fake-link:active {
+    color: #0277BD;  /* Light Blue 800 */
+}

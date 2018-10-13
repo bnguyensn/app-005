@@ -1,0 +1,40 @@
+/** ********** TEXT INPUT ********** **/
+
+#main-chart-control-panel-filter {
+    width: 100%;
+}
+
+#main-chart-control-panel-filter input {
+    width: 100%;
+    border: 1px solid #757575;
+    padding: .1rem .2rem;
+
+    background-color: #fafafa;
+
+    font-family: inherit;
+    font-size: .75rem;
+}
+
+/** ********** SLIDER (obsolete) ********** **/
+
+/*.cp-filter-slider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: .5rem 0 0 0;
+}
+
+.cp-filter-long-bar {
+    position: relative;
+    border-radius: 5px;
+    background-color: #8B999A;
+}
+
+.cp-filter-text-status-container {
+    margin-top: 1rem;
+    width: 100%;
+    font-size: .75rem;
+    text-align: center;
+    user-select: none;
+}*/

@@ -1,0 +1,134 @@
+#data {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#data > section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    margin: 0 0 1rem 0;
+    width: 100%;
+}
+
+#data .title {
+    margin-bottom: 1rem;
+
+    text-align: center;
+
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #37474F;
+}
+
+#data .description {
+    text-align: center;
+
+    color: #455A64;
+}
+
+#data span.size75 {
+    font-size: .75rem;
+}
+
+#data span.green {
+    color: #2E7D32;  /* Green 800 */
+}
+
+#data span.blue {
+    color: #1565C0;  /* Blue 800 */
+}
+
+/** ********** UPLOAD ********** **/
+
+#upload-buttons {
+    
+}
+
+/** ***** BUTTONS ***** **/
+
+.data-btn {
+    display: inline-flex;
+    justify-content: center;
+
+    margin: .5rem;
+    width: 8rem;
+    padding: .5rem;
+
+    color: #fafafa;
+
+    border-radius: 5px;
+
+    transition: box-shadow .2s;
+}
+
+.data-btn, .data-btn * {
+    cursor: pointer;
+    user-select: none;
+}
+
+.data-btn.green {
+    background-color: #2E7D32;  /* Green 800 */
+
+    box-shadow: 0 2px 5px #2E7D32;  /* Green 800 */
+}
+
+.data-btn.green:hover {
+    box-shadow: 0 3px 7px #388E3C;  /* Green 700 */
+}
+
+.data-btn.green:active {
+    box-shadow: 0 1px 3px #1B5E20;  /* Green 900 */
+}
+
+.data-btn.blue {
+    background-color: #1565C0;  /* Blue 800 */
+
+    box-shadow: 0 2px 5px #1565C0;  /* Blue 800 */
+}
+
+.data-btn.blue:hover {
+    box-shadow: 0 3px 7px #1976D2;  /* Blue 700 */
+}
+
+.data-btn.blue:active {
+    box-shadow: 0 1px 3px #0D47A1;  /* Blue 900 */
+}
+
+#uploader {
+    position: absolute;
+    opacity: 0;
+}
+
+/** ***** STATUS MESSAGES ***** **/
+
+#upload-status, #upload-errs {
+    margin: 0 0 .5rem 0;
+    width: 100%;
+    padding: .5rem;
+    border-radius: 5px;
+
+    text-align: center;
+
+    font-size: .75rem;
+}
+
+#upload-status {
+    background-color: #E0E0E0;  /* Grey 300 */
+}
+
+#upload-errs {
+    background-color: #ef9a9a;  /* Red 200 */
+}
+
+#upload-status.green, #upload-errs.green {
+    background-color: #C5E1A5;  /* Green 300 */
+}
+
+.upload-err {
+    margin: .25rem 0 .25rem;
+
+    text-align: center;
+}

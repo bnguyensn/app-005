@@ -1,0 +1,52 @@
+#header {
+    display: flex;
+
+    width: 100%;
+    padding: .5rem 1rem 0 1rem;
+
+    background-color: #757575;  /* Grey 600 */
+}
+
+#header a:hover {
+    text-decoration: none;
+}
+
+/** ********** NAV LINKS ********** **/
+
+/* Links by default are inactive*/
+.nav-link {
+    display: block;
+
+    padding: 1rem 2rem 1rem 2rem;
+
+    background-color: #757575;  /* Grey 600 */
+
+    text-align: center;
+
+    font-size: 1.5rem;
+    color: #BDBDBD;  /* Grey 400 */
+
+    text-shadow: 1px 1px 3px #424242;  /* Grey 800 */
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* Class 'active' is applied to links using Reach Router */
+.nav-link.active {
+    background-color: #fafafa;  /* Grey 50 */
+
+    color: #212121;  /* Grey 900 */
+
+    text-shadow: 1px 1px 3px #757575;  /* Grey 600 */
+}
+
+/** ***** Custom nav links ***** **/
+
+.nav-link.active#nav-link-visualise {
+    background-color: #FFF3E0;  /* Orange 50 */
+
+    color: #9B7E52;
+
+    text-shadow: 1px 1px 3px #BAA07A;
+}

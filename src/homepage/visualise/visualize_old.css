@@ -1,0 +1,25 @@
+/** ********** APP GENERICS ********** **/
+
+#app {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-flow: column;
+
+    width: 1280px;
+    padding: 1rem;
+}
+
+@media only screen and (max-width: 1279px) {
+    #app {
+        width: 100%;
+    }
+}
+
+#app > section {
+    display: flex;
+    justify-content: space-evenly;
+
+    margin-bottom: 1rem;
+    width: 100%;
+}

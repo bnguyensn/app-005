@@ -1,0 +1,49 @@
+#intro {
+    width: 100%;
+
+    overflow-x: hidden;
+}
+
+#intro .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #37474F;
+}
+
+#intro .subtitle {
+    margin-bottom: 1rem;
+
+    font-size: .75rem;
+    color: #78909C;
+}
+
+#intro .description {
+    margin-bottom: 1rem;
+
+    color: #455A64;
+}
+
+#intro > div {
+    opacity: 0;
+
+    transform: translate(50%, 0);
+
+    animation: fade-in .3s linear forwards;
+}
+
+#intro .description.delay-1 {animation-delay: .1s;}
+#intro .description.delay-2 {animation-delay: .2s;}
+#intro .description.delay-3 {animation-delay: .3s;}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+
+        transform: translate(50%, 0);
+    }
+    100% {
+        opacity: 1;
+
+        transform: translate(0, 0);
+    }
+}

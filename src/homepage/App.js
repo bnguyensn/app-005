@@ -2,284 +2,203 @@
 
 import * as React from 'react';
 import Loadable from 'react-loadable';
+import {Router, Link} from '@reach/router';
 
-import Loading from './components/Loading';
-import Intro from './components/Intro';
-import {mainChartSize, assetsChartSize} from './components/chartSizes';
-import {filterData, sortData} from './lib/utils/dataMutation';
+import Loading from './app-components/Loading';
+import Header from './app-components/Header';
 
-import type {FundData, ColorData} from './components/DataTypes';
-import type {MiscCheckboxes} from './components/control-panel/Misc';
+import {mainChartSize, assetsChartSize, gcChartSize}
+    from './visualise/chartSizes';
+
+import type {ColorData, FundData} from './data/DataTypes';
+import type {MainChartSize, AssetsChartSize, GCChartSize}
+    from './visualise/chartSizes';
+
+import defaultData from './data/json/default-data';
+import defaultColorData from './data/json/default-color-data';
 
 import './app.css';
+import type {MiscCheckboxes} from './visualise/control-panel/Misc';
 
-import defaultData from './json/default-data';
-import defaultColorData from './json/default-color-data';
+const LoadableIntro = Loadable({
+    loader: () => import('./intro/Intro'),
+    loading: Loading,
+});
+
+const LoadableData = Loadable({
+    loader: () => import('./data/Data'),
+    loading: Loading,
+});
+
+const LoadableVisualise = Loadable({
+    loader: () => import('./visualise/Visualise'),
+    loading: Loading,
+});
 
 type AppStates = {
-    chartKey: boolean,  // Used to "reset" page elements on data upload
-    data: FundData[],
-    mutatedData: FundData[],
-    colorData: ColorData,
+    // Used to "hard reset" components upon receipt of new data
+    dataKey: boolean,
 
+    data: ?FundData[],
+    colorData: ?ColorData,
+    mutatedData: ?FundData[],
+    mutatedColorData: ?ColorData,
+
+    sizes: {
+        mainChartSize: MainChartSize,
+        assetsChartSize: AssetsChartSize,
+        gcChartSize: GCChartSize,
+    },
+
+    curFund: number,  // Currently focused fund id
+
+    // VISUALISE's control panel
+    filterStr: string,
     filterIndices: number[],
-    filterRange: {min: number, max: number},
-
-    curSortKey: string,
-    curSortAsc: boolean,
-
+    sortKey: string,
+    sortAsc: boolean,
     miscCheckboxes: MiscCheckboxes,
-
-    mainChartElClickedFlag: boolean,
-    lastClickedFundData: ?FundData,
-}
-
-const LoadableControlPanel = Loadable({
-    loader: () => import('./components/control-panel/ControlPanel'),
-    loading: Loading,
-});
-
-const LoadableChart = Loadable({
-    loader: () => import('./components/chart/Chart'),
-    loading: Loading,
-});
-
-const LoadableLegend = Loadable({
-    loader: () => import('./components/legend/Legend'),
-    loading: Loading,
-});
-
-const LoadableAnalytics = Loadable({
-    loader: () => import('./components/analytics/Analytics'),
-    loading: Loading,
-});
+};
 
 export default class App extends React.PureComponent<{}, AppStates> {
     constructor(props: {}) {
         super(props);
+
         this.state = {
-            chartKey: false,
-            data: [...defaultData],
-            mutatedData: [...defaultData],
+            dataKey: false,
+            data: defaultData,
             colorData: defaultColorData,
-
-            // filterIndices contains all of data's indices initially
+            mutatedData: [...defaultData],
+            mutatedColorData: {...defaultColorData},
+            sizes: {mainChartSize, assetsChartSize, gcChartSize},
+            curFund: -1,
+            filterStr: '',
             filterIndices: Array.from(Array(defaultData.length).keys()),
-            filterRange: {min: 0, max: 1},
-
-            curSortKey: '',
-            curSortAsc: true,
-
+            sortKey: '',
+            sortAsc: true,
             miscCheckboxes: {
                 weightedAssets: false,
             },
-
-            mainChartElClickedFlag: false,
-            lastClickedFundData: null,
         };
     }
 
-    logStatusMsg = (msg: string | string[]) => {
-        // Log status message for user
-        if (Array.isArray(msg)) {
-            msg.forEach((m) => {
-                console.log(m);
-            });
-        } else {
-            console.log(msg);
-        }
-    };
+    /** ********** DATA'S ********** **/
 
-    /**
-     * Called when a new dataset is uploaded. This resets the chart element via
-     * changing its "key" prop.
-     * */
     setNewData = (data: FundData[], colorData: ColorData) => {
         this.setState((prevState: AppStates) => ({
-            chartKey: !prevState.chartKey,
+            dataKey: !prevState.dataKey,
             data: [...data],
-            mutatedData: [...data],
             colorData: {...colorData},
-            filterIndices: Array.from(Array(data.length).keys()),
-            filterRange: {min: 0, max: 1},
-            lastClickedFundData: null,
+            mutatedData: [...data],
+            mutatedColorData: {...colorData},
+            sizes: {mainChartSize, assetsChartSize, gcChartSize},
+            curFund: -1,
+            filterStr: '',
+            filterIndices: Array.from(Array(defaultData.length).keys()),
+            sortKey: '',
+            sortAsc: true,
         }));
     };
 
-    filterData = (min: number, max: number) => {
-        const {data, mutatedData} = this.state;
+    /** ********** VISUALISE'S ********** **/
 
-        const nextMutatedData = filterData(data, mutatedData, min, max);
+    mutateData = (newMutatedData: FundData[], sideEffects: {}) => {
+        this.setState({
+            mutatedData: newMutatedData,
+            ...sideEffects,  // Side effects MUST conform with AppStates
+        });
+    };
 
-        if (nextMutatedData) {
-            this.setState({
-                mutatedData: [...nextMutatedData],
-                filterRange: {min, max},
-            });
+    changeColorData = (type: string, name: string, newColor: string) => {
+        const {mutatedColorData} = this.state;
+
+        if (newColor && mutatedColorData) {
+            if (type === 'assets') {
+                this.setState({
+                    mutatedColorData: {
+                        assets: {
+                            ...mutatedColorData.assets,
+                            [name]: newColor,
+                        },
+                        assetLvls: {...mutatedColorData.assetLvls},
+                    },
+                });
+            } else if (type === 'assetLvls') {
+                this.setState({
+                    mutatedColorData: {
+                        assets: {...mutatedColorData.assets},
+                        assetLvls: {
+                            ...mutatedColorData.assetLvls,
+                            [name]: newColor,
+                        },
+                    },
+                });
+            }
         }
     };
 
-    getNextFilteredData = (data: FundData[], indices: number[]) => {
-        let nextMutatedData = [];
+    changeSize = (chart: string, newSize: {}) => {
 
-        if (indices.length > 0) {
-            indices.forEach((index) => {
-                nextMutatedData.push(data[index]);
-            });
-        } else {
-            nextMutatedData = [...data];
-        }
-
-        return nextMutatedData
     };
 
-    filterData2 = (indices: number[]) => {
-        const {data, filterIndices} = this.state;
-
-        console.log(indices);
-
-        // Only re-set state if filter changes
-        if (indices.length === 0
-            || indices.length !== filterIndices.length
-            || indices.some((index, i) => index !== filterIndices[i])) {
-            this.setState({
-                mutatedData: this.getNextFilteredData(data, indices),
-                filterIndices: [...indices],
-            });
-        }
+    onFundClick = (fundData: FundData) => {
+        this.setState({
+            curFund: fundData.id,
+        })
     };
 
-    /**
-     * When sorting data, we should sort the unfiltered data to prevent data
-     * jumping around when filters are unset
-     * */
-    sortData = (sortKey: string, asc: boolean, nextMiscCheckboxes?: MiscCheckboxes) => {
-        const {data, filterIndices} = this.state;
+    changeFilterStr = (newFilterStr: string) => {
+        this.setState({
+            filterStr: newFilterStr,
+        });
+    };
 
-        console.log(`calling sort data with ${sortKey} ; ${asc} ; ${nextMiscCheckboxes}`);
+    filterData = (indices: number[]) => {
+        const {data} = this.state;
 
-        /*const sortedData = sortData(data, sortKey);
-        if (sortedData) {
-            const nextMutatedData = filterData(sortedData, mutatedData,
-                filterRange.min, filterRange.max, true);
+        if (data) {
+            const newMutatedData = indices.length > 0
+                ? indices.map(fundIndex => data[fundIndex])
+                : [...data];
 
-            this.setState(prevState => ({
-                data: [...sortedData],
-                mutatedData: nextMutatedData || prevState.mutatedData,
-            }));
-        }*/
+            const sideEffects = {
+                filterIndices: indices,
+            };
 
-        if (data[0].sortIndices[sortKey]) {
-            // Sort index exists
-
-            console.log(`sorting key ${sortKey} | ${asc ? 'asc' : 'des'}`);
-
-            const dir = asc ? 'asc' : 'des';
-
-            const sortedData = [];
-            data.forEach((fundData) => {
-                sortedData[fundData.sortIndices[sortKey][dir]] = {...fundData};
-            });
-
-            const nextMutatedData = this.getNextFilteredData(sortedData, filterIndices);
-
-            this.setState(prevState => ({
-                data: [...sortedData],
-                mutatedData: nextMutatedData || prevState.mutatedData,
-                curSortKey: sortKey,
-                curSortAsc: asc,
-                miscCheckboxes: nextMiscCheckboxes || prevState.miscCheckboxes,
-            }));
+            this.mutateData(newMutatedData, sideEffects);
         }
     };
 
-    changeMiscCheckbox = (name: string) => {
-        const {curSortKey, curSortAsc, miscCheckboxes} = this.state;
+    sortData = (sortKey: string, asc: boolean) => {
 
-        const nextMiscCheckboxes = {
-            ...miscCheckboxes,
-            [name]: !miscCheckboxes[name],
-        };
-
-        const w = nextMiscCheckboxes.weightedAssets;
-
-        if ((curSortKey === 'goingConcern' || curSortKey === 'totalAssets')
-            && w) {
-            this.sortData(`${curSortKey}W`, curSortAsc, nextMiscCheckboxes);
-        } else if ((curSortKey === 'goingConcernW' || curSortKey === 'totalAssetsW')
-            && !w) {
-            this.sortData(curSortKey.slice(0, -1), curSortAsc, nextMiscCheckboxes);
-        } else {
-            this.setState({
-                miscCheckboxes: nextMiscCheckboxes,
-            });
-        }
     };
 
-    changeChartComponentColor = (asset: string, newColor: string) => {
-        this.setState((prevState: AppStates) => ({
-            colorData: {
-                assets: {
-                    ...prevState.colorData.assets,
-                    [asset]: newColor || prevState.colorData.assets[asset],
-                },
-                assetLvls: {...prevState.colorData.assetLvls},
-            },
-        }));
+    changeMiscCheckboxes = (name: string) => {
+
     };
 
-    handleChartElClicked = (fundData: FundData) => {
-        // console.log(JSON.stringify(fundData));
-        this.setState((prevState: AppStates) => ({
-            mainChartElClickedFlag: !prevState.mainChartElClickedFlag,
-            lastClickedFundData: {...fundData},
-        }));
-    };
+    /** ********** RENDER ********** **/
 
     render() {
-        const {
-            chartKey, data, mutatedData, colorData,
-            miscCheckboxes,
-            mainChartElClickedFlag, lastClickedFundData,
-        } = this.state;
-
-        // Note that keys MUST be unique among siblings
-
         return (
             <div id="app">
-                <section>
-                    <Intro />
-                </section>
-                <section>
-                    <LoadableControlPanel key={`CP-${chartKey.toString()}`}
-                                          fundsCount={data.length}
-                                          logStatusMsg={this.logStatusMsg}
-                                          setNewData={this.setNewData}
-                                          filterData={this.filterData}
-                                          filterData2={this.filterData2}
-                                          sortData={this.sortData}
-                                          miscCheckboxes={miscCheckboxes}
-                                          changeCheckbox={this.changeMiscCheckbox} />
-                </section>
-                <section>
-                    <LoadableAnalytics key={`An-${chartKey.toString()}`}
-                                       size={assetsChartSize}
-                                       data={lastClickedFundData}
-                                       colorData={colorData}
-                                       miscCheckboxes={miscCheckboxes} />
-                    <LoadableChart key={`Ch-${chartKey.toString()}`}
-                                   chartSize={mainChartSize}
-                                   data={mutatedData}
-                                   colorData={colorData}
-                                   miscCheckboxes={miscCheckboxes}
-                                   mainChartElClickedFlag={mainChartElClickedFlag}
-                                   handleChartElClicked={this.handleChartElClicked}>
-                        <LoadableLegend key={`Le-${chartKey.toString()}`}
-                                        data={mutatedData}
-                                        colorData={colorData}
-                                        changeChartComponentColor={this.changeChartComponentColor} />
-                    </LoadableChart>
-                </section>
+                <Header />
+                <Router>
+                    <LoadableIntro path="/" />
+                    <LoadableData path="/data"
+                                  setNewData={this.setNewData} />
+                    <LoadableVisualise path="/visualise"
+                                       changeColorData={this.changeColorData}
+                                       changeSize={this.changeSize}
+                                       onFundClick={this.onFundClick}
+                                       changeFilterStr={this.changeFilterStr}
+                                       filterData={this.filterData}
+                                       sortData={this.sortData}
+                                       changeMiscCheckboxes={
+                                           this.changeMiscCheckboxes
+                                       }
+                                       {...this.state} />
+                </Router>
             </div>
         )
     }
