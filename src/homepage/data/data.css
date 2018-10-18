@@ -2,6 +2,8 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+
+    animation: opacity-in 1s;
 }
 
 #data > section {
@@ -10,6 +12,7 @@
     flex-direction: column;
 
     margin: 0 0 1rem 0;
+    max-width: 800px;
     width: 100%;
 }
 

@@ -19,7 +19,7 @@
     height: 1rem;
     padding: .2rem;
 
-    background-color: #4C6F71;
+    background-color: #388E3C;  /* Green 700 */
 
     color: #fafafa;
     font-size: .5rem;
@@ -33,9 +33,9 @@
 }
 
 .main-chart-controls-button:hover {
-    background-color: #6A8687;
+    background-color: #4CAF50;  /* Green 500 */
 }
 
 .main-chart-controls-button:active {
-    background-color: #355C5E;
+    background-color: #1B5E20;    /* Green 900 */
 }

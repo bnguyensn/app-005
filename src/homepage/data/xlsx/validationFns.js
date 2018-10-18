@@ -1,6 +1,7 @@
 // @flow
 
 import {colNumToColName} from './utils';
+import {isArrayEqual} from '../../lib/array';
 
 export type ValidationData = any;
 
@@ -52,182 +53,98 @@ function enforceRangeOnNumber(n: number,
     return n
 }
 
-/** ********** VALIDATION GROUPS - FUND SHEET ********** **/
+/** ********** VALIDATION GROUPS - SHEET ********** **/
 
-export const FUND_SHEET_ROWS_COUNT: ValidationFns[] = [
-    (data: number): string => (
-        data < 2
-            ? 'Provided fund sheet either does not have any data, or does '
-            + 'not have a header. '
-            + 'Please revise fund sheet to match our specifications.'
+export const SHEET_SHAPE: ValidationFns[] = [
+    (data: {rowsCount: number, colsCount: number}): string => {
+        const {rowsCount, colsCount} = data;
+
+        return rowsCount < 3 || colsCount < 3
+            ? 'Must have at least 3 rows and 3 columns.'
             : ''
-    ),
+    },
+    (data: {rowsCount: number, colsCount: number}): string => {
+        const {rowsCount, colsCount} = data;
+
+        return rowsCount !== colsCount
+            ? 'Number of rows must be equal to number of columns.'
+            : ''
+    },
 ];
 
-export const FUND_SHEET_COLS_COUNT: ValidationFns[] = [
-    (data: number): string => (
-        data < 5
-            ? 'Provided fund sheet does not have enough data columns. '
-            + 'Please revise fund sheet to match our specification.'
-            : ''
-    ),
-];
-
-export const FUND_SHEET_HEADER: ValidationFns[] = [
-    (data: {header: string, colIndex: number, headers: string[]}): string => (
-        data.headers.includes(data.header)
-            ? `Fund sheet header at cell ${colNumToColName(data.colIndex)}1 `
-            + 'is duplicated.'
-            : ''
-    ),
-];
-
-export const FUND_SHEET_FUND_NAME: ValidationData[] = [
+export const NAMES_ROW: ValidationData[] = [
     (data: {
-        fundName: string,
+        value: string,
         rowIndex: number,
         colIndex: number,
-        fundData: any[],
-    }): string => (
-        !('0' in data.fundData) || !data.fundData[data.colIndex]
-            ? 'Fund name at cell '
-            + `${colNumToColName(data.colIndex)}${data.rowIndex + 1} `
-            + 'is blank.'
-            : ''
-    ),
+        values: string[],
+    }): string => {
+        const {value, rowIndex, colIndex, values} = data;
 
-    (data: {
-        fundName: string,
-        rowIndex: number,
-        colIndex: number,
-        fundNames: any[],
-    }): string => (
-        data.fundName && data.fundNames.includes(data.fundName)
-            ? 'Fund name at cell '
-            + `${colNumToColName(data.colIndex)}${data.rowIndex + 1} `
+        return values.includes(value)
+            ? `Name ${value} at cell `
+            + `${colNumToColName(colIndex)}${rowIndex + 1} `
             + 'is duplicated.'
             : ''
-    ),
+    },
 ];
 
-export const FUND_SHEET_AMOUNT: ValidationData[] = [
+export const NAMES_COL: ValidationFns[] = [
     (data: {
-        amount: string | number,
+        value: string,
+        rowIndex: number,
+        colIndex: number,
+        values: string[],
+    }): string => {
+        const {value, rowIndex, colIndex, values} = data;
+
+        return values.includes(value)
+            ? `Name ${value} at cell `
+            + `${colNumToColName(colIndex)}${rowIndex + 1} `
+            + 'is duplicated.'
+            : ''
+    },
+];
+
+export const SHEET_AMOUNT: ValidationData[] = [
+    (data: {
+        value: string | number,
         rowIndex: number,
         colIndex: number,
     }): string => {
-        const {amount, rowIndex, colIndex} = data;
+        const {value, rowIndex, colIndex} = data;
 
-        if (amount === '' || amount === undefined) {
+        if (value === '' || value === undefined) {
             return ''
         }
 
-        const intAmount = parseInt(amount, 10);
+        const intAmount = parseInt(value, 10);
 
         if (typeof intAmount !== 'number' || Number.isNaN(intAmount)) {
-            return `Fund data '${amount}' at cell `
+            return `Amount '${value}' at cell `
                 + `${colNumToColName(colIndex)}${rowIndex + 1} is not numeric.`
         }
 
-        if (intAmount < 0) {
-            return `Fund data '${amount}' at cell `
-                + `${colNumToColName(colIndex)}${rowIndex + 1} is less than 0.`
+        if (Number(value) < 0) {
+            return `Amount '${value}' at cell `
+                + `${colNumToColName(colIndex)}${rowIndex + 1} is less than 0. `
+                + 'All amounts must be larger than 0.'
         }
 
         return ''
     },
 ];
 
-/** ********** VALIDATION GROUPS - ASSET SHEET ********** **/
-
-export const ASSET_SHEET_ASSET_NAME: ValidationData[] = [
-    // Check blank names
+export const NAMES_ROW_COL: ValidationFns[] = [
     (data: {
-        assetName: string,
-        rowIndex: number,
-        colIndex: number,
-        assetData: any[],
-    }): string => (
-        !('0' in data.assetData) || !data.assetData[data.colIndex]
-            ? 'Asset name at cell '
-            + `${colNumToColName(data.colIndex)}${data.rowIndex + 1} `
-            + 'is blank.'
-            : ''
-    ),
-
-    // Check duplicate names
-    (data: {
-        assetName: string,
-        rowIndex: number,
-        colIndex: number,
-        assetNames: any[],
-    }): string => (
-        data.assetName && data.assetNames.includes(data.assetName)
-            ? 'Asset name at cell '
-            + `${colNumToColName(data.colIndex)}${data.rowIndex + 1} `
-            + 'is duplicated.'
-            : ''
-    ),
-];
-
-export const ASSET_SHEET_ASSET_LEVEL: ValidationData[] = [
-    // Check NaN, non-integer, < 1 amounts
-    (data: {
-        amount: string | number,
-        rowIndex: number,
-        colIndex: number,
+        namesRow: string[],
+        namesCol: string[],
     }): string => {
-        const {amount, rowIndex, colIndex} = data;
+        const {namesRow, namesCol} = data;
 
-        if (amount === '' || amount === undefined) {
-            return ''
-        }
-
-        const intAmount = parseInt(amount, 10);
-        if (typeof intAmount !== 'number' || Number.isNaN(intAmount)) {
-            return `Asset level '${amount} at cell `
-                + `${colNumToColName(colIndex)}${rowIndex + 1} is not numeric.`
-        }
-
-        if (!Number.isInteger(Number(amount))) {
-            return `Asset level '${amount} at cell `
-                + `${colNumToColName(colIndex)}${rowIndex + 1} is non-integer.`
-        }
-
-        if (intAmount < 1) {
-            return `Asset data '${amount}' at cell `
-                + `${colNumToColName(colIndex)}${rowIndex + 1} is less than 1.`
-        }
-
-        return ''
-    },
-];
-
-export const ASSET_SHEET_ASSET_WEIGHTING: ValidationData[] = [
-    // Check NaN, < 0 amounts
-    (data: {
-        amount: string | number,
-        rowIndex: number,
-        colIndex: number,
-    }): string => {
-        const {amount, rowIndex, colIndex} = data;
-
-        if (amount === '' || amount === undefined) {
-            return ''
-        }
-
-        const intAmount = parseInt(amount, 10);
-        if (typeof intAmount !== 'number' || Number.isNaN(intAmount)) {
-            return `Asset weighting '${amount} at cell `
-                + `${colNumToColName(colIndex)}${rowIndex + 1} is not numeric.`
-        }
-
-        if (intAmount < 0 || intAmount > 1) {
-            return `Asset weighting '${amount}' at cell `
-                + `${colNumToColName(colIndex)}${rowIndex + 1} is not between `
-                + '0 and 1.'
-        }
-
-        return ''
+        return !isArrayEqual(namesRow, namesCol)
+            ? 'Names in header row and names in header column do not match. '
+            + 'Please make sure data in sheet is symmetrical.'
+            : ''
     },
 ];

@@ -5,6 +5,8 @@
     padding: .5rem 1rem 0 1rem;
 
     background-color: #757575;  /* Grey 600 */
+
+    overflow-x: hidden;
 }
 
 #header a:hover {
@@ -44,9 +46,11 @@
 /** ***** Custom nav links ***** **/
 
 .nav-link.active#nav-link-visualise {
-    background-color: #FFF3E0;  /* Orange 50 */
+    /*
+    background-color: #C8E6C9;  !* Green 100 *!
 
-    color: #9B7E52;
+    color: #388E3C;  !* Green 700 *!
 
-    text-shadow: 1px 1px 3px #BAA07A;
+    text-shadow: 1px 1px 3px #66BB6A;  !* Green 400 *!
+    */
 }

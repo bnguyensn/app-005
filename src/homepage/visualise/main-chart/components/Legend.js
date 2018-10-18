@@ -6,20 +6,21 @@ import Label from './LegendLabel';
 import LegendColorMenu from './LegendColorMenu';
 import LegendEmpty from './LegendEmpty';
 
-import type {ColorData, FundData} from '../../../data/DataTypes';
+import type {ColorData, CompanyData} from '../../../data/DataTypes';
 
 import './legend.css';
 
 type LegendProps = {
-    data: ?FundData[],
+    data: ?CompanyData[],
     colorData: ?ColorData,
-    changeColorData: (type: string, name: string, newColor: string) => void,
+    curCompany: string,
+    changeColorData: (name: string, newColor: string) => void,
 };
 
 type LegendStates = {
     colorMenuShow: boolean,
     colorMenuPos: {top: number, left: number},
-    curAsset: string,
+    curItem: string,
 };
 
 export default class Legend
@@ -30,39 +31,36 @@ export default class Legend
         this.state = {
             colorMenuShow: false,
             colorMenuPos: {top: 0, left: 0},
-            curAsset: '',
+            curItem: '',
         };
     }
 
-    toggleColorMenu = (assetName: string, el: HTMLDivElement) => {
+    toggleColorMenu = (itemName: string, el: HTMLDivElement) => {
         this.setState(prevState => ({
-            colorMenuShow: prevState.curAsset === assetName
+            colorMenuShow: prevState.curItem === itemName
                 ? !prevState.colorMenuShow
                 : true,
             colorMenuPos: {top: el.offsetTop, left: el.offsetLeft},
-            curAsset: assetName,
+            curItem: itemName,
         }));
     };
 
     render() {
-        const {data, colorData, changeColorData} = this.props;
-        const {colorMenuShow, colorMenuPos, curAsset} = this.state;
+        const {data, colorData, curCompany, changeColorData} = this.props;
+        const {colorMenuShow, colorMenuPos, curItem} = this.state;
 
         let labels = [];
 
         if (data && colorData) {
-            // Assets currently showing in the main chart
-            const availableAssets = data[0].assets.map(asset => asset.name);
-
-            // Add Remaining investment commitments
-            availableAssets.push('Remaining investment commitments');
+            // Available colors
+            const availableItems = Object.keys(colorData[curCompany]);
 
             // Generate labels
-            labels = availableAssets.length > 0
-                ? availableAssets.map(assetName => (
-                    <Label key={assetName}
-                           color={colorData.assets[assetName] || '#212121'}
-                           assetName={assetName}
+            labels = availableItems.length > 0
+                ? availableItems.map(itemName => (
+                    <Label key={itemName}
+                           color={colorData[curCompany][itemName] || '#212121'}
+                           itemName={itemName}
                            toggleColorMenu={this.toggleColorMenu} />
                 ))
                 : [];
@@ -75,8 +73,8 @@ export default class Legend
                     : <LegendEmpty />}
                 <LegendColorMenu show={colorMenuShow}
                                  pos={colorMenuPos}
-                                 assetName={curAsset}
-                                 changeAssetColor={changeColorData} />
+                                 itemName={curItem}
+                                 changeItemColor={changeColorData} />
             </div>
         )
     }

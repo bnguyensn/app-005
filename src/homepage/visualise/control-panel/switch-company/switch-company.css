@@ -1,0 +1,10 @@
+#main-chart-control-panel-switch-company {
+    width: 100%;
+}
+
+#switch-company-select {
+    width: 100%;
+
+    font-family: inherit;
+    font-size: .75rem;
+}

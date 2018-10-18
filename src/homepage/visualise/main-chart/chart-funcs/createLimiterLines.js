@@ -3,7 +3,7 @@
 import {line} from 'd3-shape';
 import {transition} from 'd3-transition';
 
-import type {ColorData, FundData} from '../../../data/DataTypes';
+import type {ColorData, CompanyData} from '../../../data/DataTypes';
 
 type Line2Points = [[number, number], [number, number]];
 
@@ -11,14 +11,14 @@ type LineData = {
     name: string,
     amount: number,
     points: Line2Points,
-    fundData: FundData,
+    fundData: CompanyData,
     d: string,
 };
 
 const lineGen = line().defined(d => d !== null);
 
 function createLineData(
-    data: FundData[],
+    data: CompanyData[],
     xScale: any,
     yScale: any,
 ): LineData[] {
@@ -46,14 +46,14 @@ function createLineData(
 }
 
 export function getPathUE(
-    data: FundData[],
+    data: CompanyData[],
     scaleX: any,
     scaleY: any,
     pannable: any,
     height: number,  // Pannable size height
     showTooltip: (d: any, i: number, nodes: any) => void,
     hideTooltip: () => void,
-    onFundClick: (FundData) => void,
+    onFundClick: (CompanyData) => void,
 ): any {
     const lineData = createLineData(data, scaleX, scaleY);
 

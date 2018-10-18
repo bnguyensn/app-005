@@ -8,7 +8,7 @@ import {ClickableDiv} from '../../../lib/components/Clickable';
 
 type ColorButtonProps = {
     color: string,
-    submitNewColor: (color) => void,
+    submitNewColor: (color: string) => void,
 }
 
 export default function ColorButton(props: ColorButtonProps) {
@@ -17,7 +17,9 @@ export default function ColorButton(props: ColorButtonProps) {
     const handleClick = () => {
         // Only change color if color string is valid
 
-        if (d3Color(color)) submitNewColor(color);
+        if (d3Color(color)) {
+            submitNewColor(d3Color(color).hex());
+        }
     };
 
     return (

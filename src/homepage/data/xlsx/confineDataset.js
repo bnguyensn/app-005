@@ -34,7 +34,11 @@ function getConfinedSheetData(
         while (colIndex < maxCol) {
             const col = row[colIndex];
 
-            if (rowIndex !== 0 && colIndex !== 0) {
+            // Headers are rows 0 - 2, id is column 0
+
+            if (rowIndex > 1 && colIndex !== 0) {
+                // Put a default empty amount in
+
                 finalCol.push(col === undefined ? defaultEmptyAmount : col);
             } else {
                 finalCol.push(col);
@@ -52,30 +56,42 @@ function getConfinedSheetData(
 }
 
 export default function confineDataset(
-    fundSheetData: any,
-    assetSheetData: any,
-): [any, any] {
+    dataset: any,
+    sheetNames: ?string[],
+): any {
     try {
+        if (sheetNames) {
+            return sheetNames.reduce((acc, sheetName) => {
+                const sheetObj = dataset[sheetName];
+
+                // Limit the amount of rows to be parsed
+                // Data in rows after a fully blank row will not be parsed and will
+                // not be part of our final data set
+                const maxSheetRow = getMaxIndex(sheetObj);
+
+                // Limit the amount of columns to be parsed
+                // Data in columns after the last non-blank header will not be
+                // parsed and will not be part of our final data set
+                const maxSheetCol = getMaxIndex(sheetObj[0]);
+
+                acc[sheetName] = getConfinedSheetData(sheetObj, maxSheetRow,
+                    maxSheetCol, 0);
+
+                return acc
+            }, {});
+        }
+
         // Limit the amount of rows to be parsed
-        // Data in rows after a fully blank row will not be parsed and will not
-        // be part of our final data set
-        const maxFundSheetRow = getMaxIndex(fundSheetData);
-        const maxAssetSheetRow = getMaxIndex(assetSheetData);
+        // Data in rows after a fully blank row will not be parsed and will
+        // not be part of our final data set
+        const maxSheetRow = getMaxIndex(dataset);
 
         // Limit the amount of columns to be parsed
-        // Data in columns after the last non-blank header will not be parsed
-        // and will not be part of our final data set
-        const maxFundSheetCol = getMaxIndex(fundSheetData[0]);
-        const maxAssetSheetCol = 3;
+        // Data in columns after the last non-blank header will not be
+        // parsed and will not be part of our final data set
+        const maxSheetCol = getMaxIndex(dataset[0]);
 
-        const confinedFundSheetData = getConfinedSheetData(
-            fundSheetData, maxFundSheetRow, maxFundSheetCol, 0,
-        );
-        const confinedAssetSheetData = getConfinedSheetData(
-            assetSheetData, maxAssetSheetRow, maxAssetSheetCol, 1,
-        );
-
-        return [confinedFundSheetData, confinedAssetSheetData]
+        return getConfinedSheetData(dataset, maxSheetRow, maxSheetCol, 0);
     } catch (e) {
         throw e
     }

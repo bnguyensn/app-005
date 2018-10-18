@@ -2,17 +2,17 @@
 
 import {scaleBand} from 'd3-scale';
 
-import type {FundData} from '../../../data/DataTypes';
+import type {CompanyData} from '../../../data/DataTypes';
 
 export default function createScaleX(
-    data: FundData[],
+    data: CompanyData[],
     pannableWidth: number,
 ) {
-    const fundNames = data.map(fundData => fundData.name);
+    const years = data.map(d => d.year);
 
     // Using band scale for x
     return scaleBand()
-        .domain(fundNames)
+        .domain(years)
         .range([0, pannableWidth])
-        .padding(0.05);
+        .padding(0.1);
 }

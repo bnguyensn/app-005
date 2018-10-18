@@ -2,23 +2,22 @@
 
 import XLSX from 'xlsx';
 
-export default function readWorkbook(data: ArrayBuffer): [any, any] {
+export type Sheets = any[];  // {sheetName: sheetObj, ...}
+export type SheetNames = string[];
+
+export default function readWorkbook(
+    data: ArrayBuffer,
+): ?[Sheets, SheetNames] {
     try {
         const workbook = XLSX.read(data, {type: 'array'});
 
-        const fundSheet = workbook.Sheets[workbook.SheetNames[0]];
-        const assetSheet = workbook.Sheets[workbook.SheetNames[1]];
+        // Parse all sheets
 
-        const fundSheetData = XLSX.utils.sheet_to_json(
-            fundSheet,
-            {header: 1},
-        );
-        const assetSheetData = XLSX.utils.sheet_to_json(
-            assetSheet,
-            {header: 1},
-        );
+        const sheets = workbook.SheetNames.map(sheetName => (
+            XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {header: 1})
+        ));
 
-        return [fundSheetData, assetSheetData]
+        return [sheets, workbook.SheetNames]
     } catch (e) {
         throw e
     }

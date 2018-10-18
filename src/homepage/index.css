@@ -1,12 +1,19 @@
 /* ********** GENERAL ********** */
 
 * {
-    /* Make padding and border included in the total width and height of elements */
+    /* Make padding and border included in the total
+     width and height of elements */
     box-sizing: border-box;
 }
 
 html {
-    font-size: 24px;
+    font-size: 20px;
+}
+
+@media only screen and (min-width: 848px) {
+    html {
+        font-size: 24px;
+    }
 }
 
 body {
@@ -48,22 +55,6 @@ sup {
 .hidden-op { opacity: 0; }
 .shown-op { opacity: 1; }
 .hidden-vis-op { visibility: hidden; opacity: 0; }
-
-.block { display: block; }
-.inline-block { display: inline-block; }
-
-.text-left { text-align: left; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.text-justify { text-align: justify; }
-
-.width-0 { width: 0; }
-.width-100p { width: 100%; }
-.min-width-100p { min-width: 100%; }
-
-section.section-320 { max-width: 320px; }
-section.section-640 { max-width: 640px; }
-section.section-960 { max-width: 960px; }
 
 .fake-link {
     color: #03A9F4;  /* Light Blue 500 */

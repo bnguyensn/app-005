@@ -11,25 +11,27 @@ export default function Intro() {
     return (
         <Page id="intro">
             <div className="title">
-                INVESTMENT FUND OVERCOMMITMENT CHARTING TOOL
+                CHORD DIAGRAM TECH DEMO
             </div>
             <div className="subtitle">
                 A D3.js / SheetJS / React tech demo by Binh Nguyen
             </div>
             <div className="description delay-1">
-                {'A common assessment of an investment fund\'s going concern'
-                + ' involves looking at its remaining investment commitments '
-                + 'and check whether they can be fulfilled using the '
-                + 'fund\'s available assets.'}
+                A chord diagram is commonly used to visualise{' '}
+                bi-directional flow data.
             </div>
             <div className="description delay-2">
-                {'With adequate data, this tool can graph the '
-                + 'overcommitment situation of investment funds and help '
-                + 'speed up going concern decisions.'}
+                One notable example of these kind of visualisations is the {' '}
+                BBC&rsquo;s{' '}
+                <a href="https://www.bbc.co.uk/news/business-15748696">
+                    Eurozone debt map
+                </a>.
             </div>
             <div className="description delay-3">
+                This demo allows you to create your own interactive chord{' '}
+                diagram using any bi-directional flow data.{' '}
                 Please head over to the <Link to="/data">DATA</Link>{' '}
-                section to get started.
+                tab to get started.
             </div>
         </Page>
     )

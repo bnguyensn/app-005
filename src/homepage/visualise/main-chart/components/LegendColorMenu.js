@@ -11,8 +11,8 @@ import defaultColorBank from '../../../data/json/default-color-bank-01';
 type ColorMenuProps = {
     show: boolean,
     pos: {top: number, left: number},
-    assetName: string,  // The asset whose color is being changed
-    changeAssetColor: (type: string, name: string, newColor: string) => void,
+    itemName: string,  // The asset whose color is being changed
+    changeItemColor: (name: string, newColor: string) => void,
 };
 
 type ColorMenuStates = {
@@ -29,9 +29,9 @@ export default class LegendColorMenu extends React.PureComponent<ColorMenuProps,
     }
 
     submitNewColor = (color: string) => {
-        const {assetName, changeAssetColor} = this.props;
+        const {itemName, changeItemColor} = this.props;
 
-        changeAssetColor('assets', assetName, color);
+        changeItemColor(itemName, color);
     };
 
     handleColorStringChange = (e: SyntheticInputEvent<HTMLInputElement>) => {
@@ -57,7 +57,7 @@ export default class LegendColorMenu extends React.PureComponent<ColorMenuProps,
                          top: pos.top,
                          left: pos.left,
                      }}>
-                    Select a preset colour, or type in a colour code
+                    Select a preset colour, OR type in a colour code
                     <div className="legend-color-menu-preset-color-btns">
                         {presetColorButtons}
                     </div>

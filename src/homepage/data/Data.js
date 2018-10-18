@@ -7,13 +7,13 @@ import Page from '../app-components/Page';
 import TemplateDLLink from './TemplateDLLink';
 import UploadButtons from './UploadButtons';
 
-import type {ColorData, FundData} from './DataTypes';
+import type {ColorData, GroupData} from './DataTypes';
 
 import './data.css';
 import UploadStatus from './UploadStatus';
 
 type DataProps = {
-    setNewData: (FundData[], ColorData) => void,
+    setNewData: (GroupData, ColorData) => void,
 };
 
 type DataStates = {

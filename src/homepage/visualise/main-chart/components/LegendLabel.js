@@ -6,15 +6,15 @@ import {ClickableDiv} from '../../../lib/components/Clickable';
 
 type LabelProps = {
     color: string,
-    assetName: string,
-    toggleColorMenu: (asset: string, el: HTMLDivElement) => void,
+    itemName: string,
+    toggleColorMenu: (itemName: string, el: HTMLDivElement) => void,
 };
 
 export default function Label(props: LabelProps) {
-    const {color, assetName, toggleColorMenu} = props;
+    const {color, itemName, toggleColorMenu} = props;
 
-    const handleClick = (e: SyntheticEvent<HTMLElement>) => {
-        toggleColorMenu(assetName, e.currentTarget);
+    const handleClick = (e: SyntheticEvent<HTMLDivElement>) => {
+        toggleColorMenu(itemName, e.currentTarget);
     };
 
     return (
@@ -25,7 +25,7 @@ export default function Label(props: LabelProps) {
                           }}
                           action={handleClick} />
             <div className="legend-label-text">
-                {assetName}
+                {itemName}
             </div>
         </div>
     )

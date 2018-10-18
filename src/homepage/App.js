@@ -7,18 +7,25 @@ import {Router, Link} from '@reach/router';
 import Loading from './app-components/Loading';
 import Header from './app-components/Header';
 
-import {mainChartSize, assetsChartSize, gcChartSize}
+import {createNormalStage, createWalkthroughStages}
+    from './visualise/stages/createStage';
+import createColorScale
+    from './visualise/main-chart/chart-funcs/createColorScale';
+
+import {mainChartSize}
     from './visualise/chartSizes';
 
-import type {ColorData, FundData} from './data/DataTypes';
-import type {MainChartSize, AssetsChartSize, GCChartSize}
+import type {ColorData, NameData, Data}
+    from './data/DataTypes';
+import type {ArcChartSize}
     from './visualise/chartSizes';
+import type {Stage} from './visualise/stages/createStage';
 
 import defaultData from './data/json/default-data';
+import defaultNameData from './data/json/default-name-data';
 import defaultColorData from './data/json/default-color-data';
 
 import './app.css';
-import type {MiscCheckboxes} from './visualise/control-panel/Misc';
 
 const LoadableIntro = Loadable({
     loader: () => import('./intro/Intro'),
@@ -35,149 +42,95 @@ const LoadableVisualise = Loadable({
     loading: Loading,
 });
 
-type AppStates = {
+/**
+ * All sorts of data should sit here else user will lose states upon navigating
+ * the app
+ * */
+export type AppStates = {
     // Used to "hard reset" components upon receipt of new data
     dataKey: boolean,
 
-    data: ?FundData[],
-    colorData: ?ColorData,
-    mutatedData: ?FundData[],
-    mutatedColorData: ?ColorData,
+    data: ?Data,
+    nameData: ?NameData,
+    colorScale: ?ColorData,
 
     sizes: {
-        mainChartSize: MainChartSize,
-        assetsChartSize: AssetsChartSize,
-        gcChartSize: GCChartSize,
+        mainChartSize: ArcChartSize,
     },
 
-    curFund: number,  // Currently focused fund id
+    mode: 'normal' | 'walkthrough',
+    stages: Stage[],
+    curStage: number,
 
-    // VISUALISE's control panel
-    filterStr: string,
-    filterIndices: number[],
-    sortKey: string,
-    sortAsc: boolean,
-    miscCheckboxes: MiscCheckboxes,
+    allowEvents: boolean,
 };
 
 export default class App extends React.PureComponent<{}, AppStates> {
+    colorScale: any;
+
     constructor(props: {}) {
         super(props);
 
+        this.colorScale = createColorScale(defaultColorData);
+
+        const walkthroughStages = [
+            ...createWalkthroughStages(
+                defaultData,
+                defaultNameData,
+                this.colorScale,
+            ),
+        ];
+
         this.state = {
             dataKey: false,
+
             data: defaultData,
-            colorData: defaultColorData,
-            mutatedData: [...defaultData],
-            mutatedColorData: {...defaultColorData},
-            sizes: {mainChartSize, assetsChartSize, gcChartSize},
-            curFund: -1,
-            filterStr: '',
-            filterIndices: Array.from(Array(defaultData.length).keys()),
-            sortKey: '',
-            sortAsc: true,
-            miscCheckboxes: {
-                weightedAssets: false,
-            },
+            colorScale: this.colorScale,
+            nameData: defaultNameData,
+
+            sizes: {mainChartSize},
+
+            mode: 'normal',
+            stages: walkthroughStages,
+            curStage: 0,
+
+            allowEvents: false,
         };
     }
 
-    /** ********** DATA'S ********** **/
+    setNewData = (data: Data, nameData: NameData, colorData: ?ColorData) => {
+        if (colorData) this.colorScale = createColorScale(colorData);
 
-    setNewData = (data: FundData[], colorData: ColorData) => {
+        const walkthroughStages = [
+            ...createWalkthroughStages(
+                defaultData,
+                defaultNameData,
+                this.colorScale,
+            ),
+        ];
+
         this.setState((prevState: AppStates) => ({
             dataKey: !prevState.dataKey,
-            data: [...data],
-            colorData: {...colorData},
-            mutatedData: [...data],
-            mutatedColorData: {...colorData},
-            sizes: {mainChartSize, assetsChartSize, gcChartSize},
-            curFund: -1,
-            filterStr: '',
-            filterIndices: Array.from(Array(defaultData.length).keys()),
-            sortKey: '',
-            sortAsc: true,
+
+            data,
+            nameData,
+            colorScale: this.colorScale,
+
+            sizes: {mainChartSize},
+
+            mode: 'normal',
+            stages: walkthroughStages,
+            curStage: 0,
+
+            allowEvents: false,
         }));
     };
 
-    /** ********** VISUALISE'S ********** **/
-
-    mutateData = (newMutatedData: FundData[], sideEffects: {}) => {
+    changeState = (state: string, newState: any) => {
         this.setState({
-            mutatedData: newMutatedData,
-            ...sideEffects,  // Side effects MUST conform with AppStates
+            [state]: newState,
         });
     };
-
-    changeColorData = (type: string, name: string, newColor: string) => {
-        const {mutatedColorData} = this.state;
-
-        if (newColor && mutatedColorData) {
-            if (type === 'assets') {
-                this.setState({
-                    mutatedColorData: {
-                        assets: {
-                            ...mutatedColorData.assets,
-                            [name]: newColor,
-                        },
-                        assetLvls: {...mutatedColorData.assetLvls},
-                    },
-                });
-            } else if (type === 'assetLvls') {
-                this.setState({
-                    mutatedColorData: {
-                        assets: {...mutatedColorData.assets},
-                        assetLvls: {
-                            ...mutatedColorData.assetLvls,
-                            [name]: newColor,
-                        },
-                    },
-                });
-            }
-        }
-    };
-
-    changeSize = (chart: string, newSize: {}) => {
-
-    };
-
-    onFundClick = (fundData: FundData) => {
-        this.setState({
-            curFund: fundData.id,
-        })
-    };
-
-    changeFilterStr = (newFilterStr: string) => {
-        this.setState({
-            filterStr: newFilterStr,
-        });
-    };
-
-    filterData = (indices: number[]) => {
-        const {data} = this.state;
-
-        if (data) {
-            const newMutatedData = indices.length > 0
-                ? indices.map(fundIndex => data[fundIndex])
-                : [...data];
-
-            const sideEffects = {
-                filterIndices: indices,
-            };
-
-            this.mutateData(newMutatedData, sideEffects);
-        }
-    };
-
-    sortData = (sortKey: string, asc: boolean) => {
-
-    };
-
-    changeMiscCheckboxes = (name: string) => {
-
-    };
-
-    /** ********** RENDER ********** **/
 
     render() {
         return (
@@ -188,15 +141,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
                     <LoadableData path="/data"
                                   setNewData={this.setNewData} />
                     <LoadableVisualise path="/visualise"
-                                       changeColorData={this.changeColorData}
-                                       changeSize={this.changeSize}
-                                       onFundClick={this.onFundClick}
-                                       changeFilterStr={this.changeFilterStr}
-                                       filterData={this.filterData}
-                                       sortData={this.sortData}
-                                       changeMiscCheckboxes={
-                                           this.changeMiscCheckboxes
-                                       }
+                                       changeState={this.changeState}
                                        {...this.state} />
                 </Router>
             </div>

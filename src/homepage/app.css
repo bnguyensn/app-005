@@ -5,8 +5,9 @@
 
     min-height: 100vh;
 
-    /* 688 = 640 + (24 * 2) (main chart size + page padding) */
-    min-width: 688px;
+    width: 320px;
+
+    /*min-width: 320px;*/  /* Remember: .page has 1rem padding) */
 
     background-color: #fafafa;
 }
@@ -15,10 +16,17 @@
     width: 100%;
 }
 
-@media only screen and (max-width: 688px) {
+@media only screen and (min-width: 320px) {
     #app {
-        min-width: 100vw;
+        width: 100%;  /* #app will always grow to fit screen size */
     }
 }
 
-
+@keyframes opacity-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

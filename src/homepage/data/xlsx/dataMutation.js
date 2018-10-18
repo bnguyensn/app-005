@@ -1,16 +1,16 @@
 // @flow
 
-import objHasKey from './objHasKey';
+import objHasKey from '../../lib/objHasKey';
 
-import type {FundData} from '../data/DataTypes';
+import type {CompanyData} from '../DataTypes';
 
 export function filterData(
-    data: FundData[],
-    mutatedData: FundData[],
+    data: CompanyData[],
+    mutatedData: CompanyData[],
     min: number,
     max: number,
     forceUpdate?: boolean = false,
-): FundData[] | null {
+): CompanyData[] | null {
     const dataCount = data.length;
 
     const nextMutatedData = data.filter((d, i) => (

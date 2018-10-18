@@ -11,7 +11,7 @@ import validateData from './xlsx/validateData';
 import refineData from './xlsx/refineData';
 import createColorData from './xlsx/createColorData';
 
-import type {ColorData, FundData} from './DataTypes';
+import type {Data, NameData} from './DataTypes';
 
 const DEBUG = true;  // TODO: remove in production
 
@@ -32,8 +32,12 @@ const acceptableFileTypes = [
 const acceptableExtensions = '.xlsx, .xls, .xlsb, .xlsm, .csv';
 
 type UploadButtonsProps = {
-    setNewData: (FundData[], ColorData) => void,
-    setDataStatus: (string, ?string[]) => void,
+    setNewData: (Data, NameData) => void,
+    setDataStatus: (
+        dataStatus: string,
+        errorMsgs?: ?string[],
+        specialDataStatus?: number
+    ) => void,
 };
 
 export default function UploadButtons(props: UploadButtonsProps) {
@@ -72,10 +76,25 @@ export default function UploadButtons(props: UploadButtonsProps) {
 
                     // ********** 1. Read workbook ********** //
 
-                    let fundSheetData, assetSheetData;
+                    let sheets, sheetNames;
 
                     try {
-                        [fundSheetData, assetSheetData] = readWorkbook(data);
+                        const readRes = readWorkbook(data);
+
+                        if (readRes) {
+                            [sheets, sheetNames] = readRes;
+
+                            if (DEBUG) {
+                                console.log('Here are the read sheet names:');
+                                console.log(sheetNames);
+                                console.log('Here are the read sheets:');
+                                console.log(sheets);
+                            }
+                        } else {
+                            reportErrors(['Not enough sheets in provided '
+                            + 'spreadsheet. Please revise.']);
+                            return
+                        }
                     } catch (e) {
                         reportErrors([e]);
                         return
@@ -83,36 +102,52 @@ export default function UploadButtons(props: UploadButtonsProps) {
 
                     // ********** 2. Confine data set ********** //
 
-                    let confinedFundSheetData, confinedAssetSheetData;
+                    let confinedSheetsObj;
 
                     try {
-                        [confinedFundSheetData, confinedAssetSheetData]
-                            = confineDataset(fundSheetData, assetSheetData);
+                        confinedSheetsObj = confineDataset(
+                            sheets[0], null,
+                        );
                     } catch (e) {
                         reportErrors([e]);
                         return
                     }
 
                     if (DEBUG) {
-                        console.log('confined fundSheetData:');
-                        console.log(confinedFundSheetData);
-                        console.log('confined assetSheetData:');
-                        console.log(confinedAssetSheetData);
+                        console.log('confined sheetsObj:');
+                        console.log(confinedSheetsObj);
                     }
 
                     // ********** 3. Validate data ********** //
 
-                    let errMsgs;
-
                     try {
-                        const [fundDataErrs, assetDataErrs] = validateData(
-                            confinedFundSheetData, confinedAssetSheetData,
+                        const confinedSheetsObjErrs = validateData(
+                            confinedSheetsObj, null,
                         );
 
-                        errMsgs = [...fundDataErrs, ...assetDataErrs];
+                        // Construct error messages array
+
+                        const multipleSheetFlag = false;
+
+                        let errMsgs;
+                        if (multipleSheetFlag) {
+                            errMsgs = sheetNames.reduce((acc, sheetName) => {
+                                const errMsgs = confinedSheetsObjErrs[sheetName];
+
+                                if (errMsgs.length > 0) {
+                                    acc.push(...errMsgs.map(errMsg => (
+                                        `${sheetName}: ${errMsg}`
+                                    )));
+                                }
+
+                                return acc
+                            }, []);
+                        } else {
+                            errMsgs = confinedSheetsObjErrs;
+                        }
 
                         if (DEBUG) {
-                            console.log('errMsgs:');
+                            console.log('Data validation finished, here are the errors: ');
                             console.log(errMsgs);
                         }
 
@@ -127,13 +162,10 @@ export default function UploadButtons(props: UploadButtonsProps) {
 
                     // ********** 4. Refine data set ********** //
 
-                    let refinedData;
+                    let refinedData, nameData;
 
                     try {
-                        refinedData = refineData(
-                            confinedFundSheetData,
-                            confinedAssetSheetData,
-                        );
+                        [refinedData, nameData] = refineData(confinedSheetsObj, null);
 
                         if (DEBUG) {
                             console.log('refinedData:');
@@ -144,13 +176,26 @@ export default function UploadButtons(props: UploadButtonsProps) {
                         return
                     }
 
-                    // ********** 5. Set new fund and color data ********** //
+                    // ********** 5. Create color data ********** //
 
-                    const colorData = createColorData(refinedData);
+                    /*let colorData;
+
+                    try {
+                        colorData = createColorData(refinedData);
+
+                        if (DEBUG) {
+                            console.log('colorData:');
+                            console.log(JSON.stringify(colorData));
+                        }
+                    } catch (e) {
+                        reportErrors([e]);
+                        return
+                    }*/
+
+                    // ********** 6. Set new data set ********** //
 
                     setDataStatus('n/a', [], 1);
-
-                    setNewData(refinedData, colorData);
+                    setNewData(refinedData, nameData);
 
                     if (DEBUG) {
                         console.log('*** Data upload procedures completed ***');

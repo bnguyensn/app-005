@@ -3,66 +3,141 @@
 import {select} from 'd3-selection';
 import {stack} from 'd3-shape';
 
-import type {ColorData, FundData} from '../../../data/DataTypes';
+import type {ColorData, CompanyData} from '../../../data/DataTypes';
 import type {MiscCheckboxes} from '../../control-panel/Misc';
 
-function createStackedSeries(
-    data: FundData[],
-    miscCheckboxes: MiscCheckboxes,
-): any {
+/**
+ * Data type for series normally comes in the form of an array of stuff
+ * */
+export function getNewSeriesUE(data: any[], colorData: ColorData,
+                               miscCheckboxes: MiscCheckboxes,
+                               pannable: any): any[] {
     const w = miscCheckboxes.weightedAssets;
 
-    // Create stack data
-    const stackData = data.map((fundData) => {
-        const fundObj = {};
-        fundObj.name = fundData.name;
-        fundData.assets.forEach((asset) => {
-            fundObj[asset.name] = w ? asset.amtW : asset.amt;
-        });
-        fundObj.fundData = fundData;
-        return fundObj
+    const inflowsWeightings = {};
+    const outflowsWeightings = {};
+    
+    // ********** 1. Stack data & keys ********** //
+
+    const inflowsSeriesData = data.map((d) => {
+        // d = one year of company data
+
+        const annualInflows = Object.keys(d.inflows)
+            .reduce((acc, curVal) => {
+                if (!inflowsWeightings[curVal]) {
+                    inflowsWeightings[curVal] = d.inflows[curVal].w;
+                }
+
+                acc[curVal] = w
+                    ? d.inflows[curVal].amtW
+                    : d.inflows[curVal].amt;
+
+                return acc
+            }, {});
+        return {
+            year: d.year,
+            ...annualInflows,
+        }
+    });
+    const outflowsSeriesData = data.map((d) => {
+        // d = one year of company data
+
+        const annualOutflows = Object.keys(d.outflows)
+            .reduce((acc, curVal) => {
+                if (!outflowsWeightings[curVal]) {
+                    outflowsWeightings[curVal] = d.outflows[curVal].w;
+                }
+
+                acc[curVal] = w
+                    ? d.outflows[curVal].amtW
+                    : d.outflows[curVal].amt;
+
+                return acc
+            }, {});
+        return {
+            year: d.year,
+            ...annualOutflows,
+
+        }
     });
 
-    // Create stack keys
-    const anAssetsObj = data[0].assets;
-    const compareFn = (a, b) => {
-        if (a.lvl === b.lvl) {
-            return a.name.localeCompare(b.name, 'en', {
-                sensitivity: 'base',
-                ignorePunctuation: true,
-                numeric: true,
-            })
+    // ********** 2. Stack keys ********** //
+
+    const inflowsKeys = Object.keys(inflowsWeightings);
+    const outflowsKeys = Object.keys(outflowsWeightings);
+
+    inflowsKeys.sort((inflowA, inflowB) => {
+        const sW
+            = inflowsWeightings[inflowB] - inflowsWeightings[inflowA];
+
+        if (sW !== 0) {
+            return sW
         }
-        return a.lvl - b.lvl
-    };
-    anAssetsObj.sort(compareFn);
-    const stackKeys = anAssetsObj.map(asset => asset.name);
 
-    // Create stack generator
-    const stackGen = stack()
-        .keys(stackKeys);
+        return inflowA.localeCompare(inflowB, 'en', {
+            sensitivity: 'base',
+            ignorePunctuation: true,
+            numeric: true,
+        })
+    });
+    outflowsKeys.sort((outflowA, outflowB) => {
+        const sW
+            = outflowsWeightings[outflowB] - outflowsWeightings[outflowA];
 
-    // Return stack
-    return stackGen(stackData)
+        if (sW !== 0) {
+            return sW
+        }
+
+        return outflowA.localeCompare(outflowB, 'en', {
+            sensitivity: 'base',
+            ignorePunctuation: true,
+            numeric: true,
+        })
+    });
+
+    // ********** 3. Stack generators ********** //
+
+    const inflowsStackGen = stack().keys(inflowsKeys);
+    const outflowsStackGen = stack().keys(outflowsKeys);
+
+    const inflowsStack = inflowsStackGen(inflowsSeriesData);
+    const outflowsStack = outflowsStackGen(outflowsSeriesData);
+
+    // ********** 4. Stacked series ********** //
+
+    // ***** Update ***** //
+
+    const inflowsSeriesU = pannable.select('.vbars')
+        .selectAll('.vbar-series-inflows')
+        .data(inflowsStack, d => d.key);
+    const outflowsSeriesU = pannable.select('.vbars')
+        .selectAll('.vbar-series-outflows')
+        .data(outflowsStack, d => d.key);
+
+    // ***** Exit ***** //
+
+    inflowsSeriesU.exit().remove();
+    outflowsSeriesU.exit().remove();
+
+    // ***** Enter & Update ***** //
+
+    const inflowsSeriesE = inflowsSeriesU.enter();
+    const outflowsSeriesE = outflowsSeriesU.enter();
+
+    return [
+        inflowsSeriesE.append('g')
+            .classed('vbar-series-inflows', true)
+            .merge(inflowsSeriesU),
+        outflowsSeriesE.append('g')
+            .classed('vbar-series-outflows', true)
+            .merge(outflowsSeriesU),
+    ]
 }
 
-export function getNewSeriesUE(data: FundData[], colorData: ColorData,
-                               miscCheckboxes: MiscCheckboxes,
-                               pannable: any): any {
-    const stackedSeries = createStackedSeries(data, miscCheckboxes);
-
-    const seriesU = pannable.select('.vbars')
-        .selectAll('.vbar-series')
-        .data(stackedSeries, d => d.key);
-
-    seriesU.exit().remove();
-
-    const seriesE = seriesU.enter();
-    return seriesE.append('g')
-        .classed('vbar-series clearable', true)
-        .merge(seriesU);
-}
-
-export function coloriseSeriesUE(seriesUE: any, colorData: ColorData) {
-    seriesUE.attr('fill', d => colorData.assets[d.key]);
+export function coloriseSeriesUE(
+    seriesUE: any,
+    colorData: ColorData,
+    curCompany: string,
+) {
+    seriesUE.attr('fill', d => colorData[curCompany][d.key]);
 }

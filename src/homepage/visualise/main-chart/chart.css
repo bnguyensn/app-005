@@ -1,19 +1,88 @@
 #main-chart {
     position: relative;
 
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
 
-    border: 1px solid #212121;
+    width: 280px;
+
+    /*animation: opacity-in 1s;*/
 }
 
-#pannable > rect:first-child {
-    cursor: ew-resize;
+@media only screen and (min-width: 320px) {
+    #main-chart {
+        max-width: 800px;
+        width: auto;
+    }
 }
 
-.asset-bar, .limit-line {
-    cursor: pointer;
+#main-chart-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 640px;
+    height: 640px;
+
+    text-align: center;
 }
 
+@keyframes opacity-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+/** ********** SVG ********** **/
+
+#main-chart > svg {
+    width: 100%;
+    height: 100%;
+}
+
+/** ********** CHORD DIAGRAM ********** **/
+
+/** ***** Main groups - Control opacity ***** **/
+
+/*.chord-ring {
+    stroke-opacity: .33;
+    fill-opacity: .33;
+}
+
+.chord-ribbon {
+    stroke-opacity: .1;
+    fill-opacity: .1;
+}
+
+.chord-ring, .chord-ribbon {
+    transition: stroke-opacity .2s, fill-opacity .2s;
+}
+
+.chord-ring.active {
+    stroke-opacity: .8;
+    fill-opacity: .8;
+}
+
+.chord-ribbon.active {
+    stroke-opacity: .66;
+    fill-opacity: .66;
+}*/
+
+/** ***** Sub groups ***** **/
+
+.chord-tick-label {
+    font-size: .5rem;
+
+    stroke-width: 0;
+}
+
+.chord-label {
+    font-size: .75rem;
+    font-weight: bold;
+
+    stroke-width: 0;
+}

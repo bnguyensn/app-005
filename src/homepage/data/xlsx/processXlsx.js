@@ -2,9 +2,9 @@
 
 import XLSX from 'xlsx';
 
-import type {FundData} from '../DataTypes';
+import type {CompanyData} from '../DataTypes';
 
-import {validateFundSheetData, validateAssetSheetData} from './dataValidation';
+import {validateSheetData, validateAssetSheetData} from './dataValidation';
 import refineData from './refineData';
 
 const DEBUG = true;  // TODO: remove from production
@@ -66,7 +66,7 @@ function getConfinedSheetData(
 
 type ProcessResult = {
     success: boolean,
-    data: FundData[] | string[],
+    data: CompanyData[] | string[],
 }
 
 export default function processXlsx(data: ArrayBuffer): ProcessResult {
@@ -117,7 +117,7 @@ export default function processXlsx(data: ArrayBuffer): ProcessResult {
 
         // ********** Validate data ********** //
 
-        const fundDataValidationErrMsgs = validateFundSheetData(
+        const fundDataValidationErrMsgs = validateSheetData(
             confinedFundSheetData,
         );
         const assetDataValidationErrMsgs = validateAssetSheetData(

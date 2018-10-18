@@ -2,285 +2,268 @@
 
 import * as React from 'react';
 import {select, event} from 'd3-selection';
-import {scaleLinear, scaleBand} from 'd3-scale';
-import {axis, axisBottom, axisLeft} from 'd3-axis';
-import {stack, line} from 'd3-shape';
-import {transition} from 'd3-transition';
-import {formatLocale, format} from 'd3-format';
 
 import ChartEmpty from './ChartEmpty';
-import Pannable from './components/Pannable';
-import Tooltip from './components/Tooltip';
-import Controls from './components/Controls';
-import Legend from './components/Legend';
 
-import createScaleX from './chart-funcs/createScaleX';
-import createScaleY from './chart-funcs/createScaleY';
-import createAxisBottom from './chart-funcs/createAxisBottom';
-import createAxisLeft from './chart-funcs/createAxisLeft';
-import {getNewSeriesUE, coloriseSeriesUE}
-    from './chart-funcs/createStackedSeries';
-import createRects from './chart-funcs/createRects';
-import {colorisePathUE, getPathUE} from './chart-funcs/createLimiterLines';
-import generateTooltip from './chart-funcs/generateTooltip';
+import {drawChordDiagram, highlightChordRibbons, highlightChordRings}
+    from './chart-funcs/drawChordDiagram';
+import createColorScale from './chart-funcs/createColorScale';
+import {selectionHasClass} from './chart-funcs/helpers';
+import {isArrayEqual} from '../../lib/array';
 
-import type {ColorData, FundData} from '../../data/DataTypes';
-import type {MiscCheckboxes} from '../control-panel/Misc';
-import type {DraggableData} from './components/Pannable';
-import type {MainChartSize} from '../chartSizes';
+import type {Data, NameData} from '../../data/DataTypes';
+import type {ArcChartSize} from '../chartSizes';
+import type {Stage} from '../stages/createStage';
 
 import './chart.css';
 
+
 type ChartProps = {
     dataKey: boolean,
-    data: ?FundData[],
-    colorData: ?ColorData,
-    miscCheckboxes: MiscCheckboxes,
-    size: MainChartSize,
-    curFund: number,  // Currently selected fund's id
-    changeColorData: (name: string, newColor: string) => void,
-    changeSize: (chart: string, newSize: {}) => void,
-    onFundClick: (FundData) => void,
-}
 
-type ChartStates = {
-    pannableX: number,
-    tooltip: {
-        show: boolean,
-        text: string,
-        pos: {top: number, left: number},
-        color: string,
-    },
-}
+    data: ?Data,
+    nameData: ?NameData,
+    colorScale: any,
+
+    size: ArcChartSize,
+
+    mode: 'normal' | 'walkthrough',
+    stages: Stage[],
+    curStage: number,
+
+    allowEvents: boolean,
+
+    changeState: (state: string, newState: any) => void,
+};
 
 export default class Chart
-    extends React.PureComponent<ChartProps, ChartStates> {
+    extends React.PureComponent<ChartProps, {}> {
     // React refs
     chartNodeRef: any;
 
-    // D3.js - Scales & axes
-    pannableWidth: number;
-    scaleX: any;
-    scaleY: any;
+    // DOM refs
+    ringsCtn: any;
+    ribbonsCtn: any;
 
-    // D3.js - Shapes
-    seriesUE: any;
-    pathUE: any;
+    // D3.js - Scales & axes
+
+
+    // D3.js - Shapes - Store this to isolate color changing activities
+    chordRings: any;
+    chordRibbons: any;
+
+    // DEBUG  // TODO: remove in production
+    DEBUGRenderCount: number;
 
     constructor(props: ChartProps) {
         super(props);
 
-        this.DEBUGrendercount = 0;  // TODO: remove in production
+        this.DEBUGRenderCount = 0;  // TODO: remove in production
 
         this.chartNodeRef = React.createRef();
-
-        this.pannableWidth = 0;
-
-        this.state = {
-            pannableX: 0,
-            tooltip: {
-                show: false,
-                text: '',
-                pos: {top: 0, left: 0},
-                color: '',
-            },
-        };
     }
 
     componentDidMount() {
         const {
-            data, colorData, miscCheckboxes, size, curFund,
-            onFundClick,
+            data, nameData, colorScale,
+            size,
         } = this.props;
 
-        if (data && colorData) {
+        if (data && nameData && colorScale) {
             const chartNode = this.getChart();
-            const pannableNode = this.getPannable();
 
-            if (chartNode && pannableNode) {
+            if (chartNode) {
                 const chart = select(chartNode);
-                const pannable = select(pannableNode);
 
                 // ********** Update chart ********** //
 
-                this.updateChart(chart, pannable, data, colorData,
-                    miscCheckboxes, size, onFundClick);
+                this.redrawChart(chart);
             }
         }
     }
 
-    componentDidUpdate(prevProps: ChartProps,
-                       prevState: ChartStates, snapshot: any) {
+    componentDidUpdate(prevProps: ChartProps, prevState: {}, snapshot: any) {
         const {
-            data: prevData, curFund: prevCurFund,
-            colorData: prevColorData,
+            dataKey: prevDataKey,
+            data: prevData,
+            stages: prevStages,
+            curStage: prevCurStage,
         } = prevProps;
         const {
-            data, colorData, miscCheckboxes, size, curFund,
-            onFundClick,
+            dataKey,
+            data, nameData, colorScale,
+            size,
+            stages, curStage,
         } = this.props;
-        const {pannableX: prevPannableX, tooltip: prevTooltip} = prevState;
-        const {pannableX, tooltip} = this.state;
 
-        if (data && colorData) {
-            const curFundChanged = prevCurFund !== curFund;
-            const tooltipChanged = prevTooltip.text !== tooltip.text;
-            const chartMoved = prevPannableX !== pannableX;
+        if (data && nameData && colorScale) {
+            const chartNode = this.getChart();
 
-            if (!tooltipChanged && !curFundChanged && !chartMoved) {
-                const chartNode = this.getChart();
-                const pannableNode = this.getPannable();
+            if (chartNode) {
+                const chart = select(chartNode);
 
-                if (chartNode && pannableNode) {
-                    const chart = select(chartNode);
-                    const pannable = select(pannableNode);
+                if (prevData === null
+                    || (prevDataKey !== dataKey)) {
+                    // ********** Redraw chart ********** //
 
-                    if (prevData === null
-                        || (prevData
-                            && this.compositionChanged(prevData, data))) {
-                        // ********** Update chart ********** //
+                    this.redrawChart(chart);
+                } else if (prevCurStage !== curStage
+                    || !isArrayEqual(prevStages, stages)) {
+                    // ********** Update chart ********** //
 
-                        this.updateChart(chart, pannable, data, colorData,
-                            miscCheckboxes, size, onFundClick);
-                    } else if (prevColorData
-                        && this.colorChanged(prevColorData, colorData)) {
-                        // ********** Update colors ********** //
-
-                        this.coloriseChartOnly(colorData);
-                    }
+                    this.applyStage(chart);
                 }
             }
         }
     }
 
-    updateChart(chart: any, pannable: any, data: FundData[],
-                colorData: ColorData, miscCheckboxes: MiscCheckboxes,
-                size: MainChartSize,
-                onFundClick: (FundData) => void) {
-        // ********** Update scales ********** //
+    /** ********** CHART DRAWINGS / UPDATES ********** **/
 
-        this.scaleX = createScaleX(data, this.pannableWidth);
-        this.scaleY = createScaleY(data, miscCheckboxes,
-            size.height);
+    redrawChart = (chart: any) => {
+        const {data, nameData, colorScale, size} = this.props;
 
-        // ********** Update axes ********** //
+        // ***** Remove clearables ***** //
 
-        createAxisBottom(data, chart.select('.x-axis'), this.scaleX);
-        createAxisLeft(chart.select('.y-axis'), this.scaleY);
+        chart.selectAll('.clearable')
+            .remove();
 
-        // ********** Update shapes ********** //
+        // ***** Draw chord diagram ***** //
 
-        // ***** Stacked series ***** //
+        const chordDiagramEA = [
+            {event: 'mouseenter', action: this.handleMouseEnter},
+            {event: 'mouseleave', action: this.handleMouseLeave},
+        ];
 
-        this.seriesUE = getNewSeriesUE(data, colorData,
-            miscCheckboxes, pannable);
-        coloriseSeriesUE(this.seriesUE, colorData);
+        const {chordRings, chordRibbons} = drawChordDiagram(
+            chart, data, nameData, colorScale, size, chordDiagramEA,
+        );
 
-        // ***** Rects (vertical bars) ***** //
+        this.chordRings = chordRings;
+        this.chordRibbons = chordRibbons;
 
-        createRects(this.seriesUE, size, this.scaleX,
-            this.scaleY, this.showTooltip, this.hideTooltip,
-            onFundClick);
+        this.ringsCtn = select(document.getElementById('chord-rings'));
+        this.ribbonsCtn = select(document.getElementById('chord-ribbons'));
 
-        // ***** Limiter lines ***** //
-
-        this.pathUE = getPathUE(data, this.scaleX, this.scaleY,
-            pannable, size.height, this.showTooltip,
-            this.hideTooltip, onFundClick);
-        colorisePathUE(this.pathUE, colorData);
-    }
-
-    coloriseChartOnly = (colorData: ColorData) => {
-        coloriseSeriesUE(this.seriesUE, colorData);
-        colorisePathUE(this.pathUE, colorData);
+        this.applyStage(chart);
     };
 
-    /** ********** DATA CHANGES CHECKS ********** **/
+    applyStage = (chart: any) => {
+        console.log('applying stage!');
 
-    compositionChanged = (
-        prevData: FundData[],
-        curData: FundData[],
-    ): boolean => {
-        const prevIds = prevData.map(fundData => fundData.id);
-        const curIds = curData.map(fundData => fundData.id);
+        const {stages, curStage} = this.props;
+        const {
+            activeRings, activeRibbons,
+            activeOpacity, passiveOpacity,
+            ringsStagger, ribbonsStagger,
+            ringsDuration, ribbonsDuration,
+        } = stages[curStage];
 
-        // Return true if the number of funds or the fund arrangements has
-        // changed
-
-        return prevIds.length !== curIds.length
-            || prevIds.some((prevId, index) => prevId !== curIds[index])
+        highlightChordRings(chart, activeRings, ringsStagger,
+            activeOpacity, passiveOpacity,
+            ringsDuration);
+        highlightChordRibbons(chart, activeRibbons, ribbonsStagger,
+            activeOpacity, passiveOpacity,
+            ribbonsDuration);
     };
 
-    colorChanged = (
-        prevColorData: ColorData,
-        curColorData: ColorData,
-    ): boolean => {
-        // Return true if the color data object has changed
+    /** ********** EVENTS ********** **/
 
-        return JSON.stringify(prevColorData) !== JSON.stringify(curColorData)
-    };
+    handleMouseEnter = (d: any, i: number, nodes: any) => {
+        const {allowEvents} = this.props;
 
-    /** ********** PANNABLE ********** **/
+        if (allowEvents) {
+            const {nameData, changeState} = this.props;
 
-    pannableOnDrag = (e: Event, data: DraggableData) => {
-        this.setState({
-            pannableX: data.x,
-        });
-    };
+            event.stopPropagation();
 
-    pannablePosReset = () => {
-        this.setState({
-            pannableX: 0,
-        });
-    };
+            const s = select(nodes[i]);
+            const target = event.currentTarget;
 
-    /** ********** TOOLTIPS ********** **/
+            // ***** Part 1 ***** //
 
-    showTooltip = (d: any, i: number, nodes: any) => {
-        const {colorData} = this.props;
+            if (selectionHasClass(s, 'chord-ribbon')) {
+                const nameT = nameData[d.target.index];
+                const nameS = nameData[d.source.index];
 
-        const tt = generateTooltip(d, i, nodes, colorData,
-            this.scaleX);
+                const ringsTS = this.ringsCtn.selectAll(
+                    `.chord-ring.name-${nameT}, .chord-ring.name-${nameS}`,
+                );
 
-        this.setState(prevState => ({
-            ...prevState,
-            tooltip: tt
-                ? {
-                    show: true,
-                    text: tt.text,
-                    pos: tt.pos,
-                    color: tt.color,
-                }
-                : {
-                    show: false,
-                    text: '',
-                    pos: {top: 0, left: 0},
-                    color: '',
-                },
-        }));
-    };
+                this.highlightSelection(ringsTS);
+            } else if (selectionHasClass(s, 'chord-ring')) {
+                const name = nameData[d.index];
+                const namesT = new Set();
 
-    hideTooltip = () => {
-        const relTarget = event.relatedTarget;
+                const ribbonsInOut = this.ribbonsCtn.selectAll(
+                    `.chord-ribbon.name-s-${name}, .chord-ribbon.name-t-${name}`,
+                );
+                ribbonsInOut.each(d => namesT.add(nameData[d.target.index]));
 
-        if (relTarget) {
-            const relTargetClass = relTarget.getAttribute('class');
+                const ringsOutSelector = Array.from(namesT)
+                    .map(n => `.chord-ring.name-${n}`)
+                    .join(', ');
+                const ringsOut = this.ringsCtn.selectAll(ringsOutSelector);
 
-            // Only need to hide tooltip if not moving to another asset bar
-
-            if (relTargetClass !== 'asset-bar'
-                && relTargetClass !== 'limit-line') {
-                this.setState(prevState => ({
-                    ...prevState,
-                    tooltip: {
-                        show: false,
-                        text: '',
-                        pos: {top: 0, left: 0},
-                        color: '',
-                    },
-                }));
+                this.highlightSelection(ribbonsInOut);
+                this.highlightSelection(ringsOut);
             }
+
+            this.highlightSelection(s);
+
+            // ***** Part 2 ***** //
+
+            changeState('chartData', JSON.parse(JSON.stringify(d)));
         }
+    };
+
+    handleMouseLeave = (d: any, i: number, nodes: any) => {
+        const {allowEvents} = this.props;
+
+        if (allowEvents) {
+            const {nameData} = this.props;
+
+            event.stopPropagation();
+
+            const s = select(nodes[i]);
+            const target = event.currentTarget;
+
+            if (selectionHasClass(s, 'chord-ribbon')) {
+                const nameT = nameData[d.target.index];
+                const nameS = nameData[d.source.index];
+
+                const ringsTS = this.ringsCtn.selectAll(
+                    `.chord-ring.name-${nameT}, .chord-ring.name-${nameS}`,
+                );
+
+                this.unHighlightSelection(ringsTS);
+            } else if (selectionHasClass(s, 'chord-ring')) {
+                const name = nameData[d.index];
+                const namesT = new Set();
+
+                const ribbonsInOut = this.ribbonsCtn.selectAll(
+                    `.chord-ribbon.name-s-${name}, .chord-ribbon.name-t-${name}`,
+                );
+                ribbonsInOut.each(d => namesT.add(nameData[d.target.index]));
+
+                const ringsOutSelector = Array.from(namesT)
+                    .map(n => `.chord-ring.name-${n}`)
+                    .join(', ');
+                const ringsOut = this.ringsCtn.selectAll(ringsOutSelector);
+
+                this.unHighlightSelection(ribbonsInOut);
+                this.unHighlightSelection(ringsOut);
+            }
+
+            this.unHighlightSelection(s);
+        }
+    };
+
+    highlightSelection = (sel: any) => {
+        sel.classed('active', true);
+    };
+
+    unHighlightSelection = (sel: any) => {
+        sel.classed('active', false);
     };
 
     /** ********** UTILITIES ********** **/
@@ -292,75 +275,33 @@ export default class Chart
         return null
     };
 
-    getPannable = () => {
-        return document.getElementById('pannable');
-    };
-
     /** ********** RENDER ********** **/
 
     render() {
-        const {dataKey, data, colorData, size, changeColorData} = this.props;
-        const {pannableX, tooltip} = this.state;
+        const {
+            dataKey, data, nameData, colorScale, size,
+        } = this.props;
 
-        console.log(`DEBUG_MainChartRenderCount=${this.DEBUGrendercount += 1}`);  // TODO: remove in production
+        // TODO: remove in production
+        console.log(`DEBUG_MainChartRenderCount=${this.DEBUGRenderCount += 1}`);
 
         const svgWidth = size.width + size.margin.right + size.margin.left;
         const svgHeight = size.height + size.margin.top + size.margin.bottom;
-
-        if (data) {
-            this.pannableWidth = data.length <= 10 ? size.width : 54 * data.length;
-        } else {
-            this.pannableWidth = 0;
-        }
 
         return (
             <div key={dataKey.toString()}
                  id="main-chart">
                 {data
                     ? (
-                        <svg width={svgWidth} height={svgHeight}>
+                        <svg width={svgWidth}
+                             height={svgHeight}
+                             viewBox={`${-svgWidth / 2} ${-svgHeight / 2}
+                         ${svgWidth} ${svgHeight}`}>
                             <g ref={this.chartNodeRef}
-                               className="chart"
-                               transform={
-                                   `translate(
-                                   ${size.margin.left}, ${size.margin.top}
-                                   )`}>
-                                <Pannable width={this.pannableWidth}
-                                          height={size.height}
-                                          translateX={pannableX}
-                                          pannableOnDrag={this.pannableOnDrag}>
-                                    <rect width={this.pannableWidth}
-                                          height={size.height}
-                                          fillOpacity={0} />
-                                    <g className="x-axis"
-                                       transform={
-                                           `translate(0, ${size.height})`} />
-                                    <g className="vbars" />
-                                    <g className="limit-lines" />
-                                </Pannable>
-                                <g className="y-axis">
-                                    <rect className="bkg-rect-y-axis"
-                                          width={size.margin.left}
-                                          height={
-                                              size.height + size.margin.bottom}
-                                          transform={
-                                              `translate(
-                                              -${size.margin.left}, 0
-                                              )`}
-                                          fill="#F5F5F5" />
-                                </g>
-                            </g>
-
+                               className="chart" />
                         </svg>
                     )
                     : <ChartEmpty />}
-                <Tooltip tooltip={tooltip} />
-                <Legend data={data}
-                        colorData={colorData}
-                        changeColorData={changeColorData} />
-                {data
-                    ? <Controls pannablePosReset={this.pannablePosReset} />
-                    : null}
             </div>
         )
     }

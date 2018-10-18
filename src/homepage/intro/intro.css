@@ -1,7 +1,16 @@
 #intro {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
     width: 100%;
 
     overflow-x: hidden;
+}
+
+#intro > div {
+    max-width: 800px;
+    width: 100%;
 }
 
 #intro .title {
@@ -32,8 +41,8 @@
 }
 
 #intro .description.delay-1 {animation-delay: .1s;}
-#intro .description.delay-2 {animation-delay: .2s;}
-#intro .description.delay-3 {animation-delay: .3s;}
+#intro .description.delay-2 {animation-delay: .3s;}
+#intro .description.delay-3 {animation-delay: .5s;}
 
 @keyframes fade-in {
     0% {

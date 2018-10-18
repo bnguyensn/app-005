@@ -1,19 +1,19 @@
 // @flow
 
 import {axisBottom} from 'd3-axis';
-import type {FundData} from '../../../data/DataTypes';
+import type {CompanyData} from '../../../data/DataTypes';
 
-export default function createAxisBottom(data: FundData[], parent: any,
-                                         scaleX: any) {
+export default function createAxisBottom(
+    data: CompanyData[],
+    parent: any,
+    scaleX: any,
+    scaleY: any,
+) {
     // Note: band and point scales do not implement scale.ticks
 
-    const dispNameMapper = {};
-    data.forEach((fundData) => {
-        dispNameMapper[fundData.name] = fundData.dispName;
-    });
-
     const axis = axisBottom(scaleX)
-        .tickFormat(d => dispNameMapper[d]);
+        .tickFormat(d => d);
 
-    return parent.call(axis);
+    return parent.attr('transform', `translate(0, ${scaleY(0)})`)
+        .call(axis);
 }
