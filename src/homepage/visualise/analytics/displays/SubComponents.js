@@ -2,15 +2,15 @@
 
 import * as React from 'react';
 
-import {ClickableDiv} from '../../../lib/components/Clickable';
-import isNumber from '../../../lib/isNumber';
 import {getHGroupsFromRibbon, getHGroupsFromRing} from '../../../data/helpers';
-import {createHighlightStage, createNormalStage} from '../../stages/createStage';
-
-import type {Data, DataConfig} from '../../../data/DataTypes';
+import {createHighlightStage, createNormalStage}
+    from '../../stages/createStage';
 import {formatAmount} from '../helpers';
+import {ClickableDiv} from '../../../lib/components/Clickable';
 
-export function DisplayGeneric(props: {value: string | number}) {
+import type {Data, DataConfig, DisplayConfig} from '../../../data/DataTypes';
+
+export function ADNam(props: {value: string | number}) {
     const {value, ...rest} = props;
 
     return (
@@ -18,43 +18,80 @@ export function DisplayGeneric(props: {value: string | number}) {
     )
 }
 
-export function DisplayNumber(props: {
-    dataConfig: DataConfig, p?: boolean, value: string | number
+export function ADNum(props: {
+    displayConfig: DisplayConfig,
+    p?: boolean,
+    value: string | number,
 }) {
-    const {dataConfig, p, value, ...rest} = props;
+    const {displayConfig, p, value, ...rest} = props;
 
     return (
-        <span {...rest}>{formatAmount(dataConfig, value, p)}</span>
+        <span {...rest}>{formatAmount(displayConfig, value, p)}</span>
     )
 }
 
-export function DisplayStageCreator(props: {
+export function ADStagerHLRings(props: {
     data: Data,
-    hType: 'RINGS' | 'RIBBONS' | 'ALL',
-    hValue: ?number | ?number[],
+    ring: number,
+    changeState: (string, any) => void,
+    children?: React.Node,
+}) {
+    const {data, ring, changeState, children, ...rest} = props;
+
+    const handleClick = (e) => {
+        const [ringsG, ribbonsG] = getHGroupsFromRing(data, ring);
+
+        if (ringsG && ribbonsG) {
+            const newStage = createHighlightStage(ringsG, ribbonsG);
+            changeState('stages', [newStage]);
+        }
+    };
+
+    return (
+        <ClickableDiv className="clickable"
+                      action={handleClick}
+                      {...rest}>
+            {children}
+        </ClickableDiv>
+    )
+}
+
+export function ADStagerHLRibbons(props: {
+    data: Data,
+    ribbonS: number,
+    ribbonT: number,
+    changeState: (string, any) => void,
+    children?: React.Node,
+}) {
+    const {data, ribbonS, ribbonT, changeState, children, ...rest} = props;
+
+    const handleClick = (e) => {
+        const [ringsG, ribbonsG] = getHGroupsFromRibbon(data, ribbonS, ribbonT);
+
+        if (ringsG && ribbonsG) {
+            const newStage = createHighlightStage(ringsG, ribbonsG);
+            changeState('stages', [newStage]);
+        }
+    };
+
+    return (
+        <ClickableDiv className="clickable"
+                      action={handleClick}
+                      {...rest}>
+            {children}
+        </ClickableDiv>
+    )
+}
+
+export function ADStagerHLAll(props: {
     children?: React.Node,
     changeState: (string, any) => void,
 }) {
-    const {data, hType, hValue, children, changeState, rest} = props;
+    const {children, changeState, ...rest} = props;
 
     const handleClick = (e) => {
-        if (hType === 'ALL') {
-            const newStage = createNormalStage();
-            changeState('stages', [newStage]);
-        } else {
-            let ringsG, ribbonsG;
-
-            if (hType === 'RINGS' && isNumber(hValue)) {
-                [ringsG, ribbonsG] = getHGroupsFromRing(data, hValue);
-            } else if (hType === 'RIBBONS' && Array.isArray(hValue)) {
-                [ringsG, ribbonsG] = getHGroupsFromRibbon(data, ...hValue);
-            }
-
-            if (ringsG && ribbonsG) {
-                const newStage = createHighlightStage(ringsG, ribbonsG);
-                changeState('stages', [newStage]);
-            }
-        }
+        const newStage = createNormalStage();
+        changeState('stages', [newStage]);
     };
 
     return (

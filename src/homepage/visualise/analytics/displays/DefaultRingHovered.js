@@ -2,143 +2,129 @@
 
 import * as React from 'react';
 
-import {DisplayGeneric, DisplayNumber, DisplayStageCreator} from './SubComponents';
-import {formatAmount} from '../helpers';
+import {ADNam, ADNum} from './SubComponents';
+import capFirstLtr from '../../../lib/capFirstLtr';
 
 import type {AnalyticsDisplayProps} from '../Analytics';
+import {getEntityPartnerIdFromPartnerRank} from '../../../data/helpers';
 
 export default function DefaultRingHovered(props: AnalyticsDisplayProps) {
     const {
         data, nameData, colorScale,
-        dataConfig, dataInfo,
+        dataConfig, dataInfo, displayConfig,
         mode, stage,
         changeState,
     } = props;
-    const {outflow, label} = dataConfig;
-    const {entities, rows, rowItemSorts, totalGroup} = dataInfo;
+    const {dataType, pairsNoSelf} = dataConfig;
+    const {dataExtended, entities} = dataInfo;
+    const {dataTypeLabels, entityLabel, transactionLabel} = displayConfig;
 
-    const {targetRingIndex} = stage.evtInfo;
+    const dataTypeLabel = dataTypeLabels[dataType];
+    const transactionLabelAdj = transactionLabel ? ` ${transactionLabel}` : '';
+    const ns = pairsNoSelf ? 'noSelf' : 'all';
 
-    const inOutL = outflow ? ' outflows' : ' inflows';
-    const inOutTL = outflow ? ' inflows' : ' outflows';
-    const labelL = label ? ` ${label}` : '';
+    // Group
+    const {totalGroup} = dataInfo;
+
+    // Hovered entity
+    let targetRingIndex;
+    if (mode === 'normal' && stage.evtInfo && stage.evtInfo.type
+        && stage.evtInfo.targetRingIndex) {
+        targetRingIndex = stage.evtInfo.targetRingIndex;  // eslint-disable-line prefer-destructuring
+    } else {
+        targetRingIndex = 0;
+    }
 
     // Entity
-    const eI = Number(targetRingIndex[0]);
-    const eName = nameData[eI];
-    const eColor = colorScale(eI);
+    const eId = Number(targetRingIndex[0]);
+    const eName = nameData[eId];
+    const eColor = colorScale(eId);
 
-    // Entity - Total ranking
-    const eTotalRank = entities[eName].rowSorts.total;
-    const eTotalAmt = rows[eI].total;
-    const eTotalAmtP = eTotalAmt / totalGroup;
+    // Total
+    const eTotalAmt = entities[eId].totals[dataType];
+    const eTotalAmtP = entities[eId].totals[dataType] / totalGroup[dataType];
+    const eTotalRank = entities[eId].ranks.all[dataType];
 
-    // Entity - Row T ranking
-    const eTotalTRank = entities[eName].rowSorts.totalT;
-    const eTotalTAmt = rows[eI].totalT;
-    const eTotalTAmtP = eTotalTAmt / totalGroup;
+    // Partner ranked highest (ePH)
+    const ePHId = getEntityPartnerIdFromPartnerRank(
+        dataInfo, eId, 0, dataType, pairsNoSelf,
+    );
+    const ePHName = nameData[ePHId];
+    const ePHColor = colorScale(ePHId);
+    const ePHAmt = dataExtended[dataType][eId][ePHId];
+    const ePHAmtP = ePHAmt / entities[eId].totals[dataType];
 
-    // Partner (GROSS)
-    const partnersG = rowItemSorts.rowG[eI];
-    const partnersGTotal = rows[eI].totalG;
-    const incSelf = false;
-
-    // Entity - Largest partner
-    const eLPartnerI = incSelf
-        ? partnersG[0].index
-        : partnersG[0].index === eI
-            ? partnersG[1].index
-            : partnersG[0].index;
-    const eLPartnerName = nameData[eLPartnerI];
-    const eLPartnerColor = colorScale(eLPartnerI);
-    const eLPartnerAmt = rows[eI].row[eLPartnerI];
-    const eLPartnerAmtP = eLPartnerAmt / partnersGTotal;  // Note: p across row only
-
-    // Entity - Smallest partner
-    const eSPartnerI = incSelf
-        ? partnersG[partnersG.length - 1].index
-        : partnersG[partnersG.length - 1].index === eI
-            ? partnersG[partnersG.length - 2].index
-            : partnersG[partnersG.length - 1].index;
-    const eSPartnerName = nameData[eSPartnerI];
-    const eSPartnerColor = colorScale(eSPartnerI);
-    const eSPartnerAmt = rows[eI].row[eSPartnerI];
-    const eSPartnerAmtP = eSPartnerAmt / partnersGTotal;  // Note: p across row only
+    // Partner ranked lowest (ePL)
+    const ePLId = getEntityPartnerIdFromPartnerRank(
+        dataInfo, eId, 'LAST', dataType, pairsNoSelf,
+    );
+    const ePLName = nameData[ePLId];
+    const ePLColor = colorScale(ePLId);
+    const ePLAmt = dataExtended[dataType][eId][ePLId];
+    const ePLAmtP = ePLAmt / entities[eId].totals[dataType];
 
     return (
         <React.Fragment>
             <div className="title fade-in">
                 Viewing:{' '}
-                <DisplayGeneric style={{color: eColor}}
-                                value={eName} />
+                <ADNam style={{color: eColor}}
+                       value={eName} />
             </div>
             <div className="description fade-in">
-                {/* ***** ROW RANKING ***** */}
+                {/* ***** TOTAL ***** */}
 
-                Ranked #{eTotalRank + 1} most{labelL}{inOutL}{' '}
-                (<DisplayNumber style={{color: eColor}}
-                                dataConfig={dataConfig}
-                                value={eTotalAmt} />
-                {' '}
-                or <DisplayNumber style={{color: eColor}}
-                                  dataConfig={dataConfig}
-                                  p
-                                  value={eTotalAmtP} />
-                {' '}
-                of total)
-
+                <div>
+                    {capFirstLtr(dataTypeLabel)}{transactionLabelAdj}:{' '}
+                    <ADNum style={{color: eColor}}
+                           displayConfig={displayConfig}
+                           value={eTotalAmt} /> or{' '}
+                    <ADNum style={{color: eColor}}
+                           displayConfig={displayConfig} p
+                           value={eTotalAmtP} />{' '}
+                    of total. Ranked #
+                    <ADNam style={{color: eColor}}
+                           value={eTotalRank + 1} />
+                    {eTotalRank === nameData.length - 1
+                        ? ' (last)'
+                        : eTotalRank === 0
+                            ? ' (first)'
+                            : null}.
+                </div>
                 <br />
 
-                {/* ***** ROW T RANKING ***** */}
+                {/* ***** PARTNER RANKED HIGHEST ***** */}
 
-                Ranked #{eTotalTRank + 1} most{labelL}{inOutTL}{' '}
-                (<DisplayNumber style={{color: eColor}}
-                                dataConfig={dataConfig}
-                                value={eTotalTAmt} />
-                {' '}
-                or <DisplayNumber style={{color: eColor}}
-                                  dataConfig={dataConfig}
-                                  p
-                                  value={eTotalTAmtP} />
-                {' '}
-                of total)
+                <div>
+                    Largest{dataTypeLabel}{transactionLabelAdj} partner:{' '}
+                    <ADNam style={{color: ePHColor, fontWeight: 'bold'}}
+                           value={ePHName} />{' '}
+                    (<ADNum style={{color: eColor}}
+                            displayConfig={displayConfig} value={ePHAmt} />{' '}
+                    or{' '}
+                    <ADNum style={{color: eColor}}
+                           displayConfig={displayConfig} p
+                           value={ePHAmtP} /> of{' '}
+                    <ADNam style={{color: eColor, fontWeight: 'bold'}}
+                           value={eName} />&rsquo;s total
+                    {dataTypeLabel}{transactionLabelAdj}.
+                </div>
 
-                <br /><br />
+                {/* ***** PARTNER RANKED LOWEST ***** */}
 
-                {/* ***** PARTNER RANKING ***** */}
-
-                Largest{labelL} partner:
-                <DisplayGeneric style={{
-                    color: eLPartnerColor,
-                    fontWeight: 'bold',
-                }}
-                                value={eLPartnerName} />{' '}
-                (<DisplayNumber style={{color: eLPartnerColor}}
-                                dataConfig={dataConfig}
-                                value={eLPartnerAmt} />{' '}
-                or <DisplayNumber style={{color: eLPartnerColor}}
-                                  dataConfig={dataConfig}
-                                  p
-                                  value={eLPartnerAmtP} />{' '}
-                of total)
-
-                <br />
-
-                Smallest{labelL} partner:
-                <DisplayGeneric style={{
-                    color: eSPartnerColor,
-                    fontWeight: 'bold',
-                }}
-                                value={eSPartnerName} />{' '}
-                (<DisplayNumber style={{color: eSPartnerColor}}
-                                dataConfig={dataConfig}
-                                value={eSPartnerAmt} />{' '}
-                or <DisplayNumber style={{color: eSPartnerColor}}
-                                  dataConfig={dataConfig}
-                                  p
-                                  value={eSPartnerAmtP} />{' '}
-                of total )
-
+                <div>
+                    Smallest{dataTypeLabel}{transactionLabelAdj} partner:{' '}
+                    <ADNam style={{color: ePLColor, fontWeight: 'bold'}}
+                           value={ePLName} />{' '}
+                    (<ADNum style={{color: eColor}}
+                            displayConfig={displayConfig} value={ePLAmt} />{' '}
+                    or{' '}
+                    <ADNum style={{color: eColor}}
+                           displayConfig={displayConfig} p
+                           value={ePLAmtP} /> of{' '}
+                    <ADNam style={{color: eColor, fontWeight: 'bold'}}
+                           value={eName} />&rsquo;s total
+                    {dataTypeLabel}{transactionLabelAdj}.
+                </div>
                 <br />
 
                 {/* ***** FOOTNOTE ***** */}
@@ -146,7 +132,8 @@ export default function DefaultRingHovered(props: AnalyticsDisplayProps) {
                 <div className="footnote">
                     Move mouse out of the diagram to see overall statistics.
                     <br />
-                    Hover over the diagram to show different analytics.
+                    Hover over a different part of the diagram to show{' '}
+                    different analytics.
                 </div>
             </div>
         </React.Fragment>

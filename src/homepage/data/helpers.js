@@ -1,10 +1,9 @@
 // @flow
 
 import {max, min} from 'd3-array';
-import type {Data, DataInfoPairs, DataInfoRows, DataInfoRowSorts, NameData, Pairs} from './DataTypes';
-import {formatAmount} from '../visualise/analytics/helpers';
+import type {Data, DataInfo, DataType} from './DataTypes';
 
-export function maxIndex(arr) {
+export function maxIndex(arr: any[]) {
     return arr.reduce((acc, curVal, index) => {
         if (curVal > acc.value) {
             acc.value = curVal;
@@ -16,7 +15,7 @@ export function maxIndex(arr) {
     }, {value: 0, index: 0});
 }
 
-export function minIndex(arr) {
+export function minIndex(arr: any[]) {
     return arr.reduce((acc, curVal, index) => {
         if (curVal < acc.value) {
             acc.value = curVal;
@@ -46,58 +45,77 @@ export function getHGroupsFromRibbon(
     ribbonSIndex: number,
     ribbonTIndex: number,
 ) {
-    const ringsG = [ribbonSIndex, ribbonTIndex];
+    const ringsG = [Number(ribbonSIndex), Number(ribbonTIndex)];
     const ribbonsG = [`${ribbonSIndex}.${ribbonTIndex}`];
 
     return [ringsG, ribbonsG]
 }
 
-export function getEntityDataFromRowRank(
-    nameData: NameData,
-    colorScale: any,
-    rows: DataInfoRows,
-    rowSorts: DataInfoRowSorts,
-    groupTotal: number,
-    rowSortsKey: string,
-    rowRank: number,
-): {
-    eI: number, eName: string, eAmt: number, eAmtP: number, eColor: string,
-} {
-    const eI = rowSorts[rowSortsKey][rowRank].index;
-    const eAmt = rows[eI][rowSortsKey];
+/** ********** GETTING DATA INFORMATION ********** **/
 
-    return {
-        eI,
-        eName: nameData[eI],
-        eAmt,
-        eAmtP: eAmt / groupTotal,
-        eColor: colorScale(eI),
+export function getEntityIdFromRankAll(
+    dataInfo: DataInfo,
+    rank: number | 'LAST',
+    rankType: DataType,
+): number {
+    const a = dataInfo.ranks.all[rankType];
+
+    if (rank === 'LAST') {
+        const last = a.length - 1;
+        return a[last]
     }
+
+    return a[rank]
 }
 
-export function getPairDataFromPairRank(
-    data: Data,
-    nameData: NameData,
-    colorScale: any,
-    pairs: Pairs,
-    groupTotal: number,
-    pairRank: number,
+export function getEntityPartnerIdFromPartnerRank(
+    dataInfo: DataInfo,
+    entityId: number,
+    rank: number | 'LAST',
+    rankType: DataType,
+    noSelf: boolean,
 ) {
-    const p = pairs[pairRank];
+    const ns = noSelf ? 'noSelf' : 'all';
+    const a = dataInfo.entities[entityId].ranks.pairs[rankType][ns];
 
-    const pHI = p.indexH;
-    const pLI = p.indexL;
+    let pName;
 
-    return {
-        pHI,
-        pLI,
-        pHName: nameData[pHI],
-        pLName: nameData[pLI],
-        pHColor: colorScale(pHI),
-        pLColor: colorScale(pLI),
-        pHAmt: data[pHI][pLI],
-        pLAmt: data[pLI][pHI],
-        pHLAmt: p.valueHL,
-        pHLAmtP: p.valueHL / groupTotal,
+    if (rank === 'LAST') {
+        const last = a.length - 1;
+        pName = a[last]
+    } else {
+        pName = a[rank];
     }
+
+    const [idA, idB] = pName.split('.');
+
+    return Number(idA) === entityId ? idB : idA;
+}
+
+export function getPairNameFromRankPairs(
+    dataInfo: DataInfo,
+    rankPairs: number | 'LAST',
+    rankPairsType: DataType,
+    noSelf: boolean,
+): string {
+    const ns = noSelf ? 'noSelf' : 'all';
+    const a = dataInfo.ranks.pairs[rankPairsType][ns];
+
+    if (rankPairs === 'LAST') {
+        const last = a.length - 1;
+        return a[last]
+    }
+
+    return a[rankPairs]
+}
+
+export function getPairIdsFromPairName(pairName: string) {
+    return pairName.split('.')
+}
+
+export function getPair1DNameFromPairName(pairName: string) {
+    const [idA, idB] = getPairIdsFromPairName(pairName);
+    const id1 = idA <= idB ? idA : idB;
+    const id2 = id1 === idA ? idB : idA;
+    return `${id1}.${id2}`
 }

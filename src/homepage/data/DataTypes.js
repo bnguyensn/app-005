@@ -1,81 +1,85 @@
 // @flow
 
-import Data from './Data';
-
 export type ColorData = string[];
 
 export type NameData = string[];
 
 export type Data = (number[])[];
 
+export type DataType = 'normal' | 'transpose' | 'net' | 'gross';
+
 export type DataConfig = {
-    outflow: boolean,  // true: rows = outflows / false: rows = inflows
-    label: string,  // e.g. exports / imports
+    dataType: DataType,
+    pairsNoSelf: boolean,
+};
+
+export type DisplayConfig = {
+    dataTypeLabels: {[key: DataType]: string},  // e.g. 'normal' = 'exports'
+    entityLabel: string,  // e.g. country
+    transactionLabel: string,  // e.g. exports / imports
     amtPrefix: string,  // e.g. £, $, etc.
     amtSuffix: string,  // e.g. m, bn, etc.
     amtRounding: number,
 };
 
-// ***** DATA INFO ***** //
+// ********** DATA INFO ********** //
 
-type RowPartner = {index: number, value: number};
-type SortItem = {index: number, value: number};
-type Row = {
-    index: number,
+// ***** Data ***** //
 
-    total: number,  // "Normal" total
-    totalT: number,  // Transposed total
-    totalN: number,  // Net total
-    totalG: number,  // Gross total
+export type DataInfoData = {[key: DataType]: Data};
 
-    // Copies of data / dataT / dataN / dataG
-    row: number[],
-    rowT: number[],
-    rowN: number[],
-    rowG: number[]
-}
-export type DataInfoRowSorts = {[key: string]: SortItem[]};
-export type DataInfoItemSorts = {[key: string]: {[key: string]: SortItem[]}}
-export type DataInfoRows = Row[];
+// ***** Ranks ***** //
 
-type Entity = {
-    rowSorts: {[key: string]: number},  // rowSorts ranking
+export type RanksAll = {[key: DataType]: number[]};
 
-    partners: RowPartner[],
-    TPartners: RowPartner[],
-    netPartners: RowPartner[],
-    grossPartners: RowPartner[],
-}
-
-type Pair = {
-    name: string,  // Always 'higherIndex.lowerIndex'
-    indexH: number,
-    indexL: number,
-    valueHL: number,
+export type RanksPairs = {
+    [key: DataType]: {
+        all: string[],
+        noSelf: string[],
+    }
 };
-export type Pairs = {
-    all: Pair[],
-    unique: Pair[],
+
+export type DataInfoRanks = {
+    all: RanksAll,
+    pairs: RanksPairs,
 };
-export type DataInfoPairs = {
-    normal: Pairs,
-    transpose: Pairs,
-    net: Pairs,
-    gross: Pairs,
+
+// ***** Entities ***** //
+
+export type EntityTotals = {[key: DataType]: number};
+
+export type EntityRanksAll = {[key: DataType]: number};
+
+export type EntityRanksPair = {
+    [key: DataType]: {
+        all: string[],
+        noSelf: string[],
+    }
 };
+
+export type Entity = {
+    id: number,
+    name: string,
+    totals: EntityTotals,
+    ranks: {
+        all: EntityRanksAll,
+        pairs: EntityRanksPair,
+    }
+};
+
+export type DataInfoEntities = {[key: string]: Entity};
+
+// ***** Total group ***** //
+
+export type DataInfoTotalGroup = {[key: DataType]: number};
+
+// ***** End ***** //
 
 export type DataInfo = {
-    dataT: Data,
-    dataN: Data,
-    dataG: Data,
+    dataExtended: DataInfoData,
 
-    entities: {[key: string]: Entity},
+    ranks: DataInfoRanks,
+    entities: DataInfoEntities,
 
-    rows: DataInfoRows,
-    rowSorts: DataInfoRowSorts,
-    rowItemSorts: DataInfoItemSorts,
-
-    pairs: DataInfoPairs,
-
-    totalGroup: number,
+    totalGroup: DataInfoTotalGroup,
 };

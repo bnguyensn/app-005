@@ -2,83 +2,75 @@
 
 import * as React from 'react';
 
-import {DisplayGeneric, DisplayNumber, DisplayStageCreator} from './SubComponents';
-import {formatAmount} from '../helpers';
+import {ADNam, ADNum, ADStagerHLAll, ADStagerHLRings, ADStagerHLRibbons}
+    from './SubComponents';
 
 import type {AnalyticsDisplayProps} from '../Analytics';
-import {getEntityDataFromRowRank, getPairDataFromPairRank} from '../../../data/helpers';
+import {
+    getEntityIdFromRankAll, getPairIdsFromPairName,
+    getPairNameFromRankPairs,
+} from '../../../data/helpers';
 
 export default function DefaultNoneHovered(props: AnalyticsDisplayProps) {
     const {
         data, nameData, colorScale,
-        dataConfig, dataInfo,
+        dataConfig, dataInfo, displayConfig,
         mode, stage,
         changeState,
     } = props;
-    const {outflow, label} = dataConfig;
-    const {dataG, rows, rowSorts, pairs} = dataInfo;
+    const {dataType, pairsNoSelf} = dataConfig;
+    const {dataExtended, entities} = dataInfo;
+    const {dataTypeLabels, entityLabel, transactionLabel} = displayConfig;
 
-    const inOutL = outflow ? ' outflows' : ' inflows';
-    const inOutTL = outflow ? ' inflows' : ' outflows';
-    const labelL = label ? ` ${label}` : '';
+    const dataTypeLabel = dataTypeLabels[dataType];
+    const transactionLabelAdj = transactionLabel ? ` ${transactionLabel}` : '';
 
     // Group
     const {totalGroup} = dataInfo;
 
-    // Entity - Rank #0 in total
-    const {
-        eI: eLTotalI, eName: eLTotalName, eAmt: eLTotalAmt,
-        eAmtP: eLTotalAmtP, eColor: eLTotalColor,
-    } = getEntityDataFromRowRank(
-        nameData, colorScale, rows, rowSorts, totalGroup, 'total', 0,
-    );
+    // Entity - Ranks All Highest (eRAH)
+    const eRAHId = getEntityIdFromRankAll(dataInfo, 0, dataType);
+    const eRAHMName = nameData[eRAHId];
+    const eRAHColor = colorScale(eRAHId);
+    const eRAHAmt = entities[eRAHId].totals[dataType];
+    const eRAHAmtP = eRAHAmt / totalGroup[dataType];
 
-    // Entity - Rank #last in total
-    const {
-        eI: eSTotalI, eName: eSTotalName, eAmt: eSTotalAmt,
-        eAmtP: eSTotalAmtP, eColor: eSTotalColor,
-    } = getEntityDataFromRowRank(
-        nameData, colorScale, rows, rowSorts, totalGroup, 'total',
-        rowSorts.total.length - 1,
-    );
+    // Entity - Ranks All Lowest (eRAL)
+    const eRALId = getEntityIdFromRankAll(dataInfo, 'LAST', dataType);
+    const eRALMName = nameData[eRALId];
+    const eRALColor = colorScale(eRALId);
+    const eRALAmt = entities[eRALId].totals[dataType];
+    const eRALAmtP = eRALAmt / totalGroup[dataType];
 
-    // Entity - Rank #0 in total T
-    const {
-        eI: eLTotalTI, eName: eLTotalTName, eAmt: eLTotalTAmt,
-        eAmtP: eLTotalTAmtP, eColor: eLTotalTColor,
-    } = getEntityDataFromRowRank(
-        nameData, colorScale, rows, rowSorts, totalGroup, 'totalT', 0,
+    // Pair - Ranks Highest (pRNSH)
+    const pRNSHName = getPairNameFromRankPairs(
+        dataInfo, 0, 'gross', pairsNoSelf,
     );
+    const [pRNSHIdA, pRNSHIdB] = getPairIdsFromPairName(pRNSHName);
+    const pRNSHNameA = nameData[pRNSHIdA];
+    const pRNSHColorA = colorScale(pRNSHIdA);
+    const pRNSHNameB = nameData[pRNSHIdB];
+    const pRNSHColorB = colorScale(pRNSHIdB);
+    const pRNSHAmtA = dataExtended[dataType][pRNSHIdA][pRNSHIdB];
+    const pRNSHAmtB = dataExtended[dataType][pRNSHIdB][pRNSHIdA];
+    const pRNSHColorAB = pRNSHAmtA >= pRNSHAmtB ? pRNSHColorA : pRNSHColorB;
+    const pRNSHAmtAB = pRNSHAmtA + pRNSHAmtB;
+    const pRNSHAmtABP = pRNSHAmtAB / totalGroup[dataType];
 
-    // Entity - Rank #last in total T
-    const {
-        eI: eSTotalTI, eName: eSTotalTName, eAmt: eSTotalTAmt,
-        eAmtP: eSTotalTAmtP, eColor: eSTotalTColor,
-    } = getEntityDataFromRowRank(
-        nameData, colorScale, rows, rowSorts, totalGroup, 'totalT',
-        rowSorts.totalT.length - 1,
+    // Pair - Ranks Lowest (pRNSL)
+    const pRNSLName = getPairNameFromRankPairs(
+        dataInfo, 'LAST', 'gross', pairsNoSelf,
     );
-
-    // Pair - Rank #0 in gross
-    const {
-        pHI: pLGrossHI, pLI: pLGrossLI, pHName: pLGrossHName,
-        pLName: pLGrossLName, pHColor: pLGrossHColor, pLColor: pLGrossLColor,
-        pHAmt: pLGrossHAmt, pLAmt: pLGrossLAmt, pHLAmt: pLGrossHLAmt,
-        pHLAmtP: pLGrossHLAmtP,
-    } = getPairDataFromPairRank(
-        dataG, nameData, colorScale, pairs.gross.unique, totalGroup, 0,
-    );
-
-    // Pair - Rank #last in gross
-    const {
-        pHI: pSGrossHI, pLI: pSGrossLI, pHName: pSGrossHName,
-        pLName: pSGrossLName, pHColor: pSGrossHColor, pLColor: pSGrossLColor,
-        pHAmt: pSGrossHAmt, pLAmt: pSGrossLAmt, pHLAmt: pSGrossHLAmt,
-        pHLAmtP: pSGrossHLAmtP,
-    } = getPairDataFromPairRank(
-        dataG, nameData, colorScale, pairs.gross.unique, totalGroup,
-        pairs.gross.unique.length - 1,
-    );
+    const [pRNSLIdA, pRNSLIdB] = getPairIdsFromPairName(pRNSLName);
+    const pRNSLNameA = nameData[pRNSLIdA];
+    const pRNSLColorA = colorScale(pRNSLIdA);
+    const pRNSLNameB = nameData[pRNSLIdB];
+    const pRNSLColorB = colorScale(pRNSLIdB);
+    const pRNSLAmtA = dataExtended[dataType][pRNSLIdA][pRNSLIdB];
+    const pRNSLAmtB = dataExtended[dataType][pRNSLIdB][pRNSLIdA];
+    const pRNSLColorAB = pRNSLAmtA >= pRNSLAmtB ? pRNSLColorA : pRNSLColorB;
+    const pRNSLAmtAB = pRNSLAmtA + pRNSLAmtB;
+    const pRNSLAmtABP = pRNSLAmtAB / totalGroup[dataType];
 
     return (
         <React.Fragment>
@@ -88,153 +80,87 @@ export default function DefaultNoneHovered(props: AnalyticsDisplayProps) {
             <div className="description fade-in">
                 {/* ***** GROUP ***** */}
 
-                <DisplayStageCreator data={data} hType="ALL" hValue={null}
-                                     changeState={changeState}>
-                    Total{labelL} of the whole group:{' '}
-                    <DisplayNumber style={{fontWeight: 'bold'}}
-                                   dataConfig={dataConfig}
-                                   value={totalGroup} />{' '}
-                    or <span style={{fontWeight: 'bold'}}>100%</span>)
-                </DisplayStageCreator>
-
-                {/* ***** ROW TOTAL ***** */}
-
+                <ADStagerHLAll data={data}
+                               changeState={changeState}>
+                    Total{dataTypeLabel}{transactionLabelAdj} of the whole{' '}
+                    group:{' '}
+                    <ADNum style={{fontWeight: 'bold'}}
+                           displayConfig={displayConfig}
+                           value={totalGroup[dataType]} />{' '}
+                    (<span style={{fontWeight: 'bold'}}>100%</span>)
+                </ADStagerHLAll>
                 <br />
 
-                <DisplayStageCreator data={data} hType="RINGS"
-                                     hValue={eLTotalI}
-                                     changeState={changeState}>
-                    Highest total{labelL}{inOutL}:{' '}
-                    <DisplayGeneric style={{
-                        color: eLTotalColor,
-                        fontWeight: 'bold',
-                    }}
-                                    value={eLTotalName} />{' '}
-                    (<DisplayNumber style={{color: eLTotalColor}}
-                                    dataConfig={dataConfig}
-                                    value={eLTotalAmt} />{' '}
-                    or <DisplayNumber style={{color: eLTotalColor}}
-                                      dataConfig={dataConfig}
-                                      p
-                                      value={eLTotalAmtP} />{' '}
-                    of total)
-                </DisplayStageCreator>
+                {/* ***** ENTITY RANKS ALL HIGHEST ***** */}
 
-                <DisplayStageCreator data={data} hType="RINGS"
-                                     hValue={eSTotalI}
-                                     changeState={changeState}>
-                    Highest total{labelL}{inOutL}:{' '}
-                    <DisplayGeneric style={{
-                        color: eSTotalColor,
-                        fontWeight: 'bold',
-                    }}
-                                    value={eSTotalName} />{' '}
-                    (<DisplayNumber style={{color: eSTotalColor}}
-                                    dataConfig={dataConfig}
-                                    value={eSTotalAmt} />{' '}
-                    or <DisplayNumber style={{color: eSTotalColor}}
-                                       dataConfig={dataConfig}
-                                       p
-                                       value={eSTotalAmtP} />{' '}
-                    of total)
-                </DisplayStageCreator>
+                <ADStagerHLRings data={data} ring={eRAHId}
+                                 changeState={changeState}>
+                    Highest{dataTypeLabel}{transactionLabelAdj}:{' '}
+                    <ADNam style={{color: eRAHColor, fontWeight: 'bold'}}
+                           value={eRAHMName} />{' '}
+                    (<ADNum style={{color: eRAHColor}}
+                            displayConfig={displayConfig}
+                            value={eRAHAmt} /> or {' '}
+                    <ADNum style={{color: eRAHColor}}
+                           displayConfig={displayConfig} p
+                           value={eRAHAmtP} />)
+                </ADStagerHLRings>
 
-                {/* ***** ROW T TOTAL *****  */}
+                {/* ***** ENTITY RANKS ALL LOWEST ***** */}
 
+                <ADStagerHLRings data={data} ring={eRALId}
+                                 changeState={changeState}>
+                    Lowest{dataTypeLabel}{transactionLabelAdj}:{' '}
+                    <ADNam style={{color: eRALColor, fontWeight: 'bold'}}
+                           value={eRALMName} />{' '}
+                    (<ADNum style={{color: eRALColor}}
+                            displayConfig={displayConfig}
+                            value={eRALAmt} /> or {' '}
+                    <ADNum style={{color: eRALColor}}
+                           displayConfig={displayConfig} p
+                           value={eRALAmtP} />)
+                </ADStagerHLRings>
                 <br />
 
-                <DisplayStageCreator data={data} hType="RINGS"
-                                     hValue={eLTotalTI}
-                                     changeState={changeState}>
-                    Highest total{labelL}{inOutL}:{' '}
-                    <DisplayGeneric style={{
-                        color: eLTotalTColor,
-                        fontWeight: 'bold',
-                    }}
-                                    value={eLTotalTName} />{' '}
-                    (<DisplayNumber style={{color: eLTotalTColor}}
-                                    dataConfig={dataConfig}
-                                    value={eLTotalTAmt} />{' '}
-                    or <DisplayNumber style={{color: eLTotalTColor}}
-                                       dataConfig={dataConfig}
-                                       p
-                                       value={eLTotalTAmtP} />{' '}
-                    of total)
-                </DisplayStageCreator>
+                {/* ***** PAIR RANKS HIGHEST ***** */}
 
-                <DisplayStageCreator data={data} hType="RINGS"
-                                     hValue={eSTotalTI}
-                                     changeState={changeState}>
-                    Highest total{labelL}{inOutL}:{' '}
-                    <DisplayGeneric style={{
-                        color: eSTotalTColor,
-                        fontWeight: 'bold',
-                    }}
-                                    value={eSTotalTName} />{' '}
-                    (<DisplayNumber style={{color: eSTotalTColor}}
-                                    dataConfig={dataConfig}
-                                    value={eSTotalTAmt} />{' '}
-                    or <DisplayNumber style={{color: eSTotalTColor}}
-                                       dataConfig={dataConfig}
-                                       p
-                                       value={eSTotalTAmtP} />{' '}
-                    of total)
-                </DisplayStageCreator>
+                <ADStagerHLRibbons data={data}
+                                   ribbonS={pRNSHIdA} ribbonT={pRNSHIdB}
+                                   changeState={changeState}>
+                    Largest{transactionLabelAdj} pair:{' '}
+                    <ADNam style={{color: pRNSHColorA, fontWeight: 'bold'}}
+                           value={pRNSHNameA} /> - {' '}
+                    <ADNam style={{color: pRNSHColorB, fontWeight: 'bold'}}
+                           value={pRNSHNameB} />{' '}
+                    (<ADNum style={{color: pRNSHColorAB}}
+                            displayConfig={displayConfig} value={pRNSHAmtAB} />
+                    {' '}or{' '}
+                    <ADNum style={{color: pRNSHColorAB}}
+                           displayConfig={displayConfig} p
+                           value={pRNSHAmtABP} />{' '}
+                    combined {dataTypeLabel}
+                    )
+                </ADStagerHLRibbons>
 
-                {/* ***** PAIRS GROSS *****  */}
+                {/* ***** PAIR RANKS LOWEST ***** */}
 
-                <br />
-
-                <DisplayStageCreator data={data} hType="RIBBONS"
-                                     hValue={[pLGrossHI, pLGrossLI]}
-                                     changeState={changeState}>
-                    Largest{labelL} pair:{' '}
-                    <DisplayGeneric style={{
-                        color: pLGrossHColor,
-                        fontWeight: 'bold',
-                    }}
-                                    value={pLGrossHName} />{' '}
-                    -{' '}
-                    <DisplayGeneric style={{
-                        color: pLGrossLColor,
-                        fontWeight: 'bold',
-                    }}
-                                    value={pLGrossLName} />{' '}
-                    (<DisplayNumber style={{color: pLGrossHColor}}
-                                    dataConfig={dataConfig}
-                                    value={pLGrossHLAmt} />{' '}
-                    or <DisplayNumber style={{color: pLGrossHColor}}
-                                      dataConfig={dataConfig}
-                                      p
-                                      value={pLGrossHLAmtP} />{' '}
-                    of total)
-                </DisplayStageCreator>
-
-                <DisplayStageCreator data={data} hType="RIBBONS"
-                                     hValue={[pSGrossHI, pSGrossLI]}
-                                     changeState={changeState}>
-                    Smallest{labelL} pair:{' '}
-                    <DisplayGeneric style={{
-                        color: pSGrossHColor,
-                        fontWeight: 'bold',
-                    }}
-                                    value={pSGrossHName} />{' '}
-                    -{' '}
-                    <DisplayGeneric style={{
-                        color: pSGrossLColor,
-                        fontWeight: 'bold',
-                    }}
-                                    value={pSGrossLName} />{' '}
-                    (<DisplayNumber style={{color: pSGrossHColor}}
-                                    dataConfig={dataConfig}
-                                    value={pSGrossHLAmt} />{' '}
-                    or <DisplayNumber style={{color: pSGrossHColor}}
-                                      dataConfig={dataConfig}
-                                      p
-                                      value={pLGrossHLAmtP} />{' '}
-                    of total)
-                </DisplayStageCreator>
-
+                <ADStagerHLRibbons data={data}
+                                   ribbonS={pRNSLIdA} ribbonT={pRNSLIdB}
+                                   changeState={changeState}>
+                    Smallest{transactionLabelAdj} pair:{' '}
+                    <ADNam style={{color: pRNSLColorA, fontWeight: 'bold'}}
+                           value={pRNSLNameA} /> - {' '}
+                    <ADNam style={{color: pRNSLColorB, fontWeight: 'bold'}}
+                           value={pRNSLNameB} />{' '}
+                    (<ADNum style={{color: pRNSLColorAB}}
+                            displayConfig={displayConfig} value={pRNSLAmtAB} />
+                    {' '}or{' '}
+                    <ADNum style={{color: pRNSLColorAB}}
+                           displayConfig={displayConfig} p
+                           value={pRNSLAmtABP} />{' '}
+                    combined {dataTypeLabel}
+                    )
+                </ADStagerHLRibbons>
                 <br />
 
                 {/* ***** FOOTNOTE *****  */}

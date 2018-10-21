@@ -1,0 +1,13 @@
+{
+  "dataTypeLabels": {
+    "normal": " export",
+    "transpose": " import",
+    "net": " net",
+    "gross": " gross"
+  },
+  "entityLabel": "country",
+  "transactionLabel": "trade",
+  "amtPrefix": "$",
+  "amtSuffix": "bn",
+  "amtRounding": 2
+}

@@ -14,13 +14,14 @@ import createColorScale
 import generateDataInfo from './data/generateDataInfo';
 import {mainChartSize} from './visualise/chartSizes';
 
-import type {ColorData, NameData, Data, DataInfo, DataConfig} from './data/DataTypes';
+import type {ColorData, NameData, Data, DataInfo, DataConfig, DisplayConfig} from './data/DataTypes';
 import type {ArcChartSize} from './visualise/chartSizes';
 import type {Stage} from './visualise/stages/createStage';
 
-import defaultData from './data/json/default-data';
+import defaultData from './data/json/default-data-g7';
+import defaultNameData from './data/json/default-name-data-g7';
 import defaultDataConfig from './data/json/default-data-config';
-import defaultNameData from './data/json/default-name-data';
+import defaultDisplayConfig from './data/json/default-display-config';
 import defaultColorData from './data/json/default-color-data';
 
 import './app.css';
@@ -54,6 +55,7 @@ export type AppStates = {
 
     dataConfig: DataConfig,
     dataInfo: DataInfo,
+    displayConfig: DisplayConfig,
 
     sizes: {
         mainChartSize: ArcChartSize,
@@ -93,6 +95,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
             dataConfig: defaultDataConfig,
             dataInfo: generateDataInfo(defaultData, defaultNameData),
+            displayConfig: defaultDisplayConfig,
 
             sizes: {mainChartSize},
 
@@ -112,6 +115,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
         nameData: NameData,
         colorData: ?ColorData,
         dataConfig: DataConfig,
+        displayConfig: DisplayConfig,
     ) => {
         if (colorData) this.colorScale = createColorScale(colorData);
 
@@ -134,6 +138,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
             dataConfig,
             dataInfo: generateDataInfo(data, defaultNameData),
+            displayConfig,
 
             sizes: {mainChartSize},
 

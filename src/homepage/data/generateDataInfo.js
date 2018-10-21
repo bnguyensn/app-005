@@ -1,6 +1,6 @@
 // @flow
 
-import {transpose} from 'd3-array';
+import {cross, range, transpose} from 'd3-array';
 
 import type {Data, DataInfo, NameData} from './DataTypes';
 
@@ -11,157 +11,194 @@ export default function generateDataInfo(
     // ordering. This is because we currently use array indices
     // as data keys.
 
-    // ***** Create extra matrices for data info purposes ***** //
+    // ***** Set up ***** //
+
+    const dataTypes = ['normal', 'transpose', 'net', 'gross'];
+
+    const ids = range(0, data.length, 1);  // ids ensured to be numbers
+
+    // ['A.A', 'A.B', ...]
+    const pairsAll2D = Array.from(new Set(
+        cross(ids, ids, (idA, idB) => `${idA}.${idB}`),
+    ));
+
+    // ['A.B', 'A.C', ...]
+    const pairsNoSelf2D = pairsAll2D.filter((pair) => {
+        const [idA, idB] = pair.split('.');
+        return idA !== idB
+    });
+
+    // ['A.A', 'A.B', ...] but won't register both 'A.B' and 'B.A' (only 'A.B')
+    const pairsAll1DSet = new Set();
+    ids.forEach((idA) => {
+        ids.forEach((idB) => {
+            const id1 = idA <= idB ? idA : idB;
+            const id2 = id1 === idA ? idB : idA;
+            pairsAll1DSet.add(`${id1}.${id2}`);
+        });
+    });
+    const pairsAll1D = Array.from(pairsAll1DSet);
+
+    // ['A.B', 'A.C'...] but won't register both 'A.B' and 'B.A' (only 'A.B')
+    const pairsNoSelf1DSet = new Set();
+    ids.forEach((idA) => {
+        ids.forEach((idB) => {
+            const id1 = idA <= idB ? idA : idB;
+            const id2 = id1 === idA ? idB : idA;
+            pairsNoSelf1DSet.add(`${id1}.${id2}`);
+        });
+    });
+    const pairsNoSelf1D = Array.from(pairsNoSelf1DSet);
 
     const dataT = transpose(data);  // Transposed
-    const dataN = data.map((r, rI) => (  // Net
+    const dataN = data.map((r, rI) => (
         r.map((c, cI) => -data[rI][cI] + dataT[rI][cI])
-    ));
-    const dataG = data.map((r, rI) => (  // Gross
+    ));  // Net
+    const dataG = data.map((r, rI) => (
         r.map((c, cI) => data[rI][cI] + dataT[rI][cI])
-    ));
+    ));  // Gross
 
-    // ***** Entities ***** //
-
-    const entities = nameData.reduce((acc, curVal) => {
-        acc[curVal] = {
-            rowSorts: {},
-        };
-        return acc
-    }, {});
-
-    // ***** Rows ***** //
-
-    const rows = data.map((r, rI) => {
-        // Calculate totals
-        const total = r.reduce((t, v) => t + v, 0);
-        const totalT = dataT[rI].reduce((t, v) => t + v, 0);
-        const totalN = -total + totalT;
-        const totalG = total + totalT;
-
-        return {
-            index: rI,  // The original data index
-            name: nameData[rI],
-
-            // All the totals
-            total,
-            totalT,
-            totalN,
-            totalG,
-
-            // All the actual rows
-            row: [...r],
-            rowT: [...dataT[rI]],
-            rowN: [...dataN[rI]],
-            rowG: [...dataG[rI]],
-        }
-    });
-
-    // ***** Row / Item Sorts ***** //
-
-    const rowSorts = {};
-    const rowItemSorts = {};
-
-    // Row sorts (descending)
-    // To access: e.g. get largest total row id: rowSorts.total[0].index
-    const rowSortsKeys = ['total', 'totalT', 'totalN', 'totalG'];
-    rowSortsKeys.forEach((k) => {
-        rowSorts[k] = rows
-            .map(row => ({index: row.index, value: row[k]}))
-            .sort((rA, rB) => rB.value - rA.value);
-    });
-
-    // Item sorts (descending)
-    // To access: e.g. get rowT 3's largest item id:
-    // rowItemSorts.rowT[3][0].index
-    const rowItemSortKeys = ['row', 'rowT', 'rowN', 'rowG'];
-    rowItemSortKeys.forEach((k) => {
-        rowItemSorts[k] = {};
-        rows.forEach((r, rI) => {
-            rowItemSorts[k][rI] = r[k]
-                .map((v, i) => ({index: i, value: v}))
-                .filter(o => o.value !== 0)
-                .sort((rA, rB) => rB.value - rA.value);
-        });
-    });
-
-    // ***** ...back to entities ***** //
-
-    // Update entities' rowSorts rankings
-    rowSortsKeys.forEach((k) => {
-        rowSorts[k].forEach((r, i) => {
-            entities[nameData[r.index]].rowSorts[k] = i;
-        });
-    });
-
-    // Update entities' partner indices
-    // nameData order === row order
-
-    // ***** Pairs ***** //
-
-    const pairs = {};
-    const dataStore = {
+    const dataMapper = {
         normal: data,
         transpose: dataT,
         net: dataN,
         gross: dataG,
     };
-    const allowSameST = true;  // Does A-A count?
 
-    // Pairs allowing same ST:
-    Object.keys(dataStore).forEach((k) => {
-        pairs[k] = {
-            all: [],
-            unique: [],
-        };
-        for (let i = 0; i < dataStore[k].length; i++) {
-            for (let j = i; j < dataStore[k][i].length; j++) {
-                const indexH = dataStore.normal[i][j] >= dataStore.normal[j][i]
-                    ? i : j;
-                const indexL = indexH === i ? j : i;
-                const name = `${indexH}.${indexL}`;
+    const pairsMapper = {
+        normal: {
+            all: pairsAll2D,
+            noSelf: pairsNoSelf2D,
+        },
+        transpose: {
+            all: pairsAll2D,
+            noSelf: pairsNoSelf2D,
+        },
+        net: {
+            all: pairsAll1D,
+            noSelf: pairsNoSelf1D,
+        },
+        gross: {
+            all: pairsAll1D,
+            noSelf: pairsNoSelf1D,
+        },
+    };
 
-                const pair = {
-                    name,
-                    indexH,
-                    indexL,
-                    valueHL: dataStore[k][indexH][indexL]
-                        + dataStore[k][indexL][indexH],
-                };
-
-                if (i !== j) {
-                    pairs[k].unique.push(pair);
-                }
-                pairs[k].all.push(pair);
-            }
-        }
-
-        // Sort pairs descending based on total values
-        pairs[k].all.sort((pairA, pairB) => pairB.valueHL - pairA.valueHL);
-        pairs[k].unique.sort((pairA, pairB) => pairB.valueHL - pairA.valueHL);
+    const dataTotals = {};
+    dataTypes.forEach((k) => {
+        dataTotals[k] = dataMapper[k].map(r => r.reduce((t, v) => t + v, 0));
     });
 
-    // Pairs without same ST:
+    // ***** Rankings ***** //
 
+    const ranks = {
+        all: {},  // For totals
+        pairs: {},  // For pairs
+    };
+
+    dataTypes.forEach((k) => {
+        ranks.all[k] = [...ids];
+        ranks.all[k].sort((idA, idB) => (
+            dataTotals[k][idB] - dataTotals[k][idA]
+        ));  // Array of ids sorted descending
+
+        ranks.pairs[k] = {};
+
+        ranks.pairs[k].all = [...pairsMapper[k].all]
+            .filter((pair) => {
+                const [idA, idB] = pair.split('.');
+                return dataMapper[k][idA][idB] !== 0
+                    && dataMapper[k][idB][idA] !== 0
+            });
+        ranks.pairs[k].all.sort((pairA, pairB) => {
+            const [idA1, idA2] = pairA.split('.');
+            const [idB1, idB2] = pairB.split('.');
+            return dataMapper[k][idB1][idB2] - dataMapper[k][idA1][idA2]
+        });  // Array of all pairs sorted descending
+
+        ranks.pairs[k].noSelf = [...pairsMapper[k].noSelf]
+            .filter((pair) => {
+                const [idA, idB] = pair.split('.');
+                return dataMapper[k][idA][idB] !== 0
+                    && dataMapper[k][idB][idA] !== 0
+            });
+        ranks.pairs[k].noSelf.sort((pairA, pairB) => {
+            const [idA1, idA2] = pairA.split('.');
+            const [idB1, idB2] = pairB.split('.');
+            return dataMapper[k][idB1][idB2] - dataMapper[k][idA1][idA2]
+        });  // Array of pairs (no self e.g. 'A.A') sorted descending
+    });
+
+
+    // ***** Entities ***** //
+
+    const entities = {};
+
+    ids.forEach((id) => {
+        entities[id] = {
+            id,
+            name: nameData[id],
+            totals: {},
+            ranks: {
+                all: {},
+                pairs: {},
+            },
+        };
+
+        // Totals
+        dataTypes.forEach((k) => {
+            entities[id].totals[k] = dataTotals[k][id];
+        });
+
+        // Ranks all
+        dataTypes.forEach((k) => {
+            entities[id].ranks.all[k] = ranks.all[k].indexOf(id);
+        });
+
+        // Ranks pairs
+        dataTypes.forEach((k) => {
+            entities[id].ranks.pairs[k] = {};
+
+            const ePairsAll = Array.from(new Set(
+                cross([id], ids, (idSelf, idOther) => (
+                    `${idSelf}.${idOther}`
+                )),
+            ));
+            const ePairsNoSelf = ePairsAll.filter((pair) => {
+                const [idA, idB] = pair.split('.');
+                return idA !== idB
+            });
+
+            ePairsAll.sort((pairA, pairB) => {
+                const [idA1, idA2] = pairA.split('.');
+                const [idB1, idB2] = pairB.split('.');
+                return dataMapper[k][idB1][idB2] - dataMapper[k][idA1][idA2]
+            });
+            ePairsNoSelf.sort((pairA, pairB) => {
+                const [idA1, idA2] = pairA.split('.');
+                const [idB1, idB2] = pairB.split('.');
+                return dataMapper[k][idB1][idB2] - dataMapper[k][idA1][idA2]
+            });
+
+            entities[id].ranks.pairs[k].all = ePairsAll;
+            entities[id].ranks.pairs[k].noSelf = ePairsNoSelf;
+        });
+    });
 
     // ***** Misc ***** //
 
-    const totalGroup = rows.reduce((acc, row) => row.total + acc, 0);
+    const totalGroup = {};
+    dataTypes.forEach((k) => {
+        totalGroup[k] = dataTotals[k].reduce((t, v) => t + v, 0);
+    });
 
     // ***** End ***** //
 
     return {
-        dataT,
-        dataN,
-        dataG,
+        dataExtended: dataMapper,
 
+        ranks,
         entities,
-
-        rows,
-        rowSorts,
-        rowItemSorts,
-
-        pairs,
 
         totalGroup,
     }

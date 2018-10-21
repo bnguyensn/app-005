@@ -22,7 +22,7 @@ export default class Visualise
         const {
             dataKey,
             data, nameData, colorScale,
-            dataConfig, dataInfo,
+            dataConfig, dataInfo, displayConfig,
             sizes,
             mode, stages, curStage,
             allowEvents,
@@ -47,6 +47,7 @@ export default class Visualise
                            nameData={nameData}
                            colorScale={colorScale}
                            dataConfig={dataConfig}
+                           displayConfig={displayConfig}
                            dataInfo={dataInfo}
                            mode={mode}
                            stages={stages}

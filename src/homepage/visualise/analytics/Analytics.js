@@ -6,8 +6,10 @@ import Tutorial from '../tutorial/Tutorial';
 
 import DefaultNoneHovered from './displays/DefaultNoneHovered';
 import DefaultRingHovered from './displays/DefaultRingHovered';
+import DefaultRibbonHovered from './displays/DefaultRibbonHovered';
 
-import type {Data, DataConfig, NameData, DataInfo} from '../../data/DataTypes';
+import type {Data, DataConfig, NameData, DataInfo, DisplayConfig}
+    from '../../data/DataTypes';
 import type {Stage} from '../stages/createStage';
 
 import './analytics.css';
@@ -19,6 +21,7 @@ export type AnalyticsProps = {
 
     dataConfig: DataConfig,
     dataInfo: DataInfo,
+    displayConfig: DisplayConfig,
 
     mode: string,
     stages: Stage[],
@@ -34,6 +37,7 @@ export type AnalyticsDisplayProps = {
 
     dataConfig: DataConfig,
     dataInfo: DataInfo,
+    displayConfig: DisplayConfig,
 
     mode: string,
     stage: Stage,
@@ -44,11 +48,22 @@ export type AnalyticsDisplayProps = {
 export default function Analytics(props: AnalyticsProps) {
     const {
         data, nameData, colorScale,
-        dataConfig, dataInfo,
+        dataConfig, dataInfo, displayConfig,
         mode, stages, curStage,
         changeState,
     } = props;
     const stage = stages[curStage];
+
+    let defA;
+    if (mode === 'normal' && stage.evtInfo && stage.evtInfo.type) {
+        if (stage.evtInfo.targetRingIndex) {
+            defA = 'RING';
+        } else if (stage.evtInfo.targetRibbonName) {
+            defA = 'RIBBON';
+        }
+    } else {
+        defA = null;
+    }
 
     return (
         <div id="analytics">
@@ -61,28 +76,41 @@ export default function Analytics(props: AnalyticsProps) {
                 : null
             }
             <div id="analytics-display">
-                {mode === 'normal' && stage.evtInfo && stage.evtInfo.type
-                    && stage.evtInfo.targetRingIndex
+                {defA === 'RING'
                     ? (
                         <DefaultRingHovered data={data}
                                             nameData={nameData}
                                             colorScale={colorScale}
                                             dataConfig={dataConfig}
+                                            displayConfig={displayConfig}
                                             dataInfo={dataInfo}
                                             mode={mode}
                                             stage={stage}
                                             changeState={changeState} />
                     )
-                    : (
-                        <DefaultNoneHovered data={data}
-                                            nameData={nameData}
-                                            colorScale={colorScale}
-                                            dataConfig={dataConfig}
-                                            dataInfo={dataInfo}
-                                            mode={mode}
-                                            stage={stage}
-                                            changeState={changeState} />
-                    )}
+                    : defA === 'RIBBON'
+                        ? (
+                            <DefaultRibbonHovered data={data}
+                                                nameData={nameData}
+                                                colorScale={colorScale}
+                                                dataConfig={dataConfig}
+                                                displayConfig={displayConfig}
+                                                dataInfo={dataInfo}
+                                                mode={mode}
+                                                stage={stage}
+                                                changeState={changeState} />
+                        )
+                        : (
+                            <DefaultNoneHovered data={data}
+                                                nameData={nameData}
+                                                colorScale={colorScale}
+                                                dataConfig={dataConfig}
+                                                displayConfig={displayConfig}
+                                                dataInfo={dataInfo}
+                                                mode={mode}
+                                                stage={stage}
+                                                changeState={changeState} />
+                        )}
 
             </div>
         </div>

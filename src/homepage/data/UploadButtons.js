@@ -194,8 +194,8 @@ export default function UploadButtons(props: UploadButtonsProps) {
 
                     // ********** 6. Set new data set ********** //
 
-                    setDataStatus('n/a', [], 1);
-                    setNewData(refinedData, nameData);
+                    /*setDataStatus('n/a', [], 1);
+                    setNewData(refinedData, nameData);*/
 
                     if (DEBUG) {
                         console.log('*** Data upload procedures completed ***');

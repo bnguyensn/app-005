@@ -57,8 +57,10 @@ export function selectChordRibbons(
         return chordRibbonsAll
             .filter((d: any, i: number, nodes: any) => {
                 const curST = `${d.source.index}.${d.target.index}`;
+                const curTS = `${d.target.index}.${d.source.index}`;
 
                 return ribbonsSelector.includes(curST)
+                    || ribbonsSelector.includes(curTS)
             });
     }
 
@@ -297,10 +299,10 @@ export function drawChordDiagram(
     const chordRibbons = drawChordRibbons(chordRibbonsParent, chords, nameData,
         colorScale, size, eventActions);
 
-    const chordTicksParent = chordRings.append('g')
+    /*const chordTicksParent = chordRings.append('g')
         .attr('class', 'chord-ticks')
         .attr('id', d => `ticks-id-${d.index}`);
-    drawChordTicks(chordTicksParent, nameData, size, 1, '.2%');
+    drawChordTicks(chordTicksParent, nameData, size, 1, '.2%');*/
 
     const chordLabelsParent = chordRings.append('g')
         .attr('class', 'chord-label')

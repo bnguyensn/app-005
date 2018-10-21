@@ -1,7 +1,7 @@
 // @flow
 
 import type {SelectorObj} from '../main-chart/chart-funcs/helpers';
-import type {DataConfig} from '../../data/DataTypes';
+import type {DisplayConfig} from '../../data/DataTypes';
 
 export function getRingsRibbons(selectors: SelectorObj[]) {
     if (selectors && selectors.length > 0) {
@@ -15,17 +15,17 @@ export function getRingsRibbons(selectors: SelectorObj[]) {
 }
 
 export function formatAmount(
-    dataConfig: DataConfig,
-    amt: number,
+    displayConfig: DisplayConfig,
+    amt: number | string,
     p?: boolean = false,
 ): string {
-    const {amtPrefix, amtSuffix, amtRounding} = dataConfig;
+    const {amtPrefix, amtSuffix, amtRounding} = displayConfig;
 
     if (p) {
-        return `${(amt * 100).toFixed(2)}%`
+        return `${(Number(amt) * 100).toFixed(2)}%`
     }
 
-    const amtF = amt.toLocaleString(
+    const amtF = Number(amt).toLocaleString(
         undefined,
         {
             minimumFractionDigits: amtRounding,
@@ -35,3 +35,10 @@ export function formatAmount(
 
     return `${amtPrefix}${amtF}${amtSuffix}`
 }
+
+export const dataTypeAdjMapper = {
+    normal: ' to',
+    transpose: ' from',
+    net: ' with',
+    gross: ' with',
+};
