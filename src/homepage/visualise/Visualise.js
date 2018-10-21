@@ -13,6 +13,7 @@ import Analytics from './analytics/Analytics';
 type VisualiseProps = {
     ...AppStates,
     changeState: (state: string, newState: any) => void,
+    changeStates: (newStates: {}) => void,
 };
 
 export default class Visualise
@@ -21,17 +22,16 @@ export default class Visualise
         const {
             dataKey,
             data, nameData, colorScale,
+            dataConfig, dataInfo,
             sizes,
             mode, stages, curStage,
             allowEvents,
             changeState,
+            changeStates,
         } = this.props;
 
         return (
             <Page id="visualise">
-                <Analytics stages={stages}
-                           curStage={curStage}
-                           changeState={changeState} />
                 <Chart dataKey={dataKey}
                        data={data}
                        nameData={nameData}
@@ -41,8 +41,17 @@ export default class Visualise
                        stages={stages}
                        curStage={curStage}
                        allowEvents={allowEvents}
-                       changeState={changeState} />
-
+                       changeState={changeState}
+                       changeStates={changeStates} />
+                <Analytics data={data}
+                           nameData={nameData}
+                           colorScale={colorScale}
+                           dataConfig={dataConfig}
+                           dataInfo={dataInfo}
+                           mode={mode}
+                           stages={stages}
+                           curStage={curStage}
+                           changeState={changeState} />
             </Page>
         )
     }

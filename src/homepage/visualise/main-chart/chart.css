@@ -6,8 +6,6 @@
     justify-content: center;
 
     width: 280px;
-
-    /*animation: opacity-in 1s;*/
 }
 
 @media only screen and (min-width: 320px) {
@@ -28,15 +26,6 @@
     text-align: center;
 }
 
-@keyframes opacity-in {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
 /** ********** SVG ********** **/
 
 #main-chart > svg {
@@ -45,32 +34,6 @@
 }
 
 /** ********** CHORD DIAGRAM ********** **/
-
-/** ***** Main groups - Control opacity ***** **/
-
-/*.chord-ring {
-    stroke-opacity: .33;
-    fill-opacity: .33;
-}
-
-.chord-ribbon {
-    stroke-opacity: .1;
-    fill-opacity: .1;
-}
-
-.chord-ring, .chord-ribbon {
-    transition: stroke-opacity .2s, fill-opacity .2s;
-}
-
-.chord-ring.active {
-    stroke-opacity: .8;
-    fill-opacity: .8;
-}
-
-.chord-ribbon.active {
-    stroke-opacity: .66;
-    fill-opacity: .66;
-}*/
 
 /** ***** Sub groups ***** **/
 
@@ -85,4 +48,31 @@
     font-weight: bold;
 
     stroke-width: 0;
+}
+
+/** ********** ANIMATIONS ********** **/
+
+.rotate-full-paused {
+    animation: rotate-full 100s linear 0s infinite normal forwards paused;
+}
+
+.rotate-full {
+    animation: rotate-full 100s linear 0s infinite normal forwards running;
+}
+
+.rotate-full-reverse-paused {
+    animation: rotate-full 100s linear 0s infinite reverse forwards paused;
+}
+
+.rotate-full-reverse {
+    animation: rotate-full 100s linear 0s infinite reverse forwards running;
+}
+
+@keyframes rotate-full {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }

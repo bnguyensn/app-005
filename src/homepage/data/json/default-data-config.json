@@ -1,0 +1,7 @@
+{
+  "outflow": false,
+  "label": "trade",
+  "amtPrefix": "$",
+  "amtSuffix": "bn",
+  "amtRounding": 2
+}

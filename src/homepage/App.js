@@ -11,17 +11,15 @@ import {createNormalStage, createWalkthroughStages}
     from './visualise/stages/createStage';
 import createColorScale
     from './visualise/main-chart/chart-funcs/createColorScale';
+import generateDataInfo from './data/generateDataInfo';
+import {mainChartSize} from './visualise/chartSizes';
 
-import {mainChartSize}
-    from './visualise/chartSizes';
-
-import type {ColorData, NameData, Data}
-    from './data/DataTypes';
-import type {ArcChartSize}
-    from './visualise/chartSizes';
+import type {ColorData, NameData, Data, DataInfo, DataConfig} from './data/DataTypes';
+import type {ArcChartSize} from './visualise/chartSizes';
 import type {Stage} from './visualise/stages/createStage';
 
 import defaultData from './data/json/default-data';
+import defaultDataConfig from './data/json/default-data-config';
 import defaultNameData from './data/json/default-name-data';
 import defaultColorData from './data/json/default-color-data';
 
@@ -54,11 +52,14 @@ export type AppStates = {
     nameData: ?NameData,
     colorScale: ?ColorData,
 
+    dataConfig: DataConfig,
+    dataInfo: DataInfo,
+
     sizes: {
         mainChartSize: ArcChartSize,
     },
 
-    mode: 'normal' | 'walkthrough',
+    mode: string,
     stages: Stage[],
     curStage: number,
 
@@ -73,6 +74,8 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
         this.colorScale = createColorScale(defaultColorData);
 
+        const mode = 'normal';
+        const normalStage = [createNormalStage()];
         const walkthroughStages = [
             ...createWalkthroughStages(
                 defaultData,
@@ -85,22 +88,35 @@ export default class App extends React.PureComponent<{}, AppStates> {
             dataKey: false,
 
             data: defaultData,
-            colorScale: this.colorScale,
             nameData: defaultNameData,
+            colorScale: this.colorScale,
+
+            dataConfig: defaultDataConfig,
+            dataInfo: generateDataInfo(defaultData, defaultNameData),
 
             sizes: {mainChartSize},
 
-            mode: 'normal',
-            stages: walkthroughStages,
+            mode,
+            stages: mode === 'normal'
+                ? normalStage
+                : walkthroughStages,
             curStage: 0,
 
-            allowEvents: false,
+            allowEvents: mode !== 'walkthrough',
+            //allowEvents: false,
         };
     }
 
-    setNewData = (data: Data, nameData: NameData, colorData: ?ColorData) => {
+    setNewData = (
+        data: Data,
+        nameData: NameData,
+        colorData: ?ColorData,
+        dataConfig: DataConfig,
+    ) => {
         if (colorData) this.colorScale = createColorScale(colorData);
 
+        const mode = 'normal';
+        const normalStage = [createNormalStage];
         const walkthroughStages = [
             ...createWalkthroughStages(
                 defaultData,
@@ -116,13 +132,18 @@ export default class App extends React.PureComponent<{}, AppStates> {
             nameData,
             colorScale: this.colorScale,
 
+            dataConfig,
+            dataInfo: generateDataInfo(data, defaultNameData),
+
             sizes: {mainChartSize},
 
-            mode: 'normal',
-            stages: walkthroughStages,
+            mode,
+            stages: mode === 'normal'
+                ? normalStage
+                : walkthroughStages,
             curStage: 0,
 
-            allowEvents: false,
+            allowEvents: mode !== 'walkthrough',
         }));
     };
 
@@ -130,6 +151,10 @@ export default class App extends React.PureComponent<{}, AppStates> {
         this.setState({
             [state]: newState,
         });
+    };
+
+    changeStates = (newStates: {}) => {
+        this.setState(newStates);
     };
 
     render() {
@@ -142,6 +167,7 @@ export default class App extends React.PureComponent<{}, AppStates> {
                                   setNewData={this.setNewData} />
                     <LoadableVisualise path="/visualise"
                                        changeState={this.changeState}
+                                       changeStates={this.changeStates}
                                        {...this.state} />
                 </Router>
             </div>

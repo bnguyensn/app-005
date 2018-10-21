@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import {stylesGen} from '../createStage';
 
-import type {StageAnalyticsProps} from '../createStage';
+import type {AnalyticsProps} from '../createStage';
 
-export default function Stage4(props: StageAnalyticsProps) {
+export default function Stage4(props: AnalyticsProps) {
     const {activeRings, data, nameData, colorScale} = props;
     const i = activeRings[0];
 

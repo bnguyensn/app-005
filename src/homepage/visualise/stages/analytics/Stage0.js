@@ -4,26 +4,29 @@ import * as React from 'react';
 
 import {stylesGen} from '../createStage';
 
-import type {StageAnalyticsProps} from '../createStage';
+import type {AnalyticsProps} from '../createStage';
 
-export default function Stage0(props: StageAnalyticsProps) {
+export default function Stage0(props: AnalyticsProps) {
     const styles = stylesGen(4, 1, 1);
 
     return (
         <React.Fragment>
             <div className="title"
                  style={styles[0]}>
-                Chord Diagram Tutorial
+                Chord Diagram Introduction
             </div>
             <div className="description"
                  style={styles[1]}>
-                Hello and welcome! This tutorial will take you through{' '}
-                the sample Chord Diagram shown here.
+                A chord diagram is commonly used to visualise{' '}
+                bi-directional flow data.
             </div>
             <div className="description"
                  style={styles[2]}>
-                Please navigate using the dots above, or the left and right{' '}
-                arrow keys.
+                One notable example of these kind of visualisations is the{' '}
+                BBC&rsquo;s{' '}
+                <a href="https://www.bbc.co.uk/news/business-15748696">
+                    Eurozone debt map
+                </a>.
             </div>
             <div className="description" style={styles[3]}>
                 Have fun!

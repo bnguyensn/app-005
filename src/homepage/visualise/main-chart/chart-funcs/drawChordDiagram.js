@@ -12,144 +12,57 @@ import {EN_UK} from './createFormats';
 
 import type {Data, NameData} from '../../../data/DataTypes';
 import type {ArcChartSize} from '../../chartSizes';
-import type {D3EventAction, D3SelectionEventHandler} from './d3Types';
+import type {D3EventAction} from './helpers';
 import type {ColorScale} from './createColorScale';
-import type {ActiveRibbons, ActiveRings} from '../../stages/createStage';
 
-/** ********** CONFIGS ********** **/
+/** ********** TYPES ********** **/
 
-const RING_OPACITY_ACT = 0.75;
-const RING_OPACITY_PAS = 0.1;
-const RIBBON_OPACITY_ACT = 0.66;
-const RIBBON_OPACITY_PAS = 0.1;
-const TRANSITION_DUR = 500;
+export type RingsSelector = number[] | 'ALL';
 
-/** ********** DATA TYPES ********** **/
+export type RibbonsSelector = string[] | 'ALL';  // ['sourceI.targetI', ...][]
 
-export type ChordRingData = {
-    startAngle: number,
-    endAngle: number,
-    value: number,
-    index: number,
-};
 
-type ChordRibbonSTData = {
-    startAngle: number,
-    endAngle: number,
-    value: number,
-    index: number,
-    subIndex: number,
-};
+/** ********** SELECTIONS ********** **/
 
-export type ChordRibbonData = {
-    source: ChordRibbonSTData,
-    target: ChordRibbonSTData,
-};
+export function selectChordRings(
+    parent: any,
+    ringsSelector: RingsSelector,
+): ?any {
+    const chordRingsAll = parent.selectAll('.chord-ring');
 
-export type Stagger = number | (d: any, i: number, nodes: any) => number
+    if (ringsSelector === 'ALL') {
+        return chordRingsAll;
+    }
 
-/** ********** STYLINGS ********** **/
+    if (Array.isArray(ringsSelector) && ringsSelector.length > 0) {
+        return chordRingsAll.filter((d: any, i: number, nodes: any) => (
+            ringsSelector.includes(d.index)
+        ));
+    }
 
-function changeOpacity(
-    s: any,
-    targetOpacity: number,
-    stagger: Stagger,
-    d: number,
-) {
-    s.transition()
-        .duration(d)
-        .delay(stagger)
-        .attr('stroke-opacity', targetOpacity)
-        .attr('fill-opacity', targetOpacity);
+    return null
 }
 
-export function highlightChordRings(
+export function selectChordRibbons(
     parent: any,
-    activeRings: ActiveRings,
-    stagger?: Stagger = 0,
-    activeOpacity?: number = RING_OPACITY_ACT,
-    passiveOpacity?: number = RING_OPACITY_PAS,
-    d?: number = TRANSITION_DUR,
-) {
-    // ***** Selection ***** //
+    ribbonsSelector: RibbonsSelector,
+): ?any {
+    const chordRibbonsAll = parent.selectAll('.chord-ribbon');
 
-    const chordRings = parent.selectAll('.chord-ring');
-    let activeRingsS, passiveRingsS;
-
-    if (activeRings === 'ALL') {
-        activeRingsS = chordRings;
-        passiveRingsS = null;
-    } else if (Array.isArray(activeRings) && activeRings.length > 0) {
-        activeRingsS = chordRings.filter((d: any, i: number, nodes: any) => (
-            activeRings.includes(d.index)
-        ));
-        passiveRingsS = chordRings.filter((d: any, i: number, nodes: any) => (
-            !activeRings.includes(d.index)
-        ));
-    } else {
-        activeRingsS = null;
-        passiveRingsS = chordRings;
+    if (ribbonsSelector === 'ALL') {
+        return chordRibbonsAll;
     }
 
-    // ***** Perform the highlight operation ***** //
-
-    if (activeRingsS) {
-        changeOpacity(activeRingsS, activeOpacity, stagger, d);
-    }
-    if (passiveRingsS) {
-        changeOpacity(passiveRingsS, passiveOpacity, stagger, d);
-    }
-}
-
-export function highlightChordRibbons(
-    parent: any,
-    activeRibbons: ActiveRibbons,
-    stagger?: Stagger = 0,
-    activeOpacity?: number = RIBBON_OPACITY_ACT,
-    passiveOpacity?: number = RIBBON_OPACITY_PAS,
-    dur?: number = TRANSITION_DUR,
-) {
-    // ***** Selection ***** //
-
-    const chordRibbons = parent.selectAll('.chord-ribbon');
-    let activeRibbonsS, passiveRibbonsS;
-
-    if (activeRibbons === 'ALL') {
-        activeRibbonsS = chordRibbons;
-        passiveRibbonsS = null;
-    } else if (Array.isArray(activeRibbons) && activeRibbons.length > 0) {
-        // ***** Comparison preparation ***** //
-        // Convert activeRibbons to an array of sourceIndex.targetIndex,
-        // for ease of comparison when doing the .selectAll()
-
-        const activeRibbonsST = activeRibbons
-            .map(ribbon => `${ribbon[0]}.${ribbon[1]}`);
-
-        activeRibbonsS = chordRibbons
+    if (Array.isArray(ribbonsSelector) && ribbonsSelector.length > 0) {
+        return chordRibbonsAll
             .filter((d: any, i: number, nodes: any) => {
                 const curST = `${d.source.index}.${d.target.index}`;
 
-                return activeRibbonsST.includes(curST)
+                return ribbonsSelector.includes(curST)
             });
-        passiveRibbonsS = chordRibbons
-            .filter((d: any, i: number, nodes: any) => {
-                const curST = `${d.source.index}.${d.target.index}`;
-
-                return !activeRibbonsST.includes(curST)
-            });
-    } else {
-        activeRibbonsS = null;
-        passiveRibbonsS = chordRibbons;
     }
 
-    // ***** Perform the highlight operation ***** //
-
-    if (activeRibbonsS) {
-        changeOpacity(activeRibbonsS, activeOpacity, stagger, dur)
-    }
-    if (passiveRibbonsS) {
-        changeOpacity(passiveRibbonsS, passiveOpacity, stagger, dur)
-    }
+    return null
 }
 
 /** ********** CHORD RINGS ********** **/
@@ -194,7 +107,8 @@ export function drawChordRings(
     // Create and colorise donut rings
 
     chordRingsUE.attr('fill-opacity', 0)
-        .attr('stroke-opacity', 0);
+        .attr('stroke-opacity', 0)
+        .attr('transform', '');
 
     const a = createArc(size);
 

@@ -3,57 +3,70 @@
 import * as React from 'react';
 import {range} from 'd3-array';
 
-import Stage0 from './analytics/Stage0';
-import Stage1 from './analytics/Stage1';
-import Stage2 from './analytics/Stage2';
-import Stage3 from './analytics/Stage3';
-import Stage4 from './analytics/Stage4';
+import {animationFade, animationPulse}
+    from '../main-chart/chart-funcs/animations/customAnimations';
 
-import type {Stagger} from '../main-chart/chart-funcs/drawChordDiagram';
-import type {ColorData, Data, NameData} from '../../data/DataTypes';
+import type {SelectorObj} from '../main-chart/chart-funcs/helpers';
+import type {AnimationInfo} from '../main-chart/chart-funcs/animations/main';
+import type {RingsSelector, RibbonsSelector}
+    from '../main-chart/chart-funcs/drawChordDiagram';
 
-
-export type ActiveRings = number[] | 'ALL';
-export type ActiveRibbons = [number, number][] | 'ALL';  // [source, target][]
-
-export type Stage = {
-    activeRings: ActiveRings,
-    activeRibbons: ActiveRibbons,
-    analytics: ?React.Node,
-    activeOpacity?: number,
-    passiveOpacity?: number,
-    ringsStagger?: Stagger,
-    ribbonsStagger?: Stagger,
-    ringsDuration?: number,
-    ribbonsDuration?: number,
+export type StageEventInfo = {
+    type: string,  // 'mouseenter', 'mouseleave'
+    targetRingIndex?: RingsSelector,
+    targetRibbonName?: RibbonsSelector,
+    hRingsG?: RingsSelector,
+    hRibbonsG?: RibbonsSelector,
 };
 
-export type StageAnalyticsProps = {
-    activeRings: ActiveRings,
-    activeRibbons: ActiveRibbons,
-    data: Data,
-    nameData: NameData,
-    colorScale: any,
-}
-
-export function createStage(
-    activeRings: ActiveRings,
-    activeRibbons: ActiveRibbons,
-    analytics: ?React.Node,
-): Stage {
-    return {
-        activeRings,
-        activeRibbons,
-        analytics,
-    }
-}
+export type Stage = {
+    selectors: SelectorObj[],
+    animInfo: AnimationInfo[],
+    analytics: ?number,
+    evtInfo?: StageEventInfo,
+};
 
 export function createNormalStage(): Stage {
+    const transInfo = {dur: 300, easeFn: 'linear'};
+
     return {
-        activeRings: [],
-        activeRibbons: [],
+        selectors: [
+            {type: 'RINGS', selector: 'ALL'},
+            {type: 'RIBBONS', selector: 'ALL'},
+        ],
+        animInfo: [
+            {...transInfo, anim: animationFade(null, 1)},
+            {...transInfo, anim: animationFade(null, 0.75)},
+        ],
         analytics: null,
     }
+}
+
+export function createHighlightStage(
+    hRingsG: RingsSelector,
+    hRibbonsG: RibbonsSelector,
+) {
+    if (hRingsG === 'ALL' && hRibbonsG === 'ALL') {
+        return createNormalStage()
+    }
+
+    const transInfo = {dur: 300, easeFn: 'linear'};
+
+    return {
+        selectors: [
+            {type: 'RINGS', selector: 'ALL'},
+            {type: 'RIBBONS', selector: 'ALL'},
+            {type: 'RINGS', selector: hRingsG},
+            {type: 'RIBBONS', selector: hRibbonsG},
+        ],
+        animInfo: [
+            {...transInfo, anim: animationFade(null, 0.01)},
+            {...transInfo, anim: animationFade(null, 0.01)},
+            {...transInfo, anim: animationFade(null, 1)},
+            {...transInfo, anim: animationFade(null, 0.75)},
+        ],
+        analytics: null,
+    };
 }
 
 export const animationGen = (duration: number, delay: number) => (
@@ -68,6 +81,11 @@ export const stylesGen = (length: number, duration: number, delay: number) => {
     return styles
 };
 
+// TODO: fix
+export function createWalkthroughStages() {
+    return []
+}
+/*
 export function createWalkthroughStages(
     data: Data,
     nameData: NameData,
@@ -77,89 +95,185 @@ export function createWalkthroughStages(
 
     // ***** Stage 0 ***** //
 
-    const s0activeRings = 'ALL';
-    const s0activeRibbons = 'ALL';
+    const s0Rings0 = 'ALL';
+    const s0Ribbons0 = 'ALL';
 
     walkthroughStages.push({
-        activeRings: s0activeRings,
-        activeRibbons: s0activeRibbons,
-        analytics: <Stage0 activeRings={s0activeRings}
-                           activeRibbons={s0activeRibbons}
+        selectors: [
+            {type: 'RINGS', selector: s0Rings0},
+            {type: 'RIBBONS', selector: s0Ribbons0},
+        ],
+        animInfo: [
+            {
+                dur: 2000,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 1},
+                    {a: 'stroke-opacity', v: 1},
+                ],
+            },
+            {
+                dur: 2000,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 0.75},
+                    {a: 'stroke-opacity', v: 0.75},
+                ],
+            },
+        ],
+        analytics: <Stage0 activeRings={s0Rings0}
+                           activeRibbons={s0Ribbons0}
                            data={data} nameData={nameData}
                            colorScale={colorScale} />,
     });
 
     // ***** Stage 1 ***** //
 
-    const s1activeRings = [];
-    const s1activeRibbons = [];
-    const s1RingsStagger = (d, i) => i * 250;
+    const s1Rings0 = 'ALL';
+    const s1Ribbons0 = 'ALL';
+    const s1Rings0Stagger = (d, i) => i * 250;
 
     walkthroughStages.push({
-        activeRings: s1activeRings,
-        activeRibbons: s1activeRibbons,
-        passiveOpacity: 0.05,
-        ringsStagger: s1RingsStagger,
-        ringsDuration: 1000,
-        ribbonsDuration: data.length * 500,
-        analytics: <Stage1 activeRings={s1activeRings}
-                           activeRibbons={s1activeRibbons}
+        selectors: [
+            {type: 'RINGS', selector: s1Rings0},
+            {type: 'RIBBONS', selector: s1Ribbons0},
+        ],
+        animInfo: [
+            {
+                dur: 1000,
+                stagger: s1Rings0Stagger,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 0.13},
+                    {a: 'stroke-opacity', v: 0.13},
+                ],
+            },
+            {
+                dur: data.length * 500,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 0.1},
+                    {a: 'stroke-opacity', v: 0.1},
+                ],
+            },
+        ],
+        analytics: <Stage1 activeRings={s1Rings0}
+                           activeRibbons={s1Ribbons0}
                            data={data} nameData={nameData}
                            colorScale={colorScale} />,
     });
 
     // ***** Stage 2 ***** //
 
-    const s2activeRings = 'ALL';
-    const s2activeRibbons = [];
-
-    const s2RingsStagger = (d, i) => i * 1000;
+    const s2Rings0 = 'ALL';
+    const s2Ribbons0 = 'ALL';
+    const s2Rings0Stagger = (d, i) => i * 1000;
 
     walkthroughStages.push({
-        activeRings: s2activeRings,
-        activeRibbons: s2activeRibbons,
-        passiveOpacity: 0,
-        ringsStagger: s2RingsStagger,
-        ringsDuration: 1000,
-        analytics: <Stage2 activeRings={s2activeRings}
-                           activeRibbons={s2activeRibbons}
+        selectors: [
+            {type: 'RINGS', selector: s2Rings0},
+            {type: 'RIBBONS', selector: s2Ribbons0},
+        ],
+        animInfo: [
+            {
+                dur: 1000,
+                stagger: s2Rings0Stagger,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 1},
+                    {a: 'stroke-opacity', v: 1},
+                ],
+            },
+            {
+                dur: 500,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 0},
+                    {a: 'stroke-opacity', v: 0},
+                ],
+            },
+        ],
+        analytics: <Stage2 activeRings={s2Rings0}
+                           activeRibbons={s2Ribbons0}
                            data={data} nameData={nameData}
                            colorScale={colorScale} />,
     });
 
     // ***** Stage 3 ***** //
 
-    const s3activeRings = [];
-    const s3activeRibbons = 'ALL';
+    const s3Rings0 = 'ALL';
+    const s3Ribbons0 = 'ALL';
 
-    const s3RibbonsStagger = (d, i) => i * 250;
+    const s3Ribbons0Stagger = (d, i) => i * 250;
 
     walkthroughStages.push({
-        activeRings: s3activeRings,
-        activeRibbons: s3activeRibbons,
-        passiveOpacity: 0,
-        ribbonsStagger: s3RibbonsStagger,
-        ringsDuration: 1000,
-        ribbonsDuration: 500,
-        analytics: <Stage3 activeRings={s3activeRings}
-                           activeRibbons={s3activeRibbons}
+        selectors: [
+            {type: 'RINGS', selector: s3Rings0},
+            {type: 'RIBBONS', selector: s3Ribbons0},
+        ],
+        animInfo: [
+            {
+                dur: 1000,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 0},
+                    {a: 'stroke-opacity', v: 0},
+                ],
+            },
+            {
+                dur: 500,
+                stagger: s3Ribbons0Stagger,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 0.75},
+                    {a: 'stroke-opacity', v: 0.75},
+                ],
+            },
+        ],
+        analytics: <Stage3 activeRings={s3Rings0}
+                           activeRibbons={s3Ribbons0}
                            data={data} nameData={nameData}
                            colorScale={colorScale} />,
     });
 
     // ***** Stage 4 ***** //
 
-    const s4activeRings = [0, 1];
-    const s4activeRibbons = [[0, 0]];
+    const s4Rings0 = [0, 1];
+    const s4Ribbons0 = ['1.0'];
+    const s4Rings1 = getInvertedRings(data, s4Rings0);
+    const s4Ribbons1 = getInvertedRibbons(data, s4Ribbons0);
 
     walkthroughStages.push({
-        activeRings: s4activeRings,
-        activeRibbons: s4activeRibbons,
-        passiveOpacity: 0,
-        ringsDuration: 1000,
-        ribbonsDuration: 1000,
-        analytics: <Stage4 activeRings={s4activeRings}
-                           activeRibbons={s4activeRibbons}
+        selectors: [
+            {type: 'RINGS', selector: s4Rings0},
+            {type: 'RINGS', selector: s4Rings1},
+            {type: 'RIBBONS', selector: s4Ribbons0},
+            {type: 'RIBBONS', selector: s4Ribbons1},
+        ],
+        animInfo: [
+            {
+                dur: 1000,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 1},
+                    {a: 'stroke-opacity', v: 1},
+                ],
+            },
+            {
+                dur: 1000,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 0},
+                    {a: 'stroke-opacity', v: 0},
+                ],
+            },
+            {
+                dur: 1000,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 0.75},
+                    {a: 'stroke-opacity', v: 0.75},
+                ],
+            },
+            {
+                dur: 1000,
+                attrsEnd: [
+                    {a: 'fill-opacity', v: 0},
+                    {a: 'stroke-opacity', v: 0},
+                ],
+            },
+        ],
+        analytics: <Stage4 activeRings={s4Rings0}
+                           activeRibbons={s4Ribbons0}
                            data={data} nameData={nameData}
                            colorScale={colorScale} />,
     });
@@ -172,3 +286,4 @@ export function createWalkthroughStages(
 
     return walkthroughStages
 }
+*/

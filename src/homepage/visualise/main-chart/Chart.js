@@ -5,11 +5,11 @@ import {select, event} from 'd3-selection';
 
 import ChartEmpty from './ChartEmpty';
 
-import {drawChordDiagram, highlightChordRibbons, highlightChordRings}
-    from './chart-funcs/drawChordDiagram';
-import createColorScale from './chart-funcs/createColorScale';
-import {selectionHasClass} from './chart-funcs/helpers';
-import {isArrayEqual} from '../../lib/array';
+import {getHGroupsFromRibbon, getHGroupsFromRing} from '../../data/helpers';
+import {createHighlightStage, createNormalStage} from '../stages/createStage';
+import {getSelectorFn, selectionHasClass} from './chart-funcs/helpers';
+import {drawChordDiagram} from './chart-funcs/drawChordDiagram';
+import animateSelection from './chart-funcs/animations/main';
 
 import type {Data, NameData} from '../../data/DataTypes';
 import type {ArcChartSize} from '../chartSizes';
@@ -17,23 +17,23 @@ import type {Stage} from '../stages/createStage';
 
 import './chart.css';
 
-
 type ChartProps = {
     dataKey: boolean,
 
-    data: ?Data,
-    nameData: ?NameData,
+    data: Data,
+    nameData: NameData,
     colorScale: any,
 
     size: ArcChartSize,
 
-    mode: 'normal' | 'walkthrough',
+    mode: string,
     stages: Stage[],
     curStage: number,
 
     allowEvents: boolean,
 
     changeState: (state: string, newState: any) => void,
+    changeStates: (newStates: {}) => void,
 };
 
 export default class Chart
@@ -41,22 +41,20 @@ export default class Chart
     // React refs
     chartNodeRef: any;
 
-    // DOM refs
-    ringsCtn: any;
-    ribbonsCtn: any;
-
-    // D3.js - Scales & axes
-
-
-    // D3.js - Shapes - Store this to isolate color changing activities
+    // D3.js - Shapes - To isolate color changing activities
     chordRings: any;
     chordRibbons: any;
+
+    // D3.js - Transition - To manage repeating transitions
+    repeatingTransitions: any[];
 
     // DEBUG  // TODO: remove in production
     DEBUGRenderCount: number;
 
     constructor(props: ChartProps) {
         super(props);
+
+        this.repeatingTransitions = [];
 
         this.DEBUGRenderCount = 0;  // TODO: remove in production
 
@@ -75,7 +73,7 @@ export default class Chart
             if (chartNode) {
                 const chart = select(chartNode);
 
-                // ********** Update chart ********** //
+                // ********** Redraw chart ********** //
 
                 this.redrawChart(chart);
             }
@@ -107,8 +105,7 @@ export default class Chart
                     // ********** Redraw chart ********** //
 
                     this.redrawChart(chart);
-                } else if (prevCurStage !== curStage
-                    || !isArrayEqual(prevStages, stages)) {
+                } else {
                     // ********** Update chart ********** //
 
                     this.applyStage(chart);
@@ -141,29 +138,20 @@ export default class Chart
         this.chordRings = chordRings;
         this.chordRibbons = chordRibbons;
 
-        this.ringsCtn = select(document.getElementById('chord-rings'));
-        this.ribbonsCtn = select(document.getElementById('chord-ribbons'));
-
         this.applyStage(chart);
     };
 
     applyStage = (chart: any) => {
-        console.log('applying stage!');
-
         const {stages, curStage} = this.props;
-        const {
-            activeRings, activeRibbons,
-            activeOpacity, passiveOpacity,
-            ringsStagger, ribbonsStagger,
-            ringsDuration, ribbonsDuration,
-        } = stages[curStage];
+        const {selectors, animInfo} = stages[curStage];
 
-        highlightChordRings(chart, activeRings, ringsStagger,
-            activeOpacity, passiveOpacity,
-            ringsDuration);
-        highlightChordRibbons(chart, activeRibbons, ribbonsStagger,
-            activeOpacity, passiveOpacity,
-            ribbonsDuration);
+        const selections = selectors.map(selectorObj => (
+            getSelectorFn(selectorObj)(chart, selectorObj.selector)
+        ));
+
+        selections.forEach((selection, i) => {
+            animateSelection(selection, animInfo[i]);
+        });
     };
 
     /** ********** EVENTS ********** **/
@@ -172,47 +160,40 @@ export default class Chart
         const {allowEvents} = this.props;
 
         if (allowEvents) {
-            const {nameData, changeState} = this.props;
+            const {data, changeState} = this.props;
 
             event.stopPropagation();
 
             const s = select(nodes[i]);
             const target = event.currentTarget;
 
-            // ***** Part 1 ***** //
+            // ***** Select stuff ***** //
+
+            let hRingsG, hRibbonsG, targetRingIndex, targetRibbonName;
 
             if (selectionHasClass(s, 'chord-ribbon')) {
-                const nameT = nameData[d.target.index];
-                const nameS = nameData[d.source.index];
-
-                const ringsTS = this.ringsCtn.selectAll(
-                    `.chord-ring.name-${nameT}, .chord-ring.name-${nameS}`,
-                );
-
-                this.highlightSelection(ringsTS);
+                [hRingsG, hRibbonsG] = this.getHoveredGroupsRibbons(data, d);
+                targetRibbonName = [`${d.source.index}.${d.target.index}`]
             } else if (selectionHasClass(s, 'chord-ring')) {
-                const name = nameData[d.index];
-                const namesT = new Set();
-
-                const ribbonsInOut = this.ribbonsCtn.selectAll(
-                    `.chord-ribbon.name-s-${name}, .chord-ribbon.name-t-${name}`,
-                );
-                ribbonsInOut.each(d => namesT.add(nameData[d.target.index]));
-
-                const ringsOutSelector = Array.from(namesT)
-                    .map(n => `.chord-ring.name-${n}`)
-                    .join(', ');
-                const ringsOut = this.ringsCtn.selectAll(ringsOutSelector);
-
-                this.highlightSelection(ribbonsInOut);
-                this.highlightSelection(ringsOut);
+                [hRingsG, hRibbonsG] = this.getHoveredGroupsRings(data, d);
+                targetRingIndex = [d.index];
             }
 
-            this.highlightSelection(s);
+            // ***** If stuffs are not undefined, perform actions ***** //
 
-            // ***** Part 2 ***** //
+            if (hRingsG && hRibbonsG) {
+                const nextStage = createHighlightStage(hRingsG, hRibbonsG);
 
-            changeState('chartData', JSON.parse(JSON.stringify(d)));
+                nextStage.evtInfo = {
+                    type: 'mouseenter',
+                    hRingsG,
+                    hRibbonsG,
+                    targetRingIndex,
+                    targetRibbonName,
+                };
+
+                changeState('stages', [nextStage]);
+            }
         }
     };
 
@@ -220,50 +201,27 @@ export default class Chart
         const {allowEvents} = this.props;
 
         if (allowEvents) {
-            const {nameData} = this.props;
+            const {data, changeState} = this.props;
 
             event.stopPropagation();
 
             const s = select(nodes[i]);
             const target = event.currentTarget;
 
-            if (selectionHasClass(s, 'chord-ribbon')) {
-                const nameT = nameData[d.target.index];
-                const nameS = nameData[d.source.index];
+            // ***** On mouse leave -> reset ***** //
 
-                const ringsTS = this.ringsCtn.selectAll(
-                    `.chord-ring.name-${nameT}, .chord-ring.name-${nameS}`,
-                );
+            const nextStage = createNormalStage();
 
-                this.unHighlightSelection(ringsTS);
-            } else if (selectionHasClass(s, 'chord-ring')) {
-                const name = nameData[d.index];
-                const namesT = new Set();
-
-                const ribbonsInOut = this.ribbonsCtn.selectAll(
-                    `.chord-ribbon.name-s-${name}, .chord-ribbon.name-t-${name}`,
-                );
-                ribbonsInOut.each(d => namesT.add(nameData[d.target.index]));
-
-                const ringsOutSelector = Array.from(namesT)
-                    .map(n => `.chord-ring.name-${n}`)
-                    .join(', ');
-                const ringsOut = this.ringsCtn.selectAll(ringsOutSelector);
-
-                this.unHighlightSelection(ribbonsInOut);
-                this.unHighlightSelection(ringsOut);
-            }
-
-            this.unHighlightSelection(s);
+            changeState('stages', [nextStage]);
         }
     };
 
-    highlightSelection = (sel: any) => {
-        sel.classed('active', true);
+    getHoveredGroupsRings = (data: Data, d: any): any[] => {
+        return getHGroupsFromRing(data, d.index)
     };
 
-    unHighlightSelection = (sel: any) => {
-        sel.classed('active', false);
+    getHoveredGroupsRibbons = (data: Data, d: any): any[] => {
+        return getHGroupsFromRibbon(data, d.source.index, d.target.index)
     };
 
     /** ********** UTILITIES ********** **/

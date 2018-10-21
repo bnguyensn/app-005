@@ -10,6 +10,12 @@
     text-align: center;
 }
 
+@media only screen and (max-width: 1488px) {
+    #analytics {
+        height: 640px;
+    }
+}
+
 #analytics .title {
     margin-bottom: 1.25rem;
 
@@ -27,6 +33,14 @@
     font-style: italic;
 }
 
+#analytics .clickable {
+    cursor: pointer;
+}
+
+#analytics .clickable:hover {
+    text-decoration: underline;
+}
+
 @keyframes opacity-in {
     0% {
         opacity: 0;
@@ -34,4 +48,12 @@
     100% {
         opacity: 1;
     }
+}
+
+/** ********** ANALYTICS DISPLAY ********** **/
+
+#analytics-display .fade-in {
+    opacity: 0;
+
+    animation: opacity-in 1s linear 0s 1 normal forwards;
 }

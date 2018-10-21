@@ -4,9 +4,9 @@ import * as React from 'react';
 
 import {stylesGen} from '../createStage';
 
-import type {StageAnalyticsProps} from '../createStage';
+import type {AnalyticsProps} from '../createStage';
 
-export default function Stage2(props: StageAnalyticsProps) {
+export default function Stage2(props: AnalyticsProps) {
     const styles = stylesGen(4, 1, 1);
 
     return (
