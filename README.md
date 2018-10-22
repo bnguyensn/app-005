@@ -2,8 +2,4 @@
 
 #### Description
 
-app-003 is a d3js playground.
-
-#### To-do
-
-Add proper label to data's non-asset data
+D3.js chord diagram tech demo.
