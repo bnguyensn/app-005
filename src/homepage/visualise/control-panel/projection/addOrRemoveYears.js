@@ -1,6 +1,6 @@
 // @flow
 
-import type {CompanyData, GrowthData} from '../../../data/DataTypes';
+import type {CompanyData, GrowthData} from '../../data/Types';
 
 /**
  * Current assumptions

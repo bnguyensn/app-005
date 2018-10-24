@@ -1,7 +1,11 @@
 #visualise {
+    position: relative;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    padding-top: 3rem;
 }
 
 @media only screen and (max-width: 1488px) {
@@ -10,13 +14,11 @@
     }
 }
 
-#visualise > section {
+#data-ctn {
+    position: absolute;
+    top: .5rem;
+
+
     display: flex;
     justify-content: center;
-
-    width: 100%;
-}
-
-#visualise-main {
-    padding: 1rem 0;
 }

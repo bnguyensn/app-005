@@ -6,20 +6,23 @@ import {ADNam, ADNum} from './SubComponents';
 import capFirstLtr from '../../../lib/capFirstLtr';
 
 import type {AnalyticsDisplayProps} from '../Analytics';
-import {getEntityPartnerIdFromPartnerRank} from '../../../data/helpers';
+import {getEntityPartnerIdFromPartnerRank} from '../../data/helpers/helpers';
 
 export default function DefaultRingHovered(props: AnalyticsDisplayProps) {
     const {
-        data, nameData, colorScale,
-        dataConfig, dataInfo, displayConfig,
+        dataAll, sheetNames, colorScale,
+        dataConfig, displayConfig,
         mode, stage,
         changeState,
     } = props;
-    const {dataType, pairsNoSelf} = dataConfig;
-    const {dataExtended, entities} = dataInfo;
+    const {dataType, pairsNoSelf, curSheet} = dataConfig;
     const {dataTypeLabels, entityLabel, transactionLabel} = displayConfig;
 
-    const dataTypeLabel = dataTypeLabels[dataType];
+    const {dataInfo, nameData} = dataAll[sheetNames[curSheet]];
+    const {dataExtended, entities} = dataInfo;
+    const data = dataExtended[dataType];
+
+    const dataTypeLabel = ` ${dataTypeLabels[dataType]}`;
     const transactionLabelAdj = transactionLabel ? ` ${transactionLabel}` : '';
     const ns = pairsNoSelf ? 'noSelf' : 'all';
 

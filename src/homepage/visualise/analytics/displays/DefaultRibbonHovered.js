@@ -6,20 +6,27 @@ import {ADNam, ADNum} from './SubComponents';
 import {dataTypeAdjMapper} from '../helpers';
 
 import type {AnalyticsDisplayProps} from '../Analytics';
-import {getPair1DNameFromPairName, getPairIdsFromPairName} from '../../../data/helpers';
+import {
+    getPair1DNameFromPairName,
+    getPairIdsFromPairName,
+    getPairRankingWithinEntity,
+} from '../../data/helpers/helpers';
 
 export default function DefaultRibbonHovered(props: AnalyticsDisplayProps) {
     const {
-        data, nameData, colorScale,
-        dataConfig, dataInfo, displayConfig,
+        dataAll, sheetNames, colorScale,
+        dataConfig, displayConfig,
         mode, stage,
         changeState,
     } = props;
-    const {dataType, pairsNoSelf} = dataConfig;
-    const {dataExtended, ranks, entities} = dataInfo;
+    const {dataType, pairsNoSelf, curSheet} = dataConfig;
     const {dataTypeLabels, entityLabel, transactionLabel} = displayConfig;
 
-    const dataTypeLabel = dataTypeLabels[dataType];
+    const {dataInfo, nameData} = dataAll[sheetNames[curSheet]];
+    const {dataExtended, ranks, entities} = dataInfo;
+    const data = dataExtended[dataType];
+
+    const dataTypeLabel = ` ${dataTypeLabels[dataType]}`;
     const transactionLabelAdj = transactionLabel ? ` ${transactionLabel}` : '';
     const dataTypeAdj = dataTypeAdjMapper[dataType];
     const ns = pairsNoSelf ? 'noSelf' : 'all';
@@ -36,15 +43,12 @@ export default function DefaultRibbonHovered(props: AnalyticsDisplayProps) {
         targetRibbonName = ranks.pairs[dataType][ns][0];  // eslint-disable-line prefer-destructuring
     }
 
-    // Pair - Use gross for ranking
+    // Pair
     const pName = targetRibbonName[0];
     const p1DName = getPair1DNameFromPairName(pName);
+
+    // Pair - Ranking across the whole group (use 'gross')
     const pR = ranks.pairs.gross[ns].indexOf(p1DName);
-    const firstLast = pR === ranks.pairs.gross[ns].length - 1
-        ? ' (last)'
-        : pR === 0
-            ? ' (first)'
-            : null;
 
     // Entities
     const [eAId, eBId] = getPairIdsFromPairName(pName);
@@ -57,6 +61,14 @@ export default function DefaultRibbonHovered(props: AnalyticsDisplayProps) {
     const eBColor = colorScale(eBId);
     const eBAmt = dataExtended[dataType][eBId][eAId];
     const eBAmtP = eBAmt / entities[eBId].totals[dataType];  // Total among entity's
+
+    // Pair - ranking across entities
+    const pRA = getPairRankingWithinEntity(
+        entities, dataConfig, pName, eAId,
+    );
+    const pRB = getPairRankingWithinEntity(
+        entities, dataConfig, pName, eBId,
+    );
 
     return (
         <React.Fragment>
@@ -73,8 +85,20 @@ export default function DefaultRibbonHovered(props: AnalyticsDisplayProps) {
 
                 <div>
                     This is the #
-                    <ADNam value={pR + 1} /> largest{' '}{firstLast}
-                    {transactionLabelAdj} pair.
+                    <ADNam value={pR + 1} /> largest{' '}
+                    {transactionLabelAdj} pair of the whole group.
+                    <br />
+                    This is the #
+                    <ADNam value={pRA + 1} /> largest{' '}
+                    {transactionLabelAdj} pair of{' '}
+                    <ADNam style={{color: eAColor, fontWeight: 'bold'}}
+                           value={eAName} />.
+                    <br />
+                    This is the #
+                    <ADNam value={pRB + 1} /> largest{' '}
+                    {transactionLabelAdj} pair of{' '}
+                    <ADNam style={{color: eBColor, fontWeight: 'bold'}}
+                           value={eBName} />.
                 </div>
                 <br />
 

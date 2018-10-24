@@ -6,7 +6,7 @@ import regexInput from './regexInput';
 import {addNYears} from './addOrRemoveYears';
 import isNumber from '../../../lib/isNumber';
 
-import type {CompanyData} from '../../../data/DataTypes';
+import type {CompanyData} from '../../data/Types';
 
 import './projection.css';
 

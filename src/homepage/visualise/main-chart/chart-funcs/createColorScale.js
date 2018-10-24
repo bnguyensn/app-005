@@ -3,7 +3,7 @@
 import {scaleOrdinal} from 'd3-scale';
 import {range} from 'd3-array';
 
-import type {ColorData} from '../../../data/DataTypes';
+import type {ColorData} from '../../data/Types';
 
 export type ColorScale = <T>(value: T) => T
 

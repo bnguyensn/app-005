@@ -1,7 +1,7 @@
 // @flow
 
 import type {SelectorObj} from '../main-chart/chart-funcs/helpers';
-import type {DisplayConfig} from '../../data/DataTypes';
+import type {DisplayConfig} from '../data/Types';
 
 export function getRingsRibbons(selectors: SelectorObj[]) {
     if (selectors && selectors.length > 0) {

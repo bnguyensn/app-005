@@ -2,7 +2,7 @@
 
 import {EN_UK} from './createFormats';
 
-import type {ColorData} from '../../../data/DataTypes';
+import type {ColorData} from '../../data/Types';
 
 type Tooltip = {
     text: string,

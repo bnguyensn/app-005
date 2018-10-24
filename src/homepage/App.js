@@ -4,35 +4,37 @@ import * as React from 'react';
 import Loadable from 'react-loadable';
 import {Router, Link} from '@reach/router';
 
-import Loading from './app-components/Loading';
-import Header from './app-components/Header';
+import Loading from './components/Loading';
+import Header from './components/Header';
 
 import {createNormalStage, createWalkthroughStages}
     from './visualise/stages/createStage';
 import createColorScale
     from './visualise/main-chart/chart-funcs/createColorScale';
-import generateDataInfo from './data/generateDataInfo';
+import generateDataInfo from './visualise/data/xlsx/generateDataInfo';
 import {mainChartSize} from './visualise/chartSizes';
 
-import type {ColorData, NameData, Data, DataInfo, DataConfig, DisplayConfig} from './data/DataTypes';
+import type {
+    ColorData, NameData, Data, DataInfo, DataConfig, DisplayConfig, DataAll,
+    ColorScale,
+} from './visualise/data/Types';
+import type {SheetNames} from './visualise/data/xlsx/readWorkbook';
 import type {ArcChartSize} from './visualise/chartSizes';
 import type {Stage} from './visualise/stages/createStage';
 
-import defaultData from './data/json/default-data-g7';
-import defaultNameData from './data/json/default-name-data-g7';
-import defaultDataConfig from './data/json/default-data-config';
-import defaultDisplayConfig from './data/json/default-display-config';
-import defaultColorData from './data/json/default-color-data';
+import defaultDataAll from './visualise/data/json/default-data-all';
+import defaultSheetNames from './visualise/data/json/default-sheet-names';
+import defaultDataConfig from './visualise/data/json/default-data-config';
+import defaultDisplayConfig from './visualise/data/json/default-display-config';
+import defaultColorData from './visualise/data/json/default-color-data';
+import defaultNameData from './visualise/data/json/default-name-data-g7';
 
 import './app.css';
 
+/** ********** LOADABLES ********** **/
+
 const LoadableIntro = Loadable({
     loader: () => import('./intro/Intro'),
-    loading: Loading,
-});
-
-const LoadableData = Loadable({
-    loader: () => import('./data/Data'),
     loading: Loading,
 });
 
@@ -41,25 +43,30 @@ const LoadableVisualise = Loadable({
     loading: Loading,
 });
 
-/**
- * All sorts of data should sit here else user will lose states upon navigating
- * the app
- * */
+/** ********** TYPES ********** **/
+
+export type SetNewDataFn = (
+    dataAll: DataAll,
+    sheetNames: SheetNames,
+    colorScale: ColorScale,
+    dataConfig: DataConfig,
+    displayConfig: DisplayConfig,
+) => void;
+
+// All sorts of data should sit here else user will lose states upon navigating
+// the app
 export type AppStates = {
     // Used to "hard reset" components upon receipt of new data
     dataKey: boolean,
 
-    data: ?Data,
-    nameData: ?NameData,
-    colorScale: ?ColorData,
+    dataAll: DataAll,
+    sheetNames: SheetNames,
+    colorScale: ColorScale,
 
     dataConfig: DataConfig,
-    dataInfo: DataInfo,
     displayConfig: DisplayConfig,
 
-    sizes: {
-        mainChartSize: ArcChartSize,
-    },
+    sizes: {mainChartSize: ArcChartSize},
 
     mode: string,
     stages: Stage[],
@@ -68,19 +75,17 @@ export type AppStates = {
     allowEvents: boolean,
 };
 
-export default class App extends React.PureComponent<{}, AppStates> {
-    colorScale: any;
+/** ********** MAIN ********** **/
 
+export default class App extends React.PureComponent<{}, AppStates> {
     constructor(props: {}) {
         super(props);
-
-        this.colorScale = createColorScale(defaultColorData);
 
         const mode = 'normal';
         const normalStage = [createNormalStage()];
         const walkthroughStages = [
             ...createWalkthroughStages(
-                defaultData,
+                defaultDataAll,
                 defaultNameData,
                 this.colorScale,
             ),
@@ -89,12 +94,11 @@ export default class App extends React.PureComponent<{}, AppStates> {
         this.state = {
             dataKey: false,
 
-            data: defaultData,
-            nameData: defaultNameData,
-            colorScale: this.colorScale,
+            dataAll: defaultDataAll,
+            sheetNames: defaultSheetNames,
+            colorScale: createColorScale(defaultColorData),
 
             dataConfig: defaultDataConfig,
-            dataInfo: generateDataInfo(defaultData, defaultNameData),
             displayConfig: defaultDisplayConfig,
 
             sizes: {mainChartSize},
@@ -106,24 +110,21 @@ export default class App extends React.PureComponent<{}, AppStates> {
             curStage: 0,
 
             allowEvents: mode !== 'walkthrough',
-            //allowEvents: false,
         };
     }
 
     setNewData = (
-        data: Data,
-        nameData: NameData,
-        colorData: ?ColorData,
+        dataAll: DataAll,
+        sheetNames: SheetNames,
+        colorScale: ColorScale,
         dataConfig: DataConfig,
         displayConfig: DisplayConfig,
     ) => {
-        if (colorData) this.colorScale = createColorScale(colorData);
-
         const mode = 'normal';
-        const normalStage = [createNormalStage];
+        const normalStage = [createNormalStage()];
         const walkthroughStages = [
             ...createWalkthroughStages(
-                defaultData,
+                defaultDataAll,
                 defaultNameData,
                 this.colorScale,
             ),
@@ -132,12 +133,11 @@ export default class App extends React.PureComponent<{}, AppStates> {
         this.setState((prevState: AppStates) => ({
             dataKey: !prevState.dataKey,
 
-            data,
-            nameData,
-            colorScale: this.colorScale,
+            dataAll,
+            sheetNames,
+            colorScale,
 
             dataConfig,
-            dataInfo: generateDataInfo(data, defaultNameData),
             displayConfig,
 
             sizes: {mainChartSize},
@@ -150,6 +150,18 @@ export default class App extends React.PureComponent<{}, AppStates> {
 
             allowEvents: mode !== 'walkthrough',
         }));
+    };
+
+    resetDataSet = () => {
+        this.setNewData(
+            defaultDataAll,
+            defaultSheetNames,
+            createColorScale(defaultColorData),
+            defaultDataConfig,
+            defaultDisplayConfig,
+        );
+
+        console.log('data set reset');  // TODO: show tooltip
     };
 
     changeState = (state: string, newState: any) => {
@@ -168,9 +180,9 @@ export default class App extends React.PureComponent<{}, AppStates> {
                 <Header />
                 <Router>
                     <LoadableIntro path="/" />
-                    <LoadableData path="/data"
-                                  setNewData={this.setNewData} />
                     <LoadableVisualise path="/visualise"
+                                       setNewData={this.setNewData}
+                                       resetDataSet={this.resetDataSet}
                                        changeState={this.changeState}
                                        changeStates={this.changeStates}
                                        {...this.state} />

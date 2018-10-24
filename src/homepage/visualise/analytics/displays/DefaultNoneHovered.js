@@ -9,20 +9,23 @@ import type {AnalyticsDisplayProps} from '../Analytics';
 import {
     getEntityIdFromRankAll, getPairIdsFromPairName,
     getPairNameFromRankPairs,
-} from '../../../data/helpers';
+} from '../../data/helpers/helpers';
 
 export default function DefaultNoneHovered(props: AnalyticsDisplayProps) {
     const {
-        data, nameData, colorScale,
-        dataConfig, dataInfo, displayConfig,
+        dataAll, sheetNames, colorScale,
+        dataConfig, displayConfig,
         mode, stage,
         changeState,
     } = props;
-    const {dataType, pairsNoSelf} = dataConfig;
-    const {dataExtended, entities} = dataInfo;
+    const {dataType, pairsNoSelf, curSheet} = dataConfig;
     const {dataTypeLabels, entityLabel, transactionLabel} = displayConfig;
 
-    const dataTypeLabel = dataTypeLabels[dataType];
+    const {dataInfo, nameData} = dataAll[sheetNames[curSheet]];
+    const {dataExtended, entities} = dataInfo;
+    const data = dataExtended[dataType];
+
+    const dataTypeLabel = ` ${dataTypeLabels[dataType]}`;
     const transactionLabelAdj = transactionLabel ? ` ${transactionLabel}` : '';
 
     // Group

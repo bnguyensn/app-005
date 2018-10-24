@@ -8,19 +8,20 @@ import DefaultNoneHovered from './displays/DefaultNoneHovered';
 import DefaultRingHovered from './displays/DefaultRingHovered';
 import DefaultRibbonHovered from './displays/DefaultRibbonHovered';
 
-import type {Data, DataConfig, NameData, DataInfo, DisplayConfig}
-    from '../../data/DataTypes';
+import type {DataConfig, DisplayConfig, DataAll, ColorScale}
+    from '../data/Types';
 import type {Stage} from '../stages/createStage';
+import type {SheetNames} from '../data/xlsx/readWorkbook';
 
 import './analytics.css';
 
+
 export type AnalyticsProps = {
-    data: Data,
-    nameData: NameData,
-    colorScale: any,
+    dataAll: DataAll,
+    sheetNames: SheetNames,
+    colorScale: ColorScale,
 
     dataConfig: DataConfig,
-    dataInfo: DataInfo,
     displayConfig: DisplayConfig,
 
     mode: string,
@@ -31,12 +32,11 @@ export type AnalyticsProps = {
 };
 
 export type AnalyticsDisplayProps = {
-    data: Data,
-    nameData: NameData,
-    colorScale: any,
+    dataAll: DataAll,
+    sheetNames: SheetNames,
+    colorScale: ColorScale,
 
     dataConfig: DataConfig,
-    dataInfo: DataInfo,
     displayConfig: DisplayConfig,
 
     mode: string,
@@ -47,8 +47,8 @@ export type AnalyticsDisplayProps = {
 
 export default function Analytics(props: AnalyticsProps) {
     const {
-        data, nameData, colorScale,
-        dataConfig, dataInfo, displayConfig,
+        dataAll, sheetNames, colorScale,
+        dataConfig, displayConfig,
         mode, stages, curStage,
         changeState,
     } = props;
@@ -78,35 +78,32 @@ export default function Analytics(props: AnalyticsProps) {
             <div id="analytics-display">
                 {defA === 'RING'
                     ? (
-                        <DefaultRingHovered data={data}
-                                            nameData={nameData}
+                        <DefaultRingHovered dataAll={dataAll}
+                                            sheetNames={sheetNames}
                                             colorScale={colorScale}
                                             dataConfig={dataConfig}
                                             displayConfig={displayConfig}
-                                            dataInfo={dataInfo}
                                             mode={mode}
                                             stage={stage}
                                             changeState={changeState} />
                     )
                     : defA === 'RIBBON'
                         ? (
-                            <DefaultRibbonHovered data={data}
-                                                nameData={nameData}
-                                                colorScale={colorScale}
-                                                dataConfig={dataConfig}
-                                                displayConfig={displayConfig}
-                                                dataInfo={dataInfo}
-                                                mode={mode}
-                                                stage={stage}
-                                                changeState={changeState} />
+                            <DefaultRibbonHovered dataAll={dataAll}
+                                                  sheetNames={sheetNames}
+                                                  colorScale={colorScale}
+                                                  dataConfig={dataConfig}
+                                                  displayConfig={displayConfig}
+                                                  mode={mode}
+                                                  stage={stage}
+                                                  changeState={changeState} />
                         )
                         : (
-                            <DefaultNoneHovered data={data}
-                                                nameData={nameData}
+                            <DefaultNoneHovered dataAll={dataAll}
+                                                sheetNames={sheetNames}
                                                 colorScale={colorScale}
                                                 dataConfig={dataConfig}
                                                 displayConfig={displayConfig}
-                                                dataInfo={dataInfo}
                                                 mode={mode}
                                                 stage={stage}
                                                 changeState={changeState} />

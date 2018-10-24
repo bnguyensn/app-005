@@ -2,13 +2,13 @@
 
 import * as React from 'react';
 
-import {getHGroupsFromRibbon, getHGroupsFromRing} from '../../../data/helpers';
+import {getHGroupsFromRibbon, getHGroupsFromRing} from '../../data/helpers/helpers';
 import {createHighlightStage, createNormalStage}
     from '../../stages/createStage';
 import {formatAmount} from '../helpers';
 import {ClickableDiv} from '../../../lib/components/Clickable';
 
-import type {Data, DataConfig, DisplayConfig} from '../../../data/DataTypes';
+import type {Data, DataConfig, DisplayConfig} from '../../data/Types';
 
 export function ADNam(props: {value: string | number}) {
     const {value, ...rest} = props;

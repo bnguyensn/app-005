@@ -6,7 +6,7 @@ import ColorButton from './LegendColorButton';
 
 import getRandomColor from '../../../lib/getRandomColor';
 
-import defaultColorBank from '../../../data/json/default-color-bank-01';
+import defaultColorBank from '../../data/json/unused/default-color-bank-01';
 
 type ColorMenuProps = {
     show: boolean,

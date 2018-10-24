@@ -5,13 +5,13 @@ import {select, event} from 'd3-selection';
 
 import ChartEmpty from './ChartEmpty';
 
-import {getHGroupsFromRibbon, getHGroupsFromRing} from '../../data/helpers';
+import {getHGroupsFromRibbon, getHGroupsFromRing} from '../data/helpers/helpers';
 import {createHighlightStage, createNormalStage} from '../stages/createStage';
 import {getSelectorFn, selectionHasClass} from './chart-funcs/helpers';
 import {drawChordDiagram} from './chart-funcs/drawChordDiagram';
 import animateSelection from './chart-funcs/animations/main';
 
-import type {Data, NameData} from '../../data/DataTypes';
+import type {Data, NameData} from '../data/Types';
 import type {ArcChartSize} from '../chartSizes';
 import type {Stage} from '../stages/createStage';
 

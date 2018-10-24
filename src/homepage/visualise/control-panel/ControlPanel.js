@@ -7,7 +7,7 @@ import * as React from 'react';
 //import Sort from './sort/Sort';
 //import Misc from './Misc';
 
-import type {CompanyData} from '../../data/DataTypes';
+import type {CompanyData} from '../data/Types';
 import type {MiscCheckboxes} from './Misc';
 
 import './control-panel.css';

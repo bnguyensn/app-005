@@ -1,0 +1,87 @@
+/** ********** DATA BUTTON ********** **/
+
+/* Takes you to the data wizard */
+
+.data-button {
+    display: flex;
+    justify-content: center;
+
+    padding: .5rem;
+    margin: 0 .5rem;
+
+    border-radius: 5px;
+    box-shadow: 0 2px 2px #424242;  /* Grey 800 */
+
+    color: #fafafa;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition: box-shadow .2s, background-color .2s;
+}
+
+.data-button * {
+    cursor: pointer;
+}
+
+.data-button:hover {
+    box-shadow: 0 4px 10px #424242;  /* Grey 800 */
+}
+
+.data-button:active {
+    box-shadow: 0 0 2px #424242;  /* Grey 800 */
+}
+
+.data-button.green {
+    background-color: #2E7D32;  /* Green 800 */
+}
+
+.data-button.green:hover {
+    background-color: #388E3C;  /* Green 700 */
+}
+
+.data-button.green:active {
+    background-color: #1B5E20;  /* Green 900 */
+}
+
+.data-button.blue {
+    background-color: #1565C0;  /* Blue 800 */
+}
+
+.data-button.blue:hover {
+    background-color: #1976D2;  /* Blue 700 */
+}
+
+.data-button.blue:active {
+    background-color: #0D47A1;  /* Blue 900 */
+}
+
+.data-button.red {
+    background-color: #c62828;  /* Red 800 */
+}
+
+.data-button.red:hover {
+    background-color: #d32f2f;  /* Red 700 */
+}
+
+.data-button.red:active {
+    background-color: #b71c1c;  /* Red 900 */
+}
+
+.data-button.disabled {
+    background-color: #757575;  /* Grey 800 */
+
+    color: #E0E0E0;  /* Grey 400 */
+
+    box-shadow: none;
+
+    cursor: not-allowed;
+}
+
+.data-button.disabled:hover {
+    box-shadow: none;
+}
+
+.data-button.disabled:active {
+    box-shadow: none;
+}

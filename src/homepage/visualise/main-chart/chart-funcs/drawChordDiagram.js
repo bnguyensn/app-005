@@ -8,9 +8,10 @@ import {transition} from 'd3-transition';
 import createArc from './createArc';
 import createRibbon from './createRibbon';
 import createTicks from './createTicks';
+import wrapText from './wrapText';
 import {EN_UK} from './createFormats';
 
-import type {Data, NameData} from '../../../data/DataTypes';
+import type {Data, NameData} from '../../data/Types';
 import type {ArcChartSize} from '../../chartSizes';
 import type {D3EventAction} from './helpers';
 import type {ColorScale} from './createColorScale';
@@ -259,17 +260,21 @@ export function drawChordLabels(
     size: ArcChartSize,
 ) {
     parent.append('text')
+        .attr('class', 'chord-label-text')
         .each((d) => {
             d.angle = (d.startAngle + d.endAngle) / 2
         })  // Modifies d
         .attr('dy', '.35em')
         .attr('text-anchor', d => d.angle > Math.PI ? 'end' : null)
         .attr('transform', d => (
-            `rotate(${d.angle * 180 / Math.PI - 90})
-            translate(${size.innerRadius + 80})
-            ${d.angle > Math.PI ? 'rotate(180)' : ''}`
+            `rotate(${d.angle * 180 / Math.PI - 90}) `
+            + `translate(${size.innerRadius + 80}) `
+            + `${d.angle > Math.PI ? 'rotate(180)' : ''}`
         ))
         .text((d, i) => nameData[i]);
+
+    parent.selectAll('.chord-label-text')
+        .call(wrapText, 100);
 }
 
 /** ********** CHORDS ********** **/

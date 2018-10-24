@@ -1,0 +1,257 @@
+/** ********** 1. DATA WIZARD ********** **/
+
+.data-wizard-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+
+    background-color: rgba(33, 33, 33, .8);  /* Grey 900 */
+
+    transition: opacity .5s;
+}
+
+@keyframes dw-fade-in {
+    0% {opacity: 0}
+    100% {opacity: 1}
+}
+
+#data-wizard {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    padding: 1rem;
+
+    background-color: #fafafa;
+
+    border-radius: 5px;
+
+    overflow-y: auto;
+}
+
+.data-wizard-background.show, #data-wizard.show {
+    visibility: visible;
+
+    animation: dw-fade-in .4s cubic-bezier(0, 1, .6, 1);
+}
+
+.data-wizard-background.hide, #data-wizard.hide {
+    visibility: hidden;
+}
+
+@keyframes dw-fade-in {
+    0% {
+        transform: translate(0, -100%);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+/** ***** Title ***** **/
+
+#data-wizard > .title {
+    margin-bottom: 1rem;
+    width: 90%;
+    border-bottom: 2px solid #212121;
+
+    text-align: center;
+
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/** ***** Close ("X") button ***** **/
+
+#data-wizard-close {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    top: 5px;
+    right: 5px;
+
+    color: #212121;
+
+    cursor: pointer;
+}
+
+.data-wizard-close-i {
+    font-size: 1.5rem;
+}
+
+#data-wizard-close:hover {
+    color: #c62828;  /* Red 800 */
+}
+
+/** ********** 2. SECTIONS ********** **/
+
+.data-wizard-s {
+    margin-bottom: 1.25rem;
+    width: 100%;
+}
+
+.data-wizard-s > .title {
+    width: 100%;
+    padding: .25rem;
+
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    background-color: #2E7D32;  /* Green 800 */
+
+    color: #fafafa;  /* Grey 50 */
+}
+
+.data-wizard-s > .title:hover {}
+
+.data-wizard-s > .title:active {}
+
+
+.data-wizard-s .description {
+    font-size: .75rem;
+}
+
+.data-wizard-s > .collapsible {
+    padding: .5rem;
+
+    background-color: #DCEDC8;  /* Green 100 */
+}
+
+.data-wizard-s > .collapsible.collapsed {
+
+}
+
+.data-wizard-s > .collapsible.collapsed * {
+
+}
+
+.data-wizard-s .green-txt {
+    color: #2E7D32;  /* Green 800 */
+    font-weight: bold;
+}
+
+.data-wizard-s .blue-txt {
+    color: #1565C0;  /* Blue 800 */
+    font-weight: bold;
+}
+
+.data-wizard-s .red-txt {
+    color: #c62828;  /* Red 800 */
+    font-weight: bold;
+}
+
+/** ********** 3. SECTION PARTS ********** **/
+
+.data-wizard-s-part {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    margin-bottom: 1rem;
+}
+
+@media only screen and (min-width: 640px) {
+    .data-wizard-s-part {
+        flex-direction: row;
+    }
+}
+
+.data-wizard-s-part > div {
+    max-width: 640px;
+}
+
+/** ********** 3.1.1 SECTION 1 PART 1 ********** **/
+
+/** ***** Select data set button ***** **/
+
+#select-data-set-ctn {
+    display: flex;
+    justify-content: center;
+
+    width: 12rem;
+    padding: .5rem;
+}
+
+#select-data-set-uploader {
+    position: absolute;
+    opacity: 0;
+}
+
+/** ********** 3.1.2 SECTION 1 PART 2 ********** **/
+
+/** ***** Upload status ***** **/
+
+#upload-status-ctn {
+
+}
+
+#upload-status, #upload-errors {
+    width: 100%;
+    border: 1px solid #212121;
+    padding: .5rem;
+
+    border-radius: 5px;
+
+    text-align: center;
+
+    font-size: .75rem;
+}
+
+#upload-status.status-0, #upload-status.status-1,
+#upload-errors.status-0, #upload-errors.status-1 {
+    background-color: #E0E0E0;  /* Grey 300 */
+}
+
+#upload-status.status-1, #upload-errors.status-1 {
+    background-color: #FFE082;  /* Amber 200 */
+}
+
+#upload-status.status-2, #upload-errors.status-2 {
+    background-color: #C5E1A5;  /* Green 300 */
+}
+
+#upload-status.status-5, #upload-errors.status-5 {
+    background-color: #ef9a9a;  /* Red 200 */
+}
+
+/** ********** 3.1.2 SECTION 1 PART 3 ********** **/
+
+
+
+/** ********** 3.2 SECTION 2 ********** **/
+
+.display-prop-config {
+    display: flex;
+    flex-direction: column;
+}
+
+.display-prop-config-pair {
+    display: flex;
+    align-items: center;
+    margin-bottom: .25rem;
+}
+
+.display-prop-config-pair > input {
+    margin-left: .5rem;
+    padding: .1rem .2rem;
+}
+
+.display-prop-config-pair > * {
+    flex: 1 1 0;
+    font-family: inherit;
+    font-size: .75rem;
+}

@@ -6,7 +6,7 @@ import Label from './LegendLabel';
 import LegendColorMenu from './LegendColorMenu';
 import LegendEmpty from './LegendEmpty';
 
-import type {ColorData, CompanyData} from '../../../data/DataTypes';
+import type {ColorData, CompanyData} from '../../data/Types';
 
 import './legend.css';
 

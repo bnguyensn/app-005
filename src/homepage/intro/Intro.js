@@ -3,7 +3,7 @@
 import * as React from 'react';
 import {Link} from '@reach/router';
 
-import Page from '../app-components/Page';
+import Page from '../components/Page';
 
 import './intro.css';
 
@@ -21,15 +21,16 @@ export default function Intro() {
                 bi-directional flow data.
             </div>
             <div className="description delay-2">
-                One notable example of these kind of visualisations is the {' '}
+                One notable example of this kind of visualisations is the{' '}
                 BBC&rsquo;s{' '}
-                <a href="https://www.bbc.co.uk/news/business-15748696">
+                <a href="https://www.bbc.co.uk/news/business-15748696"
+                   target="_blank" rel="noopener noreferrer">
                     Eurozone debt map
                 </a>.
             </div>
             <div className="description delay-3">
                 This demo allows you to create your own interactive chord{' '}
-                diagram using any bi-directional flow data.{' '}
+                diagram.{' '}
                 Please head over to the <Link to="/data">DATA</Link>{' '}
                 tab to get started.
             </div>
