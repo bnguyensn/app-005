@@ -104,9 +104,7 @@ export default class Section1
                             spreadsheet resembling an n x n (n &gt;&#61; 2){' '}
                             matrix.
                             <br /><br />
-                            A template data set can be downloaded using{' '}
-                            this <a href={tDLURL}>link</a>, which also{' '}
-                            contains guidance on acceptable data.
+                            Template data set coming in the next version.
                             <br /><br />
                             At its current version, the wizard{' '}
                             assumes your spreadsheet rows to contain{' '}

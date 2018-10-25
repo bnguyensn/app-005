@@ -21,7 +21,7 @@ export default function Intro() {
                 bi-directional flow data.
             </div>
             <div className="description delay-2">
-                One notable example of this kind of visualisations is the{' '}
+                One notable example of this kind of visualisation is the{' '}
                 BBC&rsquo;s{' '}
                 <a href="https://www.bbc.co.uk/news/business-15748696"
                    target="_blank" rel="noopener noreferrer">
@@ -31,8 +31,8 @@ export default function Intro() {
             <div className="description delay-3">
                 This demo allows you to create your own interactive chord{' '}
                 diagram.{' '}
-                Please head over to the <Link to="/data">DATA</Link>{' '}
-                tab to get started.
+                Please head over to the{' '}
+                <Link to="/visualise">VISUALISE</Link> tab.
             </div>
         </Page>
     )
