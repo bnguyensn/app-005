@@ -4,7 +4,6 @@ import * as React from 'react';
 import Loadable from 'react-loadable';
 
 import Loading from './components/Loading';
-import Visualise from './visualise/Visualise';
 
 import createColorScale
     from './visualise/main-chart/chart-funcs/createColorScale';

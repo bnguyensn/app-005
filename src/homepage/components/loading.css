@@ -2,9 +2,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     width: 100%;
     padding: 1rem;
+}
+
+.loading-text {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+
+    animation: loading-text-anim 1s linear 0s infinite alternate;
+}
+
+@keyframes loading-text-anim {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .loading .loader {
