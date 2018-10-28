@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import {getHGroupsFromRibbon, getHGroupsFromRing} from '../../data/helpers/helpers';
+import {getRingsRibbonsFromRibbon, getRingsRibbonsFromRing} from '../../data/helpers/helpers';
 import {createHighlightStage, createNormalStage}
     from '../../stages/createStage';
 import {formatAmount} from '../helpers';
@@ -39,7 +39,7 @@ export function ADStagerHLRings(props: {
     const {data, ring, changeState, children, ...rest} = props;
 
     const handleClick = (e) => {
-        const [ringsG, ribbonsG] = getHGroupsFromRing(data, ring);
+        const [ringsG, ribbonsG] = getRingsRibbonsFromRing(data, ring);
 
         if (ringsG && ribbonsG) {
             const newStage = createHighlightStage(ringsG, ribbonsG);
@@ -66,7 +66,7 @@ export function ADStagerHLRibbons(props: {
     const {data, ribbonS, ribbonT, changeState, children, ...rest} = props;
 
     const handleClick = (e) => {
-        const [ringsG, ribbonsG] = getHGroupsFromRibbon(data, ribbonS, ribbonT);
+        const [ringsG, ribbonsG] = getRingsRibbonsFromRibbon(data, ribbonS, ribbonT);
 
         if (ringsG && ribbonsG) {
             const newStage = createHighlightStage(ringsG, ribbonsG);

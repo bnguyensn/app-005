@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import {ADNam, ADNum} from './SubComponents';
-import {dataTypeAdjMapper} from '../helpers';
+import {transactionAdjectives} from '../helpers';
 
 import type {AnalyticsDisplayProps} from '../Analytics';
 import {
@@ -28,7 +28,7 @@ export default function DefaultRibbonHovered(props: AnalyticsDisplayProps) {
 
     const dataTypeLabel = ` ${dataTypeLabels[dataType]}`;
     const transactionLabelAdj = transactionLabel ? ` ${transactionLabel}` : '';
-    const dataTypeAdj = dataTypeAdjMapper[dataType];
+    const dataTypeAdj = transactionAdjectives[dataType];
     const ns = pairsNoSelf ? 'noSelf' : 'all';
 
     // Group

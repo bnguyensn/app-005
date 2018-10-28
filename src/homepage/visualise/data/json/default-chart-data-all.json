@@ -1,0 +1,6038 @@
+[
+  {
+    "chordData": {
+      "normal": {
+        "chords": [
+          {
+            "source": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 3.956305658439854,
+              "endAngle": 4.689116301173051,
+              "value": 1005.04
+            },
+            "target": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.7008078978072059,
+              "endAngle": 1.321448289328436,
+              "value": 851.2
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.075337273252589,
+              "endAngle": 2.722955689311279,
+              "value": 888.2
+            },
+            "target": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.689116301173051,
+              "endAngle": 5.1790226440573495,
+              "value": 671.9
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.1790226440573495,
+              "endAngle": 5.595293562670349,
+              "value": 570.91
+            },
+            "target": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.4039310934044607,
+              "endAngle": 3.764933518505584,
+              "value": 495.11
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 5.595293562670349,
+              "endAngle": 5.826349405796715,
+              "value": 316.89
+            },
+            "target": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.3226967885678337,
+              "endAngle": 0.5215102466929439,
+              "value": 272.67
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.6622276456943508,
+              "endAngle": 1.8837172271468932,
+              "value": 303.77
+            },
+            "target": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 5.826349405796715,
+              "endAngle": 6.031411557713339,
+              "value": 281.24
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.0877965270214145,
+              "endAngle": 3.283934056766728,
+              "value": 269
+            },
+            "target": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.722955689311279,
+              "endAngle": 2.87388679956139,
+              "value": 207
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.1746936459170248,
+              "value": 239.59
+            },
+            "target": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 6.031411557713339,
+              "endAngle": 6.146177532367288,
+              "value": 157.4
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 3.764933518505584,
+              "endAngle": 3.859721172285847,
+              "value": 130
+            },
+            "target": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.87388679956139,
+              "endAngle": 2.9216451943506767,
+              "value": 65.5
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 6.146177532367288,
+              "endAngle": 6.233185307179586,
+              "value": 119.33000000000001
+            },
+            "target": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.283934056766728,
+              "endAngle": 3.3365557873307403,
+              "value": 72.17000000000002
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.321448289328436,
+              "endAngle": 1.403840634537434,
+              "value": 113
+            },
+            "target": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 2.9216451943506767,
+              "endAngle": 2.9655391694089217,
+              "value": 60.2
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.403840634537434,
+              "endAngle": 1.4766083872087434,
+              "value": 99.8
+            },
+            "target": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.8837172271468932,
+              "endAngle": 1.9348296466084043,
+              "value": 70.1
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.4766083872087434,
+              "endAngle": 1.5410639917793223,
+              "value": 88.4
+            },
+            "target": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.21260870742913002,
+              "endAngle": 0.23849302826912494,
+              "value": 35.5
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.5410639917793223,
+              "endAngle": 1.588093250770299,
+              "value": 64.5
+            },
+            "target": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.5215102466929439,
+              "endAngle": 0.5598627896840349,
+              "value": 52.6
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.1746936459170248,
+              "endAngle": 0.21260870742913002,
+              "value": 52
+            },
+            "target": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 2.9655391694089217,
+              "endAngle": 2.9990794161311687,
+              "value": 46
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.5598627896840349,
+              "endAngle": 0.5917260240701695,
+              "value": 43.7
+            },
+            "target": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 1.9900252265404497,
+              "endAngle": 2.0157637202207828,
+              "value": 35.3
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 1.9348296466084043,
+              "endAngle": 1.9642867328601168,
+              "value": 40.4
+            },
+            "target": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 2.9990794161311687,
+              "endAngle": 3.026713662887107,
+              "value": 37.9
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.5917260240701695,
+              "endAngle": 0.6235892584563041,
+              "value": 43.7
+            },
+            "target": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 3.026713662887107,
+              "endAngle": 3.0377965270214147,
+              "value": 15.2
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 1.9642867328601168,
+              "endAngle": 1.9900252265404497,
+              "value": 35.3
+            },
+            "target": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.23849302826912494,
+              "endAngle": 0.25482567015126256,
+              "value": 22.4
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 3.859721172285847,
+              "endAngle": 3.87649129564697,
+              "value": 23
+            },
+            "target": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.588093250770299,
+              "endAngle": 1.603405102534803,
+              "value": 21
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.6235892584563041,
+              "endAngle": 0.6410885176157373,
+              "value": 24
+            },
+            "target": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.25482567015126256,
+              "endAngle": 0.26357529973097915,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 3.87649129564697,
+              "endAngle": 3.8878658141006017,
+              "value": 15.6
+            },
+            "target": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.268139689828398,
+              "endAngle": 0.2726967885678337,
+              "value": 6.25
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 3.8878658141006017,
+              "endAngle": 3.8956675671425156,
+              "value": 10.7
+            },
+            "target": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.3365557873307403,
+              "endAngle": 3.3427461502583897,
+              "value": 8.49
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 3.8956675671425156,
+              "endAngle": 3.9030318387054437,
+              "value": 10.1
+            },
+            "target": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.0157637202207828,
+              "endAngle": 2.022253028825739,
+              "value": 8.9
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.603405102534803,
+              "endAngle": 1.6122276456943507,
+              "value": 12.1
+            },
+            "target": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.3480688415860507,
+              "endAngle": 3.3506645650280333,
+              "value": 3.56
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.3427461502583897,
+              "endAngle": 3.3480688415860507,
+              "value": 7.3
+            },
+            "target": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.26357529973097915,
+              "endAngle": 0.268139689828398,
+              "value": 6.26
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.6410885176157373,
+              "endAngle": 0.6468851472122995,
+              "value": 7.95
+            },
+            "target": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 3.9030318387054437,
+              "endAngle": 3.9063056584398543,
+              "value": 4.49
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.022253028825739,
+              "endAngle": 2.0253372732525894,
+              "value": 4.23
+            },
+            "target": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.3506645650280333,
+              "endAngle": 3.352749893411199,
+              "value": 2.86
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.6468851472122995,
+              "endAngle": 0.6508078978072058,
+              "value": 5.38
+            },
+            "target": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.352749893411199,
+              "endAngle": 3.353931093404461,
+              "value": 1.62
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.2726967885678337,
+            "value": 374
+          },
+          {
+            "index": 1,
+            "startAngle": 0.3226967885678337,
+            "endAngle": 0.6508078978072058,
+            "value": 450
+          },
+          {
+            "index": 2,
+            "startAngle": 0.7008078978072059,
+            "endAngle": 1.6122276456943507,
+            "value": 1250
+          },
+          {
+            "index": 3,
+            "startAngle": 1.6622276456943508,
+            "endAngle": 2.0253372732525894,
+            "value": 498
+          },
+          {
+            "index": 4,
+            "startAngle": 2.075337273252589,
+            "endAngle": 3.0377965270214147,
+            "value": 1320
+          },
+          {
+            "index": 5,
+            "startAngle": 3.0877965270214145,
+            "endAngle": 3.353931093404461,
+            "value": 365
+          },
+          {
+            "index": 6,
+            "startAngle": 3.4039310934044607,
+            "endAngle": 3.9063056584398543,
+            "value": 689
+          },
+          {
+            "index": 7,
+            "startAngle": 3.956305658439854,
+            "endAngle": 6.233185307179586,
+            "value": 3122.7099999999996
+          }
+        ]
+      },
+      "transpose": {
+        "chords": [
+          {
+            "source": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.7008078978072058,
+              "endAngle": 1.4336185405404023,
+              "value": 1005.04
+            },
+            "target": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 4.603924074498542,
+              "endAngle": 5.224564466019771,
+              "value": 851.2
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 3.956305658439852,
+              "endAngle": 4.603924074498542,
+              "value": 888.2
+            },
+            "target": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.0753372732525883,
+              "endAngle": 2.565243616136886,
+              "value": 671.9
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.403931093404458,
+              "endAngle": 3.820202012017458,
+              "value": 570.91
+            },
+            "target": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.224564466019771,
+              "endAngle": 5.585566891120894,
+              "value": 495.11
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.3226967885678336,
+              "endAngle": 0.5537526316941994,
+              "value": 316.89
+            },
+            "target": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 5.807056472573437,
+              "endAngle": 6.005869930698546,
+              "value": 272.67
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 5.585566891120894,
+              "endAngle": 5.807056472573437,
+              "value": 303.77
+            },
+            "target": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.6622276456943503,
+              "endAngle": 1.8672897976109748,
+              "value": 281.24
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.565243616136886,
+              "endAngle": 2.7613811458821997,
+              "value": 269
+            },
+            "target": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.0877965270214123,
+              "endAngle": 3.2387276372715235,
+              "value": 207
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 6.005869930698546,
+              "endAngle": 6.180563576615571,
+              "value": 239.59
+            },
+            "target": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.11476597465394923,
+              "value": 157.4
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.7613811458821997,
+              "endAngle": 2.8561687996624627,
+              "value": 130
+            },
+            "target": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 3.820202012017458,
+              "endAngle": 3.8679604068067444,
+              "value": 65.5
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.2387276372715235,
+              "endAngle": 3.3257354120838216,
+              "value": 119.33000000000001
+            },
+            "target": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 6.180563576615571,
+              "endAngle": 6.233185307179583,
+              "value": 72.17000000000002
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 2.8561687996624627,
+              "endAngle": 2.9385611448714606,
+              "value": 113
+            },
+            "target": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.4847309600019134,
+              "endAngle": 1.5286249350601582,
+              "value": 60.2
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.8672897976109748,
+              "endAngle": 1.9400575502822843,
+              "value": 99.8
+            },
+            "target": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.4336185405404023,
+              "endAngle": 1.4847309600019134,
+              "value": 70.1
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.11476597465394923,
+              "endAngle": 0.17922157922452808,
+              "value": 88.4
+            },
+            "target": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.5669774780512493,
+              "endAngle": 1.5928617988912441,
+              "value": 35.5
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.5537526316941994,
+              "endAngle": 0.6007818906851761,
+              "value": 64.5
+            },
+            "target": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.5286249350601582,
+              "endAngle": 1.5669774780512493,
+              "value": 52.6
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 2.9385611448714606,
+              "endAngle": 2.9764762063835657,
+              "value": 52
+            },
+            "target": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.17922157922452808,
+              "endAngle": 0.212761825946775,
+              "value": 46
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 1.9400575502822843,
+              "endAngle": 1.9719207846684188,
+              "value": 43.7
+            },
+            "target": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.6007818906851761,
+              "endAngle": 0.626520384365509,
+              "value": 35.3
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 3.0083394407697,
+              "endAngle": 3.0377965270214125,
+              "value": 40.4
+            },
+            "target": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 1.9719207846684188,
+              "endAngle": 1.999555031424357,
+              "value": 37.9
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 2.9764762063835657,
+              "endAngle": 3.0083394407697,
+              "value": 43.7
+            },
+            "target": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.626520384365509,
+              "endAngle": 0.6376032484998168,
+              "value": 15.2
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.212761825946775,
+              "endAngle": 0.23850031962710797,
+              "value": 35.3
+            },
+            "target": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 1.999555031424357,
+              "endAngle": 2.0158876733064948,
+              "value": 22.4
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.5928617988912441,
+              "endAngle": 1.6096319222523676,
+              "value": 23
+            },
+            "target": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 3.8679604068067444,
+              "endAngle": 3.8832722585712482,
+              "value": 21
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.23850031962710797,
+              "endAngle": 0.2559995787865411,
+              "value": 24
+            },
+            "target": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.6376032484998168,
+              "endAngle": 0.6463528780795333,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.2559995787865411,
+              "endAngle": 0.2673740972401727,
+              "value": 15.6
+            },
+            "target": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 3.9017485597004162,
+              "endAngle": 3.906305658439852,
+              "value": 6.25
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.334557955243369,
+              "endAngle": 3.342359708285283,
+              "value": 10.7
+            },
+            "target": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 3.8897615671762047,
+              "endAngle": 3.895951930103854,
+              "value": 8.49
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.0158876733064948,
+              "endAngle": 2.023251944869423,
+              "value": 10.1
+            },
+            "target": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 3.8832722585712482,
+              "endAngle": 3.8897615671762047,
+              "value": 8.9
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.3257354120838216,
+              "endAngle": 3.334557955243369,
+              "value": 12.1
+            },
+            "target": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.6096319222523676,
+              "endAngle": 1.6122276456943503,
+              "value": 3.56
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.2673740972401727,
+              "endAngle": 0.27269678856783364,
+              "value": 7.3
+            },
+            "target": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.342359708285283,
+              "endAngle": 3.3469240983827016,
+              "value": 6.26
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 3.895951930103854,
+              "endAngle": 3.9017485597004162,
+              "value": 7.95
+            },
+            "target": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.6463528780795333,
+              "endAngle": 0.649626697813944,
+              "value": 4.49
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.350846848977608,
+              "endAngle": 3.353931093404458,
+              "value": 4.23
+            },
+            "target": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.023251944869423,
+              "endAngle": 2.0253372732525885,
+              "value": 2.86
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.3469240983827016,
+              "endAngle": 3.350846848977608,
+              "value": 5.38
+            },
+            "target": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.649626697813944,
+              "endAngle": 0.6508078978072057,
+              "value": 1.62
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.27269678856783364,
+            "value": 374
+          },
+          {
+            "index": 1,
+            "startAngle": 0.3226967885678336,
+            "endAngle": 0.6508078978072057,
+            "value": 450
+          },
+          {
+            "index": 2,
+            "startAngle": 0.7008078978072058,
+            "endAngle": 1.6122276456943503,
+            "value": 1250
+          },
+          {
+            "index": 3,
+            "startAngle": 1.6622276456943503,
+            "endAngle": 2.0253372732525885,
+            "value": 498
+          },
+          {
+            "index": 4,
+            "startAngle": 2.0753372732525883,
+            "endAngle": 3.0377965270214125,
+            "value": 1320
+          },
+          {
+            "index": 5,
+            "startAngle": 3.0877965270214123,
+            "endAngle": 3.353931093404458,
+            "value": 365
+          },
+          {
+            "index": 6,
+            "startAngle": 3.403931093404458,
+            "endAngle": 3.906305658439852,
+            "value": 689
+          },
+          {
+            "index": 7,
+            "startAngle": 3.956305658439852,
+            "endAngle": 6.233185307179583,
+            "value": 3122.7100000000005
+          }
+        ]
+      },
+      "net": {
+        "chords": [
+          {
+            "source": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.1596762268755922,
+              "endAngle": 2.7840361736618506,
+              "value": 216.30000000000007
+            },
+            "target": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.379907173870991,
+              "endAngle": 5.004267120657249,
+              "value": 216.30000000000007
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.9331149692161343,
+              "endAngle": 1.3771812392743772,
+              "value": 153.83999999999992
+            },
+            "target": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 5.004267120657249,
+              "endAngle": 5.448333390715492,
+              "value": 153.83999999999992
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.23724523359390923,
+              "value": 82.19
+            },
+            "target": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 5.448333390715492,
+              "endAngle": 5.685578624309401,
+              "value": 82.19
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.872331867516123,
+              "endAngle": 4.09113207078195,
+              "value": 75.79999999999995
+            },
+            "target": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.685578624309401,
+              "endAngle": 5.904378827575228,
+              "value": 75.79999999999995
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.7840361736618506,
+              "endAngle": 2.9702184046730093,
+              "value": 64.5
+            },
+            "target": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 4.09113207078195,
+              "endAngle": 4.277314301793109,
+              "value": 64.5
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.9702184046730093,
+              "endAngle": 3.1491842701411,
+              "value": 62
+            },
+            "target": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.458396120448109,
+              "endAngle": 3.6373619859161996,
+              "value": 62
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.23724523359390923,
+              "endAngle": 0.3899435284852318,
+              "value": 52.900000000000006
+            },
+            "target": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.3771812392743772,
+              "endAngle": 1.5298795341656997,
+              "value": 52.900000000000006
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.5298795341656997,
+              "endAngle": 1.6822891744352995,
+              "value": 52.8
+            },
+            "target": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 3.1491842701411,
+              "endAngle": 3.3015939104107,
+              "value": 52.8
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.6373619859161996,
+              "endAngle": 3.7734915055206377,
+              "value": 47.16
+            },
+            "target": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 5.904378827575228,
+              "endAngle": 6.040508347179666,
+              "value": 47.16
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.5591290217945457,
+              "endAngle": 0.6867720955203355,
+              "value": 44.21999999999997
+            },
+            "target": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 6.040508347179666,
+              "endAngle": 6.168151420905456,
+              "value": 44.21999999999997
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.6822891744352995,
+              "endAngle": 1.7680195970869494,
+              "value": 29.700000000000003
+            },
+            "target": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.8827936942015293,
+              "endAngle": 1.9685241168531793,
+              "value": 29.700000000000003
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.6867720955203355,
+              "endAngle": 0.7690386627113126,
+              "value": 28.500000000000004
+            },
+            "target": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 3.3015939104107,
+              "endAngle": 3.383860477601677,
+              "value": 28.500000000000004
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.9685241168531793,
+              "endAngle": 2.0335580031273097,
+              "value": 22.529999999999973
+            },
+            "target": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 6.168151420905456,
+              "endAngle": 6.233185307179586,
+              "value": 22.529999999999973
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.3899435284852318,
+              "endAngle": 0.42717997468746355,
+              "value": 12.899999999999999
+            },
+            "target": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 2.0335580031273097,
+              "endAngle": 2.0707944493295414,
+              "value": 12.899999999999999
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.42717997468746355,
+              "endAngle": 0.46181852929419076,
+              "value": 12
+            },
+            "target": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.7690386627113126,
+              "endAngle": 0.8036772173180399,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.8036772173180399,
+              "endAngle": 0.8380271173030444,
+              "value": 11.899999999999999
+            },
+            "target": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.7680195970869494,
+              "endAngle": 1.802369497071954,
+              "value": 11.899999999999999
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.46181852929419076,
+              "endAngle": 0.4888077364252657,
+              "value": 9.35
+            },
+            "target": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 4.277314301793109,
+              "endAngle": 4.304303508924185,
+              "value": 9.35
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.802369497071954,
+              "endAngle": 1.8270206017670747,
+              "value": 8.54
+            },
+            "target": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.7734915055206377,
+              "endAngle": 3.7981426102157587,
+              "value": 8.54
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.8380271173030444,
+              "endAngle": 0.8622741055277534,
+              "value": 8.400000000000006
+            },
+            "target": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 2.0707944493295414,
+              "endAngle": 2.0950414375542503,
+              "value": 8.400000000000006
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.4888077364252657,
+              "endAngle": 0.5061270137286293,
+              "value": 6
+            },
+            "target": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 3.383860477601677,
+              "endAngle": 3.4011797549050407,
+              "value": 6
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.8622741055277534,
+              "endAngle": 0.8731275193045279,
+              "value": 3.76
+            },
+            "target": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.7981426102157587,
+              "endAngle": 3.8089960239925333,
+              "value": 3.76
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.8731275193045279,
+              "endAngle": 0.8831149692161343,
+              "value": 3.46
+            },
+            "target": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 4.304303508924185,
+              "endAngle": 4.314290958835791,
+              "value": 3.46
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 2.0950414375542503,
+              "endAngle": 2.1022578030973187,
+              "value": 2.5
+            },
+            "target": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 3.4011797549050407,
+              "endAngle": 3.408396120448109,
+              "value": 2.5
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.8089960239925333,
+              "endAngle": 3.8153752911326055,
+              "value": 2.209999999999999
+            },
+            "target": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 4.314290958835791,
+              "endAngle": 4.320670225975864,
+              "value": 2.209999999999999
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.8270206017670747,
+              "endAngle": 1.8327936942015293,
+              "value": 2
+            },
+            "target": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 4.320670225975864,
+              "endAngle": 4.326443318410318,
+              "value": 2
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.1022578030973187,
+              "endAngle": 2.10621237141492,
+              "value": 1.3700000000000006
+            },
+            "target": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.8153752911326055,
+              "endAngle": 3.8193298594502068,
+              "value": 1.3700000000000006
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.10621237141492,
+              "endAngle": 2.1096762268755924,
+              "value": 1.1999999999999993
+            },
+            "target": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 4.326443318410318,
+              "endAngle": 4.329907173870991,
+              "value": 1.1999999999999993
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.5061270137286293,
+              "endAngle": 0.5091290217945457,
+              "value": 1.04
+            },
+            "target": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.8193298594502068,
+              "endAngle": 3.822331867516123,
+              "value": 1.04
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.5091290217945457,
+            "value": 176.38
+          },
+          {
+            "index": 1,
+            "startAngle": 0.5591290217945457,
+            "endAngle": 0.8831149692161343,
+            "value": 112.23999999999998
+          },
+          {
+            "index": 2,
+            "startAngle": 0.9331149692161343,
+            "endAngle": 1.8327936942015293,
+            "value": 311.67999999999995
+          },
+          {
+            "index": 3,
+            "startAngle": 1.8827936942015293,
+            "endAngle": 2.1096762268755924,
+            "value": 78.59999999999998
+          },
+          {
+            "index": 4,
+            "startAngle": 2.1596762268755922,
+            "endAngle": 3.408396120448109,
+            "value": 432.6000000000001
+          },
+          {
+            "index": 5,
+            "startAngle": 3.458396120448109,
+            "endAngle": 3.822331867516123,
+            "value": 126.08
+          },
+          {
+            "index": 6,
+            "startAngle": 3.872331867516123,
+            "endAngle": 4.329907173870991,
+            "value": 158.51999999999992
+          },
+          {
+            "index": 7,
+            "startAngle": 4.379907173870991,
+            "endAngle": 6.233185307179586,
+            "value": 642.0399999999998
+          }
+        ]
+      },
+      "gross": {
+        "chords": [
+          {
+            "source": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.7008078978072056,
+              "endAngle": 1.377533414934419,
+              "value": 1856.24
+            },
+            "target": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 3.9563056584398533,
+              "endAngle": 4.633031175567067,
+              "value": 1856.24
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.0753372732525883,
+              "endAngle": 2.644099652724082,
+              "value": 1560.1
+            },
+            "target": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.633031175567067,
+              "endAngle": 5.20179355503856,
+              "value": 1560.1
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.4039310934044593,
+              "endAngle": 3.792567765261521,
+              "value": 1066.02
+            },
+            "target": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.20179355503856,
+              "endAngle": 5.590430226895622,
+              "value": 1066.02
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.3226967885678336,
+              "endAngle": 0.5376314391935716,
+              "value": 589.56
+            },
+            "target": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 5.590430226895622,
+              "endAngle": 5.8053648775213595,
+              "value": 589.56
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.6622276456943503,
+              "endAngle": 1.8755035123789336,
+              "value": 585.01
+            },
+            "target": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 5.8053648775213595,
+              "endAngle": 6.018640744205943,
+              "value": 585.01
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.644099652724082,
+              "endAngle": 2.8176339727217945,
+              "value": 476
+            },
+            "target": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.0877965270214127,
+              "endAngle": 3.261330847019125,
+              "value": 476
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.144729810285487,
+              "value": 396.99
+            },
+            "target": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 6.018640744205943,
+              "endAngle": 6.163370554491429,
+              "value": 396.99
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.8176339727217945,
+              "endAngle": 2.8889069970065693,
+              "value": 195.5
+            },
+            "target": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 3.792567765261521,
+              "endAngle": 3.8638407895462956,
+              "value": 195.5
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.261330847019125,
+              "endAngle": 3.3311455997072805,
+              "value": 191.50000000000003
+            },
+            "target": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 6.163370554491429,
+              "endAngle": 6.233185307179585,
+              "value": 191.50000000000003
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.377533414934419,
+              "endAngle": 1.4406765750680404,
+              "value": 173.2
+            },
+            "target": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 2.8889069970065693,
+              "endAngle": 2.9520501571401905,
+              "value": 173.2
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.4406765750680404,
+              "endAngle": 1.5026166611344507,
+              "value": 169.89999999999998
+            },
+            "target": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.8755035123789336,
+              "endAngle": 1.937443598445344,
+              "value": 169.89999999999998
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.144729810285487,
+              "endAngle": 0.1898997729907739,
+              "value": 123.9
+            },
+            "target": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.5026166611344507,
+              "endAngle": 1.5477866238397375,
+              "value": 123.9
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.5376314391935716,
+              "endAngle": 0.5803223401846055,
+              "value": 117.1
+            },
+            "target": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.5477866238397375,
+              "endAngle": 1.5904775248307714,
+              "value": 117.1
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.1898997729907739,
+              "endAngle": 0.22562742710794997,
+              "value": 98
+            },
+            "target": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 2.9520501571401905,
+              "endAngle": 2.9877778112573665,
+              "value": 98
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.5803223401846055,
+              "endAngle": 0.6091232042178393,
+              "value": 79
+            },
+            "target": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 1.937443598445344,
+              "endAngle": 1.9662444624785778,
+              "value": 79
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 1.9662444624785778,
+              "endAngle": 1.994790128982403,
+              "value": 78.3
+            },
+            "target": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 2.9877778112573665,
+              "endAngle": 3.016323477761192,
+              "value": 78.3
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.6091232042178393,
+              "endAngle": 0.6305962534780604,
+              "value": 58.900000000000006
+            },
+            "target": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 3.016323477761192,
+              "endAngle": 3.037796527021413,
+              "value": 58.900000000000006
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.22562742710794997,
+              "endAngle": 0.24666299488918528,
+              "value": 57.699999999999996
+            },
+            "target": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 1.994790128982403,
+              "endAngle": 2.0158256967636383,
+              "value": 57.699999999999996
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.5904775248307714,
+              "endAngle": 1.6065185123935852,
+              "value": 44
+            },
+            "target": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 3.8638407895462956,
+              "endAngle": 3.879881777109109,
+              "value": 44
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.24666299488918528,
+              "endAngle": 0.25978743925876013,
+              "value": 36
+            },
+            "target": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.6305962534780604,
+              "endAngle": 0.6437206978476352,
+              "value": 36
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.25978743925876013,
+              "endAngle": 0.26775324785529375,
+              "value": 21.85
+            },
+            "target": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 3.879881777109109,
+              "endAngle": 3.887847585705643,
+              "value": 21.85
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.3311455997072805,
+              "endAngle": 3.3381416576920624,
+              "value": 19.189999999999998
+            },
+            "target": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 3.887847585705643,
+              "endAngle": 3.894843643690425,
+              "value": 19.189999999999998
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.0158256967636383,
+              "endAngle": 2.0227524868475806,
+              "value": 19
+            },
+            "target": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 3.894843643690425,
+              "endAngle": 3.901770433774367,
+              "value": 19
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.6065185123935852,
+              "endAngle": 1.6122276456943503,
+              "value": 15.66
+            },
+            "target": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.3381416576920624,
+              "endAngle": 3.3438507909928274,
+              "value": 15.66
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.26775324785529375,
+              "endAngle": 0.27269678856783364,
+              "value": 13.559999999999999
+            },
+            "target": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.3438507909928274,
+              "endAngle": 3.3487943317053674,
+              "value": 13.559999999999999
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.6437206978476352,
+              "endAngle": 0.6482559225131216,
+              "value": 12.440000000000001
+            },
+            "target": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 3.901770433774367,
+              "endAngle": 3.9063056584398534,
+              "value": 12.440000000000001
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.0227524868475806,
+              "endAngle": 2.0253372732525885,
+              "value": 7.09
+            },
+            "target": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.3487943317053674,
+              "endAngle": 3.3513791181103754,
+              "value": 7.09
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.6482559225131216,
+              "endAngle": 0.6508078978072056,
+              "value": 7
+            },
+            "target": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.3513791181103754,
+              "endAngle": 3.3539310934044595,
+              "value": 7
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.27269678856783364,
+            "value": 748
+          },
+          {
+            "index": 1,
+            "startAngle": 0.3226967885678336,
+            "endAngle": 0.6508078978072056,
+            "value": 900
+          },
+          {
+            "index": 2,
+            "startAngle": 0.7008078978072056,
+            "endAngle": 1.6122276456943503,
+            "value": 2500
+          },
+          {
+            "index": 3,
+            "startAngle": 1.6622276456943503,
+            "endAngle": 2.0253372732525885,
+            "value": 996
+          },
+          {
+            "index": 4,
+            "startAngle": 2.0753372732525883,
+            "endAngle": 3.037796527021413,
+            "value": 2640
+          },
+          {
+            "index": 5,
+            "startAngle": 3.0877965270214127,
+            "endAngle": 3.3539310934044595,
+            "value": 730
+          },
+          {
+            "index": 6,
+            "startAngle": 3.4039310934044593,
+            "endAngle": 3.9063056584398534,
+            "value": 1378
+          },
+          {
+            "index": 7,
+            "startAngle": 3.9563056584398533,
+            "endAngle": 6.233185307179585,
+            "value": 6245.42
+          }
+        ]
+      }
+    }
+  },
+  {
+    "chordData": {
+      "normal": {
+        "chords": [
+          {
+            "source": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 3.8109549365702335,
+              "endAngle": 4.561750610528084,
+              "value": 988.87
+            },
+            "target": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.5564131902505107,
+              "endAngle": 1.1838541531260838,
+              "value": 826.4000000000001
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 1.8300557851356276,
+              "endAngle": 2.5405582694760938,
+              "value": 935.8
+            },
+            "target": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.561750610528084,
+              "endAngle": 5.094893209912435,
+              "value": 702.2
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.094893209912435,
+              "endAngle": 5.518787890434048,
+              "value": 558.31
+            },
+            "target": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.2490180802801647,
+              "endAngle": 3.6187709226330256,
+              "value": 487
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.3958772672084254,
+              "endAngle": 1.6297554305726456,
+              "value": 308.04
+            },
+            "target": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 5.7591576078067215,
+              "endAngle": 5.978306397163456,
+              "value": 288.64
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 5.518787890434048,
+              "endAngle": 5.7591576078067215,
+              "value": 316.59000000000003
+            },
+            "target": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.16703019121205329,
+              "endAngle": 0.37395511863474046,
+              "value": 272.54
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 2.902912107964732,
+              "endAngle": 3.1223342259112963,
+              "value": 289
+            },
+            "target": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.5405582694760938,
+              "endAngle": 2.706833161622452,
+              "value": 219
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 5.978306397163456,
+              "endAngle": 6.134992011283291,
+              "value": 206.37000000000003
+            },
+            "target": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0.08875586708634377,
+              "endAngle": 0.09786682008066477,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 6.134992011283291,
+              "endAngle": 6.2331853071795855,
+              "value": 129.32999999999998
+            },
+            "target": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.1223342259112963,
+              "endAngle": 3.180545623084179,
+              "value": 76.67000000000002
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 3.6187709226330256,
+              "endAngle": 3.7167136673219763,
+              "value": 129
+            },
+            "target": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.706833161622452,
+              "endAngle": 2.755045287884067,
+              "value": 63.5
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.1838541531260838,
+              "endAngle": 1.2612972535778122,
+              "value": 102
+            },
+            "target": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.6297554305726456,
+              "endAngle": 1.6846489223634296,
+              "value": 72.3
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.2612972535778122,
+              "endAngle": 1.3087501337565675,
+              "value": 62.5
+            },
+            "target": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.37395511863474046,
+              "endAngle": 0.41305629190203474,
+              "value": 51.5
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.41305629190203474,
+              "endAngle": 0.44577979807330437,
+              "value": 43.1
+            },
+            "target": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 1.7428830969187978,
+              "endAngle": 1.7698363328603308,
+              "value": 35.5
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 1.6846489223634296,
+              "endAngle": 1.7143354442032588,
+              "value": 39.1
+            },
+            "target": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 2.8031055649291106,
+              "endAngle": 2.8320328406860797,
+              "value": 38.1
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 2.755045287884067,
+              "endAngle": 2.8031055649291106,
+              "value": 63.3
+            },
+            "target": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.3276553612197834,
+              "endAngle": 1.3367663142141044,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0,
+              "endAngle": 0.04153076073244657,
+              "value": 54.7
+            },
+            "target": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 2.843801154970411,
+              "endAngle": 2.852912107964732,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 1.7143354442032588,
+              "endAngle": 1.7428830969187978,
+              "value": 37.6
+            },
+            "target": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.07152098100541987,
+              "endAngle": 0.08875586708634377,
+              "value": 22.7
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.44577979807330437,
+              "endAngle": 0.47842737963628795,
+              "value": 43
+            },
+            "target": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 2.8320328406860797,
+              "endAngle": 2.843801154970411,
+              "value": 15.5
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.04153076073244657,
+              "endAngle": 0.07152098100541987,
+              "value": 39.5
+            },
+            "target": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.3185444082254625,
+              "endAngle": 1.3276553612197834,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.47842737963628795,
+              "endAngle": 0.497104833274646,
+              "value": 24.6
+            },
+            "target": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.09786682008066477,
+              "endAngle": 0.10682592385841376,
+              "value": 11.8
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 3.7167136673219763,
+              "endAngle": 3.732733759670324,
+              "value": 21.1
+            },
+            "target": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.3367663142141044,
+              "endAngle": 1.3458772672084254,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 3.732733759670324,
+              "endAngle": 3.741844712664645,
+              "value": 12
+            },
+            "target": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 1.7698363328603308,
+              "endAngle": 1.776282332103813,
+              "value": 8.49
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 3.741844712664645,
+              "endAngle": 3.750348268792678,
+              "value": 11.2
+            },
+            "target": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.180545623084179,
+              "endAngle": 3.1868473655719174,
+              "value": 8.3
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 3.750348268792678,
+              "endAngle": 3.758320352662709,
+              "value": 10.5
+            },
+            "target": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.11225453335086336,
+              "endAngle": 0.11703019121205328,
+              "value": 6.29
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.3087501337565675,
+              "endAngle": 1.3185444082254625,
+              "value": 12.9
+            },
+            "target": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.193095960833856,
+              "endAngle": 3.1957001748980662,
+              "value": 3.43
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.1868473655719174,
+              "endAngle": 3.193095960833856,
+              "value": 8.23
+            },
+            "target": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.10682592385841376,
+              "endAngle": 0.11225453335086336,
+              "value": 7.15
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.497104833274646,
+              "endAngle": 0.5022752990989232,
+              "value": 6.81
+            },
+            "target": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 3.758320352662709,
+              "endAngle": 3.7609549365702337,
+              "value": 3.47
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 1.776282332103813,
+              "endAngle": 1.7800557851356276,
+              "value": 4.97
+            },
+            "target": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.1957001748980662,
+              "endAngle": 3.1977729167042743,
+              "value": 2.73
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.5022752990989232,
+              "endAngle": 0.5064131902505107,
+              "value": 5.45
+            },
+            "target": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.1977729167042743,
+              "endAngle": 3.199018080280165,
+              "value": 1.64
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.11703019121205328,
+            "value": 154.14
+          },
+          {
+            "index": 1,
+            "startAngle": 0.16703019121205329,
+            "endAngle": 0.5064131902505107,
+            "value": 447
+          },
+          {
+            "index": 2,
+            "startAngle": 0.5564131902505107,
+            "endAngle": 1.3458772672084254,
+            "value": 1039.8000000000002
+          },
+          {
+            "index": 3,
+            "startAngle": 1.3958772672084254,
+            "endAngle": 1.7800557851356276,
+            "value": 506
+          },
+          {
+            "index": 4,
+            "startAngle": 1.8300557851356276,
+            "endAngle": 2.852912107964732,
+            "value": 1347.1999999999998
+          },
+          {
+            "index": 5,
+            "startAngle": 2.902912107964732,
+            "endAngle": 3.199018080280165,
+            "value": 390
+          },
+          {
+            "index": 6,
+            "startAngle": 3.2490180802801647,
+            "endAngle": 3.7609549365702337,
+            "value": 674.27
+          },
+          {
+            "index": 7,
+            "startAngle": 3.8109549365702335,
+            "endAngle": 6.2331853071795855,
+            "value": 3190.31
+          }
+        ]
+      },
+      "transpose": {
+        "chords": [
+          {
+            "source": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.6757363046328014,
+              "endAngle": 1.4265319785906523,
+              "value": 988.87
+            },
+            "target": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 4.727866060997041,
+              "endAngle": 5.355307023872614,
+              "value": 826.4000000000001
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.0173635766565745,
+              "endAngle": 4.727866060997041,
+              "value": 935.8
+            },
+            "target": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.10386269999746,
+              "endAngle": 2.6370052993818103,
+              "value": 702.2
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.463451951462338,
+              "endAngle": 3.887346631983951,
+              "value": 558.31
+            },
+            "target": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.355307023872614,
+              "endAngle": 5.725059866225474,
+              "value": 487
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 5.725059866225474,
+              "endAngle": 5.958938029589694,
+              "value": 308.04
+            },
+            "target": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.6672014473793053,
+              "endAngle": 1.8863502367360399,
+              "value": 288.64
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.28635330559434397,
+              "endAngle": 0.5267230229670178,
+              "value": 316.59000000000003
+            },
+            "target": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 5.958938029589694,
+              "endAngle": 6.165862957012381,
+              "value": 272.54
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.6370052993818103,
+              "endAngle": 2.8564274173283746,
+              "value": 289
+            },
+            "target": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.1173459791469056,
+              "endAngle": 3.2836208712932637,
+              "value": 219
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.15668561411983545,
+              "value": 206.37000000000003
+            },
+            "target": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 6.224074354185264,
+              "endAngle": 6.2331853071795855,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.2836208712932637,
+              "endAngle": 3.3818141671895585,
+              "value": 129.32999999999998
+            },
+            "target": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 6.165862957012381,
+              "endAngle": 6.224074354185264,
+              "value": 76.67000000000002
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.8564274173283746,
+              "endAngle": 2.9543701620173253,
+              "value": 129
+            },
+            "target": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 3.887346631983951,
+              "endAngle": 3.9355587582455662,
+              "value": 63.5
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.8863502367360399,
+              "endAngle": 1.9637933371877683,
+              "value": 102
+            },
+            "target": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.4265319785906523,
+              "endAngle": 1.4814254703814362,
+              "value": 72.3
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.5267230229670178,
+              "endAngle": 0.574175903145773,
+              "value": 62.5
+            },
+            "target": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.5294857474264796,
+              "endAngle": 1.568586920693774,
+              "value": 51.5
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 1.9637933371877683,
+              "endAngle": 1.996516843359038,
+              "value": 43.1
+            },
+            "target": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.574175903145773,
+              "endAngle": 0.601129139087306,
+              "value": 35.5
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 3.0285485043127554,
+              "endAngle": 3.058235026152585,
+              "value": 39.1
+            },
+            "target": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 1.996516843359038,
+              "endAngle": 2.025444119116007,
+              "value": 38.1
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.4814254703814362,
+              "endAngle": 1.5294857474264796,
+              "value": 63.3
+            },
+            "target": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 3.058235026152585,
+              "endAngle": 3.0673459791469058,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 2.9543701620173253,
+              "endAngle": 2.995900922749772,
+              "value": 54.7
+            },
+            "target": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.21302167346805362,
+              "endAngle": 0.2221326264623746,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.15668561411983545,
+              "endAngle": 0.18523326683537458,
+              "value": 37.6
+            },
+            "target": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 2.025444119116007,
+              "endAngle": 2.042679005196931,
+              "value": 22.7
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 2.995900922749772,
+              "endAngle": 3.0285485043127554,
+              "value": 43
+            },
+            "target": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.601129139087306,
+              "endAngle": 0.6128974533716374,
+              "value": 15.5
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.568586920693774,
+              "endAngle": 1.5985771409667473,
+              "value": 39.5
+            },
+            "target": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.20391072047373263,
+              "endAngle": 0.21302167346805362,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.18523326683537458,
+              "endAngle": 0.20391072047373263,
+              "value": 24.6
+            },
+            "target": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.6128974533716374,
+              "endAngle": 0.6218565571493864,
+              "value": 11.8
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.5985771409667473,
+              "endAngle": 1.614597233315095,
+              "value": 21.1
+            },
+            "target": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 3.9355587582455662,
+              "endAngle": 3.944669711239887,
+              "value": 12
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.042679005196931,
+              "endAngle": 2.051789958191252,
+              "value": 12
+            },
+            "target": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 3.944669711239887,
+              "endAngle": 3.951115710483369,
+              "value": 8.49
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.3916084416584535,
+              "endAngle": 3.4001119977864867,
+              "value": 11.2
+            },
+            "target": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 3.951115710483369,
+              "endAngle": 3.9574174529711077,
+              "value": 8.3
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.2221326264623746,
+              "endAngle": 0.23010471033240548,
+              "value": 10.5
+            },
+            "target": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 3.9625879187953847,
+              "endAngle": 3.9673635766565747,
+              "value": 6.29
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.3818141671895585,
+              "endAngle": 3.3916084416584535,
+              "value": 12.9
+            },
+            "target": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.614597233315095,
+              "endAngle": 1.6172014473793053,
+              "value": 3.43
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.23010471033240548,
+              "endAngle": 0.23635330559434398,
+              "value": 8.23
+            },
+            "target": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.4001119977864867,
+              "endAngle": 3.4055406072789363,
+              "value": 7.15
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 3.9574174529711077,
+              "endAngle": 3.9625879187953847,
+              "value": 6.81
+            },
+            "target": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.6218565571493864,
+              "endAngle": 0.6244911410569108,
+              "value": 3.47
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.4096784984305235,
+              "endAngle": 3.413451951462338,
+              "value": 4.97
+            },
+            "target": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.051789958191252,
+              "endAngle": 2.05386269999746,
+              "value": 2.73
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.4055406072789363,
+              "endAngle": 3.4096784984305235,
+              "value": 5.45
+            },
+            "target": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.6244911410569108,
+              "endAngle": 0.6257363046328014,
+              "value": 1.64
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.23635330559434398,
+            "value": 311.30000000000007
+          },
+          {
+            "index": 1,
+            "startAngle": 0.28635330559434397,
+            "endAngle": 0.6257363046328014,
+            "value": 447
+          },
+          {
+            "index": 2,
+            "startAngle": 0.6757363046328014,
+            "endAngle": 1.6172014473793053,
+            "value": 1240
+          },
+          {
+            "index": 3,
+            "startAngle": 1.6672014473793053,
+            "endAngle": 2.05386269999746,
+            "value": 509.27
+          },
+          {
+            "index": 4,
+            "startAngle": 2.10386269999746,
+            "endAngle": 3.0673459791469058,
+            "value": 1269
+          },
+          {
+            "index": 5,
+            "startAngle": 3.1173459791469056,
+            "endAngle": 3.413451951462338,
+            "value": 390
+          },
+          {
+            "index": 6,
+            "startAngle": 3.463451951462338,
+            "endAngle": 3.9673635766565747,
+            "value": 663.6999999999999
+          },
+          {
+            "index": 7,
+            "startAngle": 4.0173635766565745,
+            "endAngle": 6.2331853071795855,
+            "value": 2918.45
+          }
+        ]
+      },
+      "net": {
+        "chords": [
+          {
+            "source": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.1624007240598564,
+              "endAngle": 2.745220391138087,
+              "value": 233.5999999999999
+            },
+            "target": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.292465674330815,
+              "endAngle": 4.875285341409046,
+              "value": 233.5999999999999
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.4849428882277216,
+              "value": 194.37000000000003
+            },
+            "target": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 4.875285341409046,
+              "endAngle": 5.360228229636768,
+              "value": 194.37000000000003
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 1.117090177573252,
+              "endAngle": 1.5224442499628075,
+              "value": 162.4699999999999
+            },
+            "target": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 5.360228229636768,
+              "endAngle": 5.765582302026323,
+              "value": 162.4699999999999
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.8435984646741517,
+              "endAngle": 4.021513149859719,
+              "value": 71.30999999999995
+            },
+            "target": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.765582302026323,
+              "endAngle": 5.943496987211891,
+              "value": 71.30999999999995
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.745220391138087,
+              "endAngle": 2.9198666954851595,
+              "value": 70
+            },
+            "target": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.438916770017297,
+              "endAngle": 3.6135630743643694,
+              "value": 70
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.9198666954851595,
+              "endAngle": 3.0832857374099203,
+              "value": 65.5
+            },
+            "target": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 4.021513149859719,
+              "endAngle": 4.18493219178448,
+              "value": 65.5
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.6135630743643694,
+              "endAngle": 3.744946994177467,
+              "value": 52.65999999999997
+            },
+            "target": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 5.943496987211891,
+              "endAngle": 6.074880907024988,
+              "value": 52.65999999999997
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.5224442499628075,
+              "endAngle": 1.650435041577162,
+              "value": 51.3
+            },
+            "target": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 3.0832857374099203,
+              "endAngle": 3.211276529024275,
+              "value": 51.3
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.7923964903073563,
+              "endAngle": 0.9022989146857641,
+              "value": 44.05000000000001
+            },
+            "target": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 6.074880907024988,
+              "endAngle": 6.184783331403396,
+              "value": 44.05000000000001
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.4849428882277216,
+              "endAngle": 0.5914771338794359,
+              "value": 42.7
+            },
+            "target": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 3.211276529024275,
+              "endAngle": 3.3178107746759893,
+              "value": 42.7
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.650435041577162,
+              "endAngle": 1.72453497356442,
+              "value": 29.700000000000003
+            },
+            "target": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.9169216105513833,
+              "endAngle": 1.9910215425386413,
+              "value": 29.700000000000003
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.5914771338794359,
+              "endAngle": 0.6600881820157859,
+              "value": 27.5
+            },
+            "target": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.72453497356442,
+              "endAngle": 1.79314602170077,
+              "value": 27.5
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.9022989146857641,
+              "endAngle": 0.9709099628221141,
+              "value": 27.5
+            },
+            "target": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 3.3178107746759893,
+              "endAngle": 3.386421822812339,
+              "value": 27.5
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.9910215425386413,
+              "endAngle": 2.03942351831483,
+              "value": 19.400000000000034
+            },
+            "target": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 6.184783331403396,
+              "endAngle": 6.233185307179585,
+              "value": 19.400000000000034
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.6600881820157859,
+              "endAngle": 0.6972628953696628,
+              "value": 14.900000000000002
+            },
+            "target": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 2.03942351831483,
+              "endAngle": 2.0765982316687066,
+              "value": 14.900000000000002
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.6972628953696628,
+              "endAngle": 0.7291982195931275,
+              "value": 12.8
+            },
+            "target": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.9709099628221141,
+              "endAngle": 1.0028452870455788,
+              "value": 12.8
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 1.0028452870455788,
+              "endAngle": 1.0302897063001188,
+              "value": 11
+            },
+            "target": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.79314602170077,
+              "endAngle": 1.82059044095531,
+              "value": 11
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.82059044095531,
+              "endAngle": 1.844217590986264,
+              "value": 9.47
+            },
+            "target": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.744946994177467,
+              "endAngle": 3.7685741442084213,
+              "value": 9.47
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.844217590986264,
+              "endAngle": 1.8669216105513833,
+              "value": 9.100000000000001
+            },
+            "target": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 4.18493219178448,
+              "endAngle": 4.207636211349599,
+              "value": 9.100000000000001
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 1.0302897063001188,
+              "endAngle": 1.049251305057801,
+              "value": 7.600000000000001
+            },
+            "target": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 2.0765982316687066,
+              "endAngle": 2.0955598304263887,
+              "value": 7.600000000000001
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.7291982195931275,
+              "endAngle": 0.7397019473260014,
+              "value": 4.21
+            },
+            "target": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 4.207636211349599,
+              "endAngle": 4.218139939082473,
+              "value": 4.21
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 1.049251305057801,
+              "endAngle": 1.0587570539086917,
+              "value": 3.8100000000000005
+            },
+            "target": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.7685741442084213,
+              "endAngle": 3.778079893059312,
+              "value": 3.8100000000000005
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.0955598304263887,
+              "endAngle": 2.104317095115792,
+              "value": 3.51
+            },
+            "target": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 4.218139939082473,
+              "endAngle": 4.226897203771876,
+              "value": 3.51
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 1.0587570539086917,
+              "endAngle": 1.067090177573252,
+              "value": 3.3399999999999994
+            },
+            "target": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 4.226897203771876,
+              "endAngle": 4.235230327436437,
+              "value": 3.3399999999999994
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.778079893059312,
+              "endAngle": 3.7853152399536905,
+              "value": 2.8999999999999986
+            },
+            "target": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 4.235230327436437,
+              "endAngle": 4.242465674330815,
+              "value": 2.8999999999999986
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.104317095115792,
+              "endAngle": 2.1099057768548986,
+              "value": 2.2399999999999998
+            },
+            "target": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.7853152399536905,
+              "endAngle": 3.790903921692797,
+              "value": 2.2399999999999998
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.7397019473260014,
+              "endAngle": 0.7423964903073562,
+              "value": 1.08
+            },
+            "target": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.790903921692797,
+              "endAngle": 3.793598464674152,
+              "value": 1.08
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 2.1099057768548986,
+              "endAngle": 2.1124007240598566,
+              "value": 1
+            },
+            "target": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 3.386421822812339,
+              "endAngle": 3.388916770017297,
+              "value": 1
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.7423964903073562,
+            "value": 297.56000000000006
+          },
+          {
+            "index": 1,
+            "startAngle": 0.7923964903073563,
+            "endAngle": 1.067090177573252,
+            "value": 110.10000000000002
+          },
+          {
+            "index": 2,
+            "startAngle": 1.117090177573252,
+            "endAngle": 1.8669216105513833,
+            "value": 300.5399999999999
+          },
+          {
+            "index": 3,
+            "startAngle": 1.9169216105513833,
+            "endAngle": 2.1124007240598566,
+            "value": 78.35000000000004
+          },
+          {
+            "index": 4,
+            "startAngle": 2.1624007240598564,
+            "endAngle": 3.388916770017297,
+            "value": 491.5999999999999
+          },
+          {
+            "index": 5,
+            "startAngle": 3.438916770017297,
+            "endAngle": 3.793598464674152,
+            "value": 142.15999999999997
+          },
+          {
+            "index": 6,
+            "startAngle": 3.8435984646741517,
+            "endAngle": 4.242465674330815,
+            "value": 159.86999999999995
+          },
+          {
+            "index": 7,
+            "startAngle": 4.292465674330815,
+            "endAngle": 6.233185307179585,
+            "value": 777.8599999999998
+          }
+        ]
+      },
+      "gross": {
+        "chords": [
+          {
+            "source": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.616074747441656,
+              "endAngle": 1.305193065858368,
+              "value": 1815.27
+            },
+            "target": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 3.9141592566134045,
+              "endAngle": 4.603277575030116,
+              "value": 1815.27
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 1.9669592425665434,
+              "endAngle": 2.588781784428952,
+              "value": 1638
+            },
+            "target": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.603277575030116,
+              "endAngle": 5.225100116892524,
+              "value": 1638
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.3562350158712513,
+              "endAngle": 3.753058777308488,
+              "value": 1045.31
+            },
+            "target": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.225100116892524,
+              "endAngle": 5.621923878329762,
+              "value": 1045.31
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.5315393572938651,
+              "endAngle": 1.7580528336543424,
+              "value": 596.6800000000001
+            },
+            "target": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 5.621923878329762,
+              "endAngle": 5.848437354690239,
+              "value": 596.6800000000001
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.2266917484031986,
+              "endAngle": 0.45033907080087915,
+              "value": 589.1300000000001
+            },
+            "target": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 5.848437354690239,
+              "endAngle": 6.072084677087919,
+              "value": 589.1300000000001
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.588781784428952,
+              "endAngle": 2.7816302894754132,
+              "value": 508
+            },
+            "target": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.0101290435558186,
+              "endAngle": 3.20297754860228,
+              "value": 508
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.08289828355707822,
+              "value": 218.37000000000003
+            },
+            "target": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 6.072084677087919,
+              "endAngle": 6.154982960644998,
+              "value": 218.37000000000003
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.20297754860228,
+              "endAngle": 3.2811798951368685,
+              "value": 206
+            },
+            "target": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 6.154982960644998,
+              "endAngle": 6.233185307179586,
+              "value": 206
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.7816302894754132,
+              "endAngle": 2.8547077249506962,
+              "value": 192.5
+            },
+            "target": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 3.753058777308488,
+              "endAngle": 3.826136212783771,
+              "value": 192.5
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.305193065858368,
+              "endAngle": 1.371361361979624,
+              "value": 174.3
+            },
+            "target": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.7580528336543424,
+              "endAngle": 1.8242211297755986,
+              "value": 174.3
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.45033907080087915,
+              "endAngle": 0.4936160975239039,
+              "value": 114
+            },
+            "target": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.371361361979624,
+              "endAngle": 1.4146383887026488,
+              "value": 114
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.4936160975239039,
+              "endAngle": 0.5234544685803052,
+              "value": 78.6
+            },
+            "target": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 1.8242211297755986,
+              "endAngle": 1.8540595008319998,
+              "value": 78.6
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 1.8540595008319998,
+              "endAngle": 1.883366399630399,
+              "value": 77.2
+            },
+            "target": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 2.8547077249506962,
+              "endAngle": 2.8840146237490956,
+              "value": 77.2
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.4146383887026488,
+              "endAngle": 1.443224003722331,
+              "value": 75.3
+            },
+            "target": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 2.8840146237490956,
+              "endAngle": 2.9126002387687775,
+              "value": 75.3
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.08289828355707822,
+              "endAngle": 0.108219140420462,
+              "value": 66.7
+            },
+            "target": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 2.9126002387687775,
+              "endAngle": 2.937921095632161,
+              "value": 66.7
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.108219140420462,
+              "endAngle": 0.1311104098186935,
+              "value": 60.3
+            },
+            "target": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 1.883366399630399,
+              "endAngle": 1.9062576690286306,
+              "value": 60.3
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.5234544685803052,
+              "endAngle": 0.5456624165039626,
+              "value": 58.5
+            },
+            "target": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 2.937921095632161,
+              "endAngle": 2.9601290435558187,
+              "value": 58.5
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.1311104098186935,
+              "endAngle": 0.15066099645234066,
+              "value": 51.5
+            },
+            "target": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.443224003722331,
+              "endAngle": 1.4627745903559781,
+              "value": 51.5
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.15066099645234066,
+              "endAngle": 0.16447927516039418,
+              "value": 36.400000000000006
+            },
+            "target": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.5456624165039626,
+              "endAngle": 0.5594806952120162,
+              "value": 36.400000000000006
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.4627745903559781,
+              "endAngle": 1.4753401130273125,
+              "value": 33.1
+            },
+            "target": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 3.826136212783771,
+              "endAngle": 3.8387017354551056,
+              "value": 33.1
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 1.9062576690286306,
+              "endAngle": 1.914036145147532,
+              "value": 20.490000000000002
+            },
+            "target": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 3.8387017354551056,
+              "endAngle": 3.8464802115740073,
+              "value": 20.490000000000002
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.2811798951368685,
+              "endAngle": 3.2885825444447545,
+              "value": 19.5
+            },
+            "target": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 3.8464802115740073,
+              "endAngle": 3.8538828608818934,
+              "value": 19.5
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.16447927516039418,
+              "endAngle": 0.17085314602600457,
+              "value": 16.79
+            },
+            "target": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 3.8538828608818934,
+              "endAngle": 3.8602567317475036,
+              "value": 16.79
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.4753401130273125,
+              "endAngle": 1.481539357293865,
+              "value": 16.330000000000002
+            },
+            "target": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.2885825444447545,
+              "endAngle": 3.294781788711307,
+              "value": 16.330000000000002
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.17085314602600457,
+              "endAngle": 0.17669174840319862,
+              "value": 15.38
+            },
+            "target": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.294781788711307,
+              "endAngle": 3.300620391088501,
+              "value": 15.38
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.5594806952120162,
+              "endAngle": 0.563383220077917,
+              "value": 10.28
+            },
+            "target": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 3.8602567317475036,
+              "endAngle": 3.8641592566134046,
+              "value": 10.28
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 1.914036145147532,
+              "endAngle": 1.9169592425665434,
+              "value": 7.699999999999999
+            },
+            "target": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.300620391088501,
+              "endAngle": 3.3035434885075126,
+              "value": 7.699999999999999
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.563383220077917,
+              "endAngle": 0.566074747441656,
+              "value": 7.09
+            },
+            "target": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.3035434885075126,
+              "endAngle": 3.3062350158712515,
+              "value": 7.09
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.17669174840319862,
+            "value": 465.44
+          },
+          {
+            "index": 1,
+            "startAngle": 0.2266917484031986,
+            "endAngle": 0.566074747441656,
+            "value": 894
+          },
+          {
+            "index": 2,
+            "startAngle": 0.616074747441656,
+            "endAngle": 1.481539357293865,
+            "value": 2279.8
+          },
+          {
+            "index": 3,
+            "startAngle": 1.5315393572938651,
+            "endAngle": 1.9169592425665434,
+            "value": 1015.27
+          },
+          {
+            "index": 4,
+            "startAngle": 1.9669592425665434,
+            "endAngle": 2.9601290435558187,
+            "value": 2616.2
+          },
+          {
+            "index": 5,
+            "startAngle": 3.0101290435558186,
+            "endAngle": 3.3062350158712515,
+            "value": 780
+          },
+          {
+            "index": 6,
+            "startAngle": 3.3562350158712513,
+            "endAngle": 3.8641592566134046,
+            "value": 1337.9699999999998
+          },
+          {
+            "index": 7,
+            "startAngle": 3.9141592566134045,
+            "endAngle": 6.233185307179586,
+            "value": 6108.76
+          }
+        ]
+      }
+    }
+  },
+  {
+    "chordData": {
+      "normal": {
+        "chords": [
+          {
+            "source": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 3.9529767752995486,
+              "endAngle": 4.684457001647834,
+              "value": 1126.97
+            },
+            "target": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.7380338984182054,
+              "endAngle": 1.362502274479401,
+              "value": 962.1
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.123837716085006,
+              "endAngle": 2.759145528670702,
+              "value": 978.8
+            },
+            "target": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.684457001647834,
+              "endAngle": 5.163404319697472,
+              "value": 737.9
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.163404319697472,
+              "endAngle": 5.528978920517498,
+              "value": 563.23
+            },
+            "target": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.4557688851569823,
+              "endAngle": 3.781049341100302,
+              "value": 501.15
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 5.528978920517498,
+              "endAngle": 5.764882705237841,
+              "value": 363.45
+            },
+            "target": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.35700919018495525,
+              "endAngle": 0.5625106271922675,
+              "value": 316.61
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.703219856474838,
+              "endAngle": 1.9295174339758627,
+              "value": 348.65
+            },
+            "target": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 5.764882705237841,
+              "endAngle": 5.973590538438628,
+              "value": 321.54999999999995
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.1149863963560103,
+              "endAngle": 3.329827922679943,
+              "value": 331
+            },
+            "target": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.759145528670702,
+              "endAngle": 2.916219998067656,
+              "value": 242
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.20797438629823126,
+              "value": 320.41999999999996
+            },
+            "target": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 5.973590538438628,
+              "endAngle": 6.128068735614145,
+              "value": 238
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 6.128068735614145,
+              "endAngle": 6.2331853071795855,
+              "value": 161.95
+            },
+            "target": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.329827922679943,
+              "endAngle": 3.3852064091631995,
+              "value": 85.32
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.441039509177878,
+              "endAngle": 1.5189276758209957,
+              "value": 120
+            },
+            "target": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.9295174339758627,
+              "endAngle": 1.9849478459035481,
+              "value": 85.4
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 3.781049341100302,
+              "endAngle": 3.8641300521862942,
+              "value": 128
+            },
+            "target": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.916219998067656,
+              "endAngle": 2.96003209180441,
+              "value": 67.5
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.362502274479401,
+              "endAngle": 1.441039509177878,
+              "value": 121
+            },
+            "target": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 2.96003209180441,
+              "endAngle": 3.0000146840145434,
+              "value": 61.6
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.5189276758209957,
+              "endAngle": 1.5838344813569272,
+              "value": 100
+            },
+            "target": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.24107685712155624,
+              "endAngle": 0.2712585216957643,
+              "value": 46.5
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.5838344813569272,
+              "endAngle": 1.629399058843151,
+              "value": 70.2
+            },
+            "target": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.5625106271922675,
+              "endAngle": 0.6022984989857935,
+              "value": 61.3
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.20797438629823126,
+              "endAngle": 0.24107685712155624,
+              "value": 51
+            },
+            "target": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 3.0000146840145434,
+              "endAngle": 3.0288333056724968,
+              "value": 44.4
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.6022984989857935,
+              "endAngle": 0.6346220881426873,
+              "value": 49.8
+            },
+            "target": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 2.03804161283194,
+              "endAngle": 2.063679801018633,
+              "value": 39.5
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 2.0118841702009598,
+              "endAngle": 2.03804161283194,
+              "value": 40.3
+            },
+            "target": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 3.0288333056724968,
+              "endAngle": 3.054341680248118,
+              "value": 39.3
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 1.9849478459035481,
+              "endAngle": 2.0118841702009598,
+              "value": 41.5
+            },
+            "target": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.2712585216957643,
+              "endAngle": 0.28878335919046577,
+              "value": 27
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.6346220881426873,
+              "endAngle": 0.6611040648013473,
+              "value": 40.8
+            },
+            "target": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 3.054341680248118,
+              "endAngle": 3.0649863963560104,
+              "value": 16.4
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 3.8641300521862942,
+              "endAngle": 3.8799673127370613,
+              "value": 24.4
+            },
+            "target": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.629399058843151,
+              "endAngle": 1.6444574377274872,
+              "value": 23.2
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.6611040648013473,
+              "endAngle": 0.6793428771569441,
+              "value": 28.1
+            },
+            "target": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.28878335919046577,
+              "endAngle": 0.29748087113228056,
+              "value": 13.4
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 3.8799673127370613,
+              "endAngle": 3.8875614089847654,
+              "value": 11.7
+            },
+            "target": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.3920865305500083,
+              "endAngle": 3.3987070247146733,
+              "value": 10.2
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.063679801018633,
+              "endAngle": 2.0705599224054416,
+              "value": 10.6
+            },
+            "target": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 3.894311716760502,
+              "endAngle": 3.9006336396197017,
+              "value": 9.74
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.3852064091631995,
+              "endAngle": 3.3920865305500083,
+              "value": 10.6
+            },
+            "target": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.29748087113228056,
+              "endAngle": 0.30277077578345896,
+              "value": 8.15
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.6444574377274872,
+              "endAngle": 1.653219856474838,
+              "value": 13.5
+            },
+            "target": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.3987070247146733,
+              "endAngle": 3.4011929553666995,
+              "value": 3.83
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 3.8875614089847654,
+              "endAngle": 3.894311716760502,
+              "value": 10.4
+            },
+            "target": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.30277077578345896,
+              "endAngle": 0.30700919018495526,
+              "value": 6.53
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.6793428771569441,
+              "endAngle": 0.6843666639054252,
+              "value": 7.74
+            },
+            "target": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 3.9006336396197017,
+              "endAngle": 3.902976775299549,
+              "value": 3.61
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.6843666639054252,
+              "endAngle": 0.6880338984182054,
+              "value": 5.65
+            },
+            "target": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.4035360910465466,
+              "endAngle": 3.4057688851569825,
+              "value": 3.44
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.0705599224054416,
+              "endAngle": 2.073837716085006,
+              "value": 5.05
+            },
+            "target": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.4011929553666995,
+              "endAngle": 3.4035360910465466,
+              "value": 3.61
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.30700919018495526,
+            "value": 473
+          },
+          {
+            "index": 1,
+            "startAngle": 0.35700919018495525,
+            "endAngle": 0.6880338984182054,
+            "value": 510
+          },
+          {
+            "index": 2,
+            "startAngle": 0.7380338984182054,
+            "endAngle": 1.653219856474838,
+            "value": 1410
+          },
+          {
+            "index": 3,
+            "startAngle": 1.703219856474838,
+            "endAngle": 2.073837716085006,
+            "value": 571
+          },
+          {
+            "index": 4,
+            "startAngle": 2.123837716085006,
+            "endAngle": 3.0649863963560104,
+            "value": 1450
+          },
+          {
+            "index": 5,
+            "startAngle": 3.1149863963560103,
+            "endAngle": 3.4057688851569825,
+            "value": 448
+          },
+          {
+            "index": 6,
+            "startAngle": 3.4557688851569823,
+            "endAngle": 3.902976775299549,
+            "value": 689
+          },
+          {
+            "index": 7,
+            "startAngle": 3.9529767752995486,
+            "endAngle": 6.2331853071795855,
+            "value": 3513.05
+          }
+        ]
+      },
+      "transpose": {
+        "chords": [
+          {
+            "source": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.7380338984182053,
+              "endAngle": 1.4695141247664911,
+              "value": 1126.97
+            },
+            "target": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 4.588284587885246,
+              "endAngle": 5.212752963946442,
+              "value": 962.1
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 3.95297677529955,
+              "endAngle": 4.588284587885246,
+              "value": 978.8
+            },
+            "target": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.1238377160850055,
+              "endAngle": 2.602785034134643,
+              "value": 737.9
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.4557688851569828,
+              "endAngle": 3.821343485977009,
+              "value": 563.23
+            },
+            "target": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.212752963946442,
+              "endAngle": 5.538033419889762,
+              "value": 501.15
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.3570091901849553,
+              "endAngle": 0.5929129749052978,
+              "value": 363.45
+            },
+            "target": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 5.972305383689017,
+              "endAngle": 6.177806820696329,
+              "value": 316.61
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 5.538033419889762,
+              "endAngle": 5.764330997390786,
+              "value": 348.65
+            },
+            "target": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.7032198564748378,
+              "endAngle": 1.911927689675625,
+              "value": 321.54999999999995
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.602785034134643,
+              "endAngle": 2.8176265604585757,
+              "value": 331
+            },
+            "target": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.1149863963560103,
+              "endAngle": 3.272060865752964,
+              "value": 242
+            }
+          },
+          {
+            "source": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 5.764330997390786,
+              "endAngle": 5.972305383689017,
+              "value": 320.41999999999996
+            },
+            "target": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.15447819717551664,
+              "value": 238
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.272060865752964,
+              "endAngle": 3.377177437318405,
+              "value": 161.95
+            },
+            "target": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 6.177806820696329,
+              "endAngle": 6.2331853071795855,
+              "value": 85.32
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.911927689675625,
+              "endAngle": 1.9898158563187427,
+              "value": 120
+            },
+            "target": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.4695141247664911,
+              "endAngle": 1.5249445366941765,
+              "value": 85.4
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.8176265604585757,
+              "endAngle": 2.900707271544568,
+              "value": 128
+            },
+            "target": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 3.821343485977009,
+              "endAngle": 3.865155579713763,
+              "value": 67.5
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 2.900707271544568,
+              "endAngle": 2.979244506243045,
+              "value": 121
+            },
+            "target": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.5249445366941765,
+              "endAngle": 1.5649271289043103,
+              "value": 61.6
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.15447819717551664,
+              "endAngle": 0.219385002711448,
+              "value": 100
+            },
+            "target": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.6047150006978361,
+              "endAngle": 1.6348966652720442,
+              "value": 46.5
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.5929129749052978,
+              "endAngle": 0.6384775523915216,
+              "value": 70.2
+            },
+            "target": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.5649271289043103,
+              "endAngle": 1.6047150006978361,
+              "value": 61.3
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 2.979244506243045,
+              "endAngle": 3.01234697706637,
+              "value": 51
+            },
+            "target": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.219385002711448,
+              "endAngle": 0.24820362436940152,
+              "value": 44.4
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 1.9898158563187427,
+              "endAngle": 2.0221394454756365,
+              "value": 49.8
+            },
+            "target": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.6384775523915216,
+              "endAngle": 0.6641157405782145,
+              "value": 39.5
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 3.03882895372503,
+              "endAngle": 3.0649863963560104,
+              "value": 40.3
+            },
+            "target": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 2.0221394454756365,
+              "endAngle": 2.0476478200512576,
+              "value": 39.3
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.24820362436940152,
+              "endAngle": 0.275139948666813,
+              "value": 41.5
+            },
+            "target": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 2.0476478200512576,
+              "endAngle": 2.065172657545959,
+              "value": 27
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 3.01234697706637,
+              "endAngle": 3.03882895372503,
+              "value": 40.8
+            },
+            "target": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.6641157405782145,
+              "endAngle": 0.6747604566861073,
+              "value": 16.4
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.6348966652720442,
+              "endAngle": 1.6507339258228115,
+              "value": 24.4
+            },
+            "target": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 3.865155579713763,
+              "endAngle": 3.880213958598099,
+              "value": 23.2
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.275139948666813,
+              "endAngle": 0.29337876102240973,
+              "value": 28.1
+            },
+            "target": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.6747604566861073,
+              "endAngle": 0.6834579686279221,
+              "value": 13.4
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.385939856065756,
+              "endAngle": 3.3935339523134602,
+              "value": 11.7
+            },
+            "target": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 3.887094079984908,
+              "endAngle": 3.893714574149573,
+              "value": 10.2
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 3.880213958598099,
+              "endAngle": 3.887094079984908,
+              "value": 10.6
+            },
+            "target": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.065172657545959,
+              "endAngle": 2.0714945804051585,
+              "value": 9.74
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.29337876102240973,
+              "endAngle": 0.30025888240921844,
+              "value": 10.6
+            },
+            "target": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.3935339523134602,
+              "endAngle": 3.3988238569646385,
+              "value": 8.15
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.377177437318405,
+              "endAngle": 3.385939856065756,
+              "value": 13.5
+            },
+            "target": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.6507339258228115,
+              "endAngle": 1.6532198564748377,
+              "value": 3.83
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.30025888240921844,
+              "endAngle": 0.3070091901849553,
+              "value": 10.4
+            },
+            "target": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 3.898738360898054,
+              "endAngle": 3.90297677529955,
+              "value": 6.53
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 3.893714574149573,
+              "endAngle": 3.898738360898054,
+              "value": 7.74
+            },
+            "target": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.6834579686279221,
+              "endAngle": 0.6858011043077692,
+              "value": 3.61
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.3988238569646385,
+              "endAngle": 3.4024910914774185,
+              "value": 5.65
+            },
+            "target": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.6858011043077692,
+              "endAngle": 0.6880338984182053,
+              "value": 3.44
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.4024910914774185,
+              "endAngle": 3.405768885156983,
+              "value": 5.05
+            },
+            "target": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.0714945804051585,
+              "endAngle": 2.0738377160850057,
+              "value": 3.61
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.3070091901849553,
+            "value": 473
+          },
+          {
+            "index": 1,
+            "startAngle": 0.3570091901849553,
+            "endAngle": 0.6880338984182053,
+            "value": 510
+          },
+          {
+            "index": 2,
+            "startAngle": 0.7380338984182053,
+            "endAngle": 1.6532198564748377,
+            "value": 1410
+          },
+          {
+            "index": 3,
+            "startAngle": 1.7032198564748378,
+            "endAngle": 2.0738377160850057,
+            "value": 571
+          },
+          {
+            "index": 4,
+            "startAngle": 2.1238377160850055,
+            "endAngle": 3.0649863963560104,
+            "value": 1450
+          },
+          {
+            "index": 5,
+            "startAngle": 3.1149863963560103,
+            "endAngle": 3.405768885156983,
+            "value": 448
+          },
+          {
+            "index": 6,
+            "startAngle": 3.4557688851569828,
+            "endAngle": 3.90297677529955,
+            "value": 689
+          },
+          {
+            "index": 7,
+            "startAngle": 3.95297677529955,
+            "endAngle": 6.2331853071795855,
+            "value": 3513.05
+          }
+        ]
+      },
+      "net": {
+        "chords": [
+          {
+            "source": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.092983265937927,
+              "endAngle": 2.7339464525744868,
+              "value": 240.89999999999998
+            },
+            "target": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.368458699780805,
+              "endAngle": 5.009421886417365,
+              "value": 240.89999999999998
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.8703265329805591,
+              "endAngle": 1.3089965229380915,
+              "value": 164.87
+            },
+            "target": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 5.009421886417365,
+              "endAngle": 5.448091876374898,
+              "value": 164.87
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.7339464525744868,
+              "endAngle": 2.9707489582226967,
+              "value": 89
+            },
+            "target": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.4249096392110467,
+              "endAngle": 3.6617121448592567,
+              "value": 89
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.2192950844441063,
+              "value": 82.41999999999996
+            },
+            "target": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 5.448091876374898,
+              "endAngle": 5.667386960819004,
+              "value": 82.41999999999996
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.6617121448592567,
+              "endAngle": 3.865601762924676,
+              "value": 76.63
+            },
+            "target": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 5.667386960819004,
+              "endAngle": 5.871276578884424,
+              "value": 76.63
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.9615520918296716,
+              "endAngle": 4.126728491275075,
+              "value": 62.08000000000004
+            },
+            "target": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.871276578884424,
+              "endAngle": 6.0364529783298275,
+              "value": 62.08000000000004
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.9707489582226967,
+              "endAngle": 3.1317214480172666,
+              "value": 60.5
+            },
+            "target": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 4.126728491275075,
+              "endAngle": 4.287700981069644,
+              "value": 60.5
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.3089965229380915,
+              "endAngle": 1.4670422401909418,
+              "value": 59.4
+            },
+            "target": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 3.1317214480172666,
+              "endAngle": 3.289767165270117,
+              "value": 59.4
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.2192950844441063,
+              "endAngle": 0.36164265806409773,
+              "value": 53.5
+            },
+            "target": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.4670422401909418,
+              "endAngle": 1.6093898138109333,
+              "value": 53.5
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.5237114393888461,
+              "endAngle": 0.6483387356198815,
+              "value": 46.839999999999975
+            },
+            "target": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 6.0364529783298275,
+              "endAngle": 6.161080274560863,
+              "value": 46.839999999999975
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.6093898138109333,
+              "endAngle": 1.7014501137595632,
+              "value": 34.599999999999994
+            },
+            "target": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.8040521984411937,
+              "endAngle": 1.8961124983898237,
+              "value": 34.599999999999994
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.8961124983898237,
+              "endAngle": 1.9682175310085483,
+              "value": 27.100000000000023
+            },
+            "target": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 6.161080274560863,
+              "endAngle": 6.233185307179587,
+              "value": 27.100000000000023
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.6483387356198815,
+              "endAngle": 0.7132598719998402,
+              "value": 24.4
+            },
+            "target": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 3.289767165270117,
+              "endAngle": 3.354688301650076,
+              "value": 24.4
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.36164265806409773,
+              "endAngle": 0.4007549820307122,
+              "value": 14.700000000000001
+            },
+            "target": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.7132598719998402,
+              "endAngle": 0.7523721959664547,
+              "value": 14.700000000000001
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.4007549820307122,
+              "endAngle": 0.43933516553519586,
+              "value": 14.5
+            },
+            "target": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 1.9682175310085483,
+              "endAngle": 2.006797714513032,
+              "value": 14.5
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.7523721959664547,
+              "endAngle": 0.7797774297661914,
+              "value": 10.299999999999997
+            },
+            "target": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 2.006797714513032,
+              "endAngle": 2.034202948312769,
+              "value": 10.299999999999997
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.7014501137595632,
+              "endAngle": 1.7271791051035879,
+              "value": 9.67
+            },
+            "target": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.865601762924676,
+              "endAngle": 3.891330754268701,
+              "value": 9.67
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.7797774297661914,
+              "endAngle": 0.8034576803310124,
+              "value": 8.900000000000006
+            },
+            "target": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.7271791051035879,
+              "endAngle": 1.750859355668409,
+              "value": 8.900000000000006
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.43933516553519586,
+              "endAngle": 0.45689580078551256,
+              "value": 6.600000000000001
+            },
+            "target": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 3.354688301650076,
+              "endAngle": 3.3722489369003927,
+              "value": 6.600000000000001
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.8034576803310124,
+              "endAngle": 0.8144463808740136,
+              "value": 4.130000000000001
+            },
+            "target": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 4.287700981069644,
+              "endAngle": 4.298689681612646,
+              "value": 4.130000000000001
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.45689580078551256,
+              "endAngle": 0.4671927187277437,
+              "value": 3.87
+            },
+            "target": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 4.298689681612646,
+              "endAngle": 4.308986599554877,
+              "value": 3.87
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.4671927187277437,
+              "endAngle": 0.47371143938884613,
+              "value": 2.4499999999999993
+            },
+            "target": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.891330754268701,
+              "endAngle": 3.8978494749298034,
+              "value": 2.4499999999999993
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.8144463808740136,
+              "endAngle": 0.820326532980559,
+              "value": 2.2100000000000004
+            },
+            "target": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.8978494749298034,
+              "endAngle": 3.903729627036349,
+              "value": 2.2100000000000004
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.903729627036349,
+              "endAngle": 3.90772068050233,
+              "value": 1.5
+            },
+            "target": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 4.308986599554877,
+              "endAngle": 4.312977653020858,
+              "value": 1.5
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.034202948312769,
+              "endAngle": 2.0380343596401107,
+              "value": 1.44
+            },
+            "target": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.90772068050233,
+              "endAngle": 3.911552091829672,
+              "value": 1.44
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.750859355668409,
+              "endAngle": 1.7540521984411936,
+              "value": 1.1999999999999993
+            },
+            "target": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 4.312977653020858,
+              "endAngle": 4.316170495793643,
+              "value": 1.1999999999999993
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 2.0380343596401107,
+              "endAngle": 2.040695061950765,
+              "value": 1
+            },
+            "target": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 3.3722489369003927,
+              "endAngle": 3.374909639211047,
+              "value": 1
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.040695061950765,
+              "endAngle": 2.0429832659379272,
+              "value": 0.8599999999999994
+            },
+            "target": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 4.316170495793643,
+              "endAngle": 4.318458699780805,
+              "value": 0.8599999999999994
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.47371143938884613,
+            "value": 178.03999999999996
+          },
+          {
+            "index": 1,
+            "startAngle": 0.5237114393888461,
+            "endAngle": 0.820326532980559,
+            "value": 111.47999999999998
+          },
+          {
+            "index": 2,
+            "startAngle": 0.8703265329805591,
+            "endAngle": 1.7540521984411936,
+            "value": 332.14
+          },
+          {
+            "index": 3,
+            "startAngle": 1.8040521984411937,
+            "endAngle": 2.0429832659379272,
+            "value": 89.80000000000001
+          },
+          {
+            "index": 4,
+            "startAngle": 2.092983265937927,
+            "endAngle": 3.374909639211047,
+            "value": 481.79999999999995
+          },
+          {
+            "index": 5,
+            "startAngle": 3.4249096392110467,
+            "endAngle": 3.911552091829672,
+            "value": 182.89999999999998
+          },
+          {
+            "index": 6,
+            "startAngle": 3.9615520918296716,
+            "endAngle": 4.318458699780805,
+            "value": 134.14000000000004
+          },
+          {
+            "index": 7,
+            "startAngle": 4.368458699780805,
+            "endAngle": 6.233185307179587,
+            "value": 700.8399999999999
+          }
+        ]
+      },
+      "gross": {
+        "chords": [
+          {
+            "source": {
+              "index": 2,
+              "subindex": 7,
+              "startAngle": 0.7380338984182053,
+              "endAngle": 1.4160081996229459,
+              "value": 2089.07
+            },
+            "target": {
+              "index": 7,
+              "subindex": 2,
+              "startAngle": 3.9529767752995495,
+              "endAngle": 4.6309510765042905,
+              "value": 2089.07
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 7,
+              "startAngle": 2.1238377160850055,
+              "endAngle": 2.6809652814026723,
+              "value": 1716.6999999999998
+            },
+            "target": {
+              "index": 7,
+              "subindex": 4,
+              "startAngle": 4.6309510765042905,
+              "endAngle": 5.188078641821957,
+              "value": 1716.6999999999998
+            }
+          },
+          {
+            "source": {
+              "index": 6,
+              "subindex": 7,
+              "startAngle": 3.4557688851569828,
+              "endAngle": 3.801196413538656,
+              "value": 1064.38
+            },
+            "target": {
+              "index": 7,
+              "subindex": 6,
+              "startAngle": 5.188078641821957,
+              "endAngle": 5.533506170203631,
+              "value": 1064.38
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 7,
+              "startAngle": 0.3570091901849553,
+              "endAngle": 0.5777118010487827,
+              "value": 680.06
+            },
+            "target": {
+              "index": 7,
+              "subindex": 1,
+              "startAngle": 5.533506170203631,
+              "endAngle": 5.754208781067458,
+              "value": 680.06
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 7,
+              "startAngle": 1.703219856474837,
+              "endAngle": 1.920722561825743,
+              "value": 670.1999999999999
+            },
+            "target": {
+              "index": 7,
+              "subindex": 3,
+              "startAngle": 5.754208781067458,
+              "endAngle": 5.971711486418364,
+              "value": 670.1999999999999
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 5,
+              "startAngle": 2.6809652814026723,
+              "endAngle": 2.8669232792631156,
+              "value": 573
+            },
+            "target": {
+              "index": 5,
+              "subindex": 4,
+              "startAngle": 3.1149863963560103,
+              "endAngle": 3.3009443942164536,
+              "value": 573
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 7,
+              "startAngle": 0,
+              "endAngle": 0.18122629173687393,
+              "value": 558.42
+            },
+            "target": {
+              "index": 7,
+              "subindex": 0,
+              "startAngle": 5.971711486418364,
+              "endAngle": 6.152937778155239,
+              "value": 558.42
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 7,
+              "startAngle": 3.3009443942164536,
+              "endAngle": 3.3811919232408023,
+              "value": 247.26999999999998
+            },
+            "target": {
+              "index": 7,
+              "subindex": 5,
+              "startAngle": 6.152937778155239,
+              "endAngle": 6.233185307179587,
+              "value": 247.26999999999998
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 3,
+              "startAngle": 1.4160081996229459,
+              "endAngle": 1.4826674889083473,
+              "value": 205.4
+            },
+            "target": {
+              "index": 3,
+              "subindex": 2,
+              "startAngle": 1.920722561825743,
+              "endAngle": 1.9873818511111445,
+              "value": 205.4
+            }
+          },
+          {
+            "source": {
+              "index": 4,
+              "subindex": 6,
+              "startAngle": 2.8669232792631156,
+              "endAngle": 2.9303696816744886,
+              "value": 195.5
+            },
+            "target": {
+              "index": 6,
+              "subindex": 4,
+              "startAngle": 3.801196413538656,
+              "endAngle": 3.864642815950029,
+              "value": 195.5
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 4,
+              "startAngle": 1.4826674889083473,
+              "endAngle": 1.5419274023626526,
+              "value": 182.6
+            },
+            "target": {
+              "index": 4,
+              "subindex": 2,
+              "startAngle": 2.9303696816744886,
+              "endAngle": 2.989629595128794,
+              "value": 182.6
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 2,
+              "startAngle": 0.18122629173687393,
+              "endAngle": 0.22877052679194365,
+              "value": 146.5
+            },
+            "target": {
+              "index": 2,
+              "subindex": 0,
+              "startAngle": 1.5419274023626526,
+              "endAngle": 1.5894716374177222,
+              "value": 146.5
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 2,
+              "startAngle": 0.5777118010487827,
+              "endAngle": 0.6203880256886576,
+              "value": 131.5
+            },
+            "target": {
+              "index": 2,
+              "subindex": 1,
+              "startAngle": 1.5894716374177222,
+              "endAngle": 1.632147862057597,
+              "value": 131.5
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 4,
+              "startAngle": 0.22877052679194365,
+              "endAngle": 0.2597310730325829,
+              "value": 95.4
+            },
+            "target": {
+              "index": 4,
+              "subindex": 0,
+              "startAngle": 2.989629595128794,
+              "endAngle": 3.0205901413694334,
+              "value": 95.4
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 3,
+              "startAngle": 0.6203880256886576,
+              "endAngle": 0.649368914360451,
+              "value": 89.3
+            },
+            "target": {
+              "index": 3,
+              "subindex": 1,
+              "startAngle": 1.9873818511111445,
+              "endAngle": 2.016362739782938,
+              "value": 89.3
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 4,
+              "startAngle": 2.016362739782938,
+              "endAngle": 2.042195648386239,
+              "value": 79.6
+            },
+            "target": {
+              "index": 4,
+              "subindex": 3,
+              "startAngle": 3.0205901413694334,
+              "endAngle": 3.0464230499727343,
+              "value": 79.6
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 3,
+              "startAngle": 0.2597310730325829,
+              "endAngle": 0.2819616539286394,
+              "value": 68.5
+            },
+            "target": {
+              "index": 3,
+              "subindex": 0,
+              "startAngle": 2.042195648386239,
+              "endAngle": 2.0644262292822955,
+              "value": 68.5
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 4,
+              "startAngle": 0.649368914360451,
+              "endAngle": 0.6679322607437274,
+              "value": 57.199999999999996
+            },
+            "target": {
+              "index": 4,
+              "subindex": 1,
+              "startAngle": 3.0464230499727343,
+              "endAngle": 3.0649863963560104,
+              "value": 57.199999999999996
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 6,
+              "startAngle": 1.632147862057597,
+              "endAngle": 1.6475956817751487,
+              "value": 47.599999999999994
+            },
+            "target": {
+              "index": 6,
+              "subindex": 2,
+              "startAngle": 3.864642815950029,
+              "endAngle": 3.8800906356675804,
+              "value": 47.599999999999994
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 1,
+              "startAngle": 0.2819616539286394,
+              "endAngle": 0.2954298160773452,
+              "value": 41.5
+            },
+            "target": {
+              "index": 1,
+              "subindex": 0,
+              "startAngle": 0.6679322607437274,
+              "endAngle": 0.6814004228924331,
+              "value": 41.5
+            }
+          },
+          {
+            "source": {
+              "index": 5,
+              "subindex": 6,
+              "startAngle": 3.3811919232408023,
+              "endAngle": 3.3882992184469867,
+              "value": 21.9
+            },
+            "target": {
+              "index": 6,
+              "subindex": 5,
+              "startAngle": 3.8800906356675804,
+              "endAngle": 3.8871979308737648,
+              "value": 21.9
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 6,
+              "startAngle": 2.0644262292822955,
+              "endAngle": 2.0710272514052996,
+              "value": 20.34
+            },
+            "target": {
+              "index": 6,
+              "subindex": 3,
+              "startAngle": 3.8871979308737648,
+              "endAngle": 3.893798952996769,
+              "value": 20.34
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 5,
+              "startAngle": 0.2954298160773452,
+              "endAngle": 0.30151482909633875,
+              "value": 18.75
+            },
+            "target": {
+              "index": 5,
+              "subindex": 0,
+              "startAngle": 3.3882992184469867,
+              "endAngle": 3.3943842314659802,
+              "value": 18.75
+            }
+          },
+          {
+            "source": {
+              "index": 2,
+              "subindex": 5,
+              "startAngle": 1.6475956817751487,
+              "endAngle": 1.653219856474837,
+              "value": 17.33
+            },
+            "target": {
+              "index": 5,
+              "subindex": 2,
+              "startAngle": 3.3943842314659802,
+              "endAngle": 3.400008406165669,
+              "value": 17.33
+            }
+          },
+          {
+            "source": {
+              "index": 0,
+              "subindex": 6,
+              "startAngle": 0.30151482909633875,
+              "endAngle": 0.3070091901849553,
+              "value": 16.93
+            },
+            "target": {
+              "index": 6,
+              "subindex": 0,
+              "startAngle": 3.893798952996769,
+              "endAngle": 3.8992933140853854,
+              "value": 16.93
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 6,
+              "startAngle": 0.6814004228924331,
+              "endAngle": 0.6850838841065972,
+              "value": 11.35
+            },
+            "target": {
+              "index": 6,
+              "subindex": 1,
+              "startAngle": 3.8992933140853854,
+              "endAngle": 3.9029767752995497,
+              "value": 11.35
+            }
+          },
+          {
+            "source": {
+              "index": 1,
+              "subindex": 5,
+              "startAngle": 0.6850838841065972,
+              "endAngle": 0.6880338984182053,
+              "value": 9.09
+            },
+            "target": {
+              "index": 5,
+              "subindex": 1,
+              "startAngle": 3.400008406165669,
+              "endAngle": 3.402958420477277,
+              "value": 9.09
+            }
+          },
+          {
+            "source": {
+              "index": 3,
+              "subindex": 5,
+              "startAngle": 2.0710272514052996,
+              "endAngle": 2.0738377160850057,
+              "value": 8.66
+            },
+            "target": {
+              "index": 5,
+              "subindex": 3,
+              "startAngle": 3.402958420477277,
+              "endAngle": 3.405768885156983,
+              "value": 8.66
+            }
+          }
+        ],
+        "chordGroups": [
+          {
+            "index": 0,
+            "startAngle": 0,
+            "endAngle": 0.3070091901849553,
+            "value": 946
+          },
+          {
+            "index": 1,
+            "startAngle": 0.3570091901849553,
+            "endAngle": 0.6880338984182053,
+            "value": 1020
+          },
+          {
+            "index": 2,
+            "startAngle": 0.7380338984182053,
+            "endAngle": 1.653219856474837,
+            "value": 2820
+          },
+          {
+            "index": 3,
+            "startAngle": 1.703219856474837,
+            "endAngle": 2.0738377160850057,
+            "value": 1142
+          },
+          {
+            "index": 4,
+            "startAngle": 2.1238377160850055,
+            "endAngle": 3.0649863963560104,
+            "value": 2900
+          },
+          {
+            "index": 5,
+            "startAngle": 3.1149863963560103,
+            "endAngle": 3.405768885156983,
+            "value": 896
+          },
+          {
+            "index": 6,
+            "startAngle": 3.4557688851569828,
+            "endAngle": 3.9029767752995497,
+            "value": 1378
+          },
+          {
+            "index": 7,
+            "startAngle": 3.9529767752995495,
+            "endAngle": 6.233185307179587,
+            "value": 7026.099999999999
+          }
+        ]
+      }
+    }
+  }
+]

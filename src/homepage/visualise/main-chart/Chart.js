@@ -5,35 +5,36 @@ import {select, event} from 'd3-selection';
 
 import ChartEmpty from './ChartEmpty';
 
-import {getHGroupsFromRibbon, getHGroupsFromRing} from '../data/helpers/helpers';
-import {createHighlightStage, createNormalStage} from '../stages/createStage';
-import {getSelectorFn, selectionHasClass} from './chart-funcs/helpers';
+import {selectionHasClass} from './chart-funcs/helpers';
 import {drawChordDiagram} from './chart-funcs/drawChordDiagram';
-import animateSelection from './chart-funcs/animations/main';
 
-import type {Data, NameData} from '../data/Types';
+import type {ActiveItem, DataConfig, NameData, Updates} from '../data/Types';
 import type {ArcChartSize} from '../chartSizes';
-import type {Stage} from '../stages/createStage';
+import type {ChordData} from './chart-funcs/createChordData';
 
 import './chart.css';
+
+type RedrawChartConfig = {
+    clearAll: boolean,
+};
 
 type ChartProps = {
     dataKey: boolean,
 
-    data: Data,
+    chordData: ChordData,
+
     nameData: NameData,
     colorScale: any,
+    dataConfig: DataConfig,
 
     size: ArcChartSize,
 
-    mode: string,
-    stages: Stage[],
-    curStage: number,
+    updates: Updates,
 
     allowEvents: boolean,
 
-    changeState: (state: string, newState: any) => void,
-    changeStates: (newStates: {}) => void,
+    handleHover: (item: ActiveItem) => void,
+    handleUnhover: () => void,
 };
 
 export default class Chart
@@ -62,12 +63,9 @@ export default class Chart
     }
 
     componentDidMount() {
-        const {
-            data, nameData, colorScale,
-            size,
-        } = this.props;
+        const {chordData, nameData, colorScale} = this.props;
 
-        if (data && nameData && colorScale) {
+        if (chordData && nameData && colorScale) {
             const chartNode = this.getChart();
 
             if (chartNode) {
@@ -75,7 +73,7 @@ export default class Chart
 
                 // ********** Redraw chart ********** //
 
-                this.redrawChart(chart);
+                this.redrawChart(chart, {clearAll: true});
             }
         }
     }
@@ -83,18 +81,18 @@ export default class Chart
     componentDidUpdate(prevProps: ChartProps, prevState: {}, snapshot: any) {
         const {
             dataKey: prevDataKey,
-            data: prevData,
-            stages: prevStages,
-            curStage: prevCurStage,
+            chordData: prevData,
+            dataConfig: prevDataConfig,
+            size: prevSize,
         } = prevProps;
         const {
             dataKey,
-            data, nameData, colorScale,
+            chordData,
+            nameData, colorScale, dataConfig,
             size,
-            stages, curStage,
         } = this.props;
 
-        if (data && nameData && colorScale) {
+        if (chordData && nameData && colorScale) {
             const chartNode = this.getChart();
 
             if (chartNode) {
@@ -104,11 +102,21 @@ export default class Chart
                     || (prevDataKey !== dataKey)) {
                     // ********** Redraw chart ********** //
 
-                    this.redrawChart(chart);
+                    this.redrawChart(chart, {clearAll: true});
+                } else if (prevSize.width !== size.width
+                    || prevSize.height !== size.height
+                ) {
+                    // ********** Redraw chart ********** //
+
+                    this.redrawChart(chart, {clearAll: true});
+                } else if (prevDataConfig.curSheet !== dataConfig.curSheet) {
+                    // ********** Redraw chart (no clear all) ********** //
+
+                    this.redrawChart(chart, {clearAll: false});
                 } else {
                     // ********** Update chart ********** //
 
-                    this.applyStage(chart);
+                    this.applyUpdates(chart);
                 }
             }
         }
@@ -116,13 +124,19 @@ export default class Chart
 
     /** ********** CHART DRAWINGS / UPDATES ********** **/
 
-    redrawChart = (chart: any) => {
-        const {data, nameData, colorScale, size} = this.props;
+    redrawChart = (chart: any, config: RedrawChartConfig) => {
+        const {
+            chordData,
+            nameData, colorScale,
+            size,
+        } = this.props;
 
         // ***** Remove clearables ***** //
 
-        chart.selectAll('.clearable')
-            .remove();
+        if (config.clearAll) {
+            chart.selectAll('*')
+                .remove();
+        }
 
         // ***** Draw chord diagram ***** //
 
@@ -132,96 +146,76 @@ export default class Chart
         ];
 
         const {chordRings, chordRibbons} = drawChordDiagram(
-            chart, data, nameData, colorScale, size, chordDiagramEA,
+            chart, chordData, nameData, colorScale, size,
+            config.clearAll, chordDiagramEA,
         );
 
         this.chordRings = chordRings;
         this.chordRibbons = chordRibbons;
 
-        this.applyStage(chart);
+        //this.applyStage(chart);
+        this.applyUpdates(chart);
     };
 
-    applyStage = (chart: any) => {
-        const {stages, curStage} = this.props;
-        const {selectors, animInfo} = stages[curStage];
+    applyUpdates = (chart: any) => {
+        const {updates} = this.props;
+        const {selectFns, selectors, updateFns, updateFnParams} = updates;
 
-        const selections = selectors.map(selectorObj => (
-            getSelectorFn(selectorObj)(chart, selectorObj.selector)
+        const updateSels = selectors.map((selector, i) => (
+            selectFns[i](chart, selector)
         ));
 
-        selections.forEach((selection, i) => {
-            animateSelection(selection, animInfo[i]);
+        updateSels.forEach((s, i) => {
+            updateFns[i](s, ...updateFnParams[i]);
         });
     };
 
     /** ********** EVENTS ********** **/
 
     handleMouseEnter = (d: any, i: number, nodes: any) => {
-        const {allowEvents} = this.props;
+        const {allowEvents, handleHover} = this.props;
 
         if (allowEvents) {
-            const {data, changeState} = this.props;
-
             event.stopPropagation();
 
             const s = select(nodes[i]);
-            const target = event.currentTarget;
+            //const target = event.currentTarget;
 
-            // ***** Select stuff ***** //
+            // ***** Pass event handler logic to parent ***** //
 
-            let hRingsG, hRibbonsG, targetRingIndex, targetRibbonName;
+            const activeItemType = selectionHasClass(s, 'chord-ribbon')
+                ? 'RIBBON'
+                : selectionHasClass(s, 'chord-ring')
+                    ? 'RING'
+                    : null;
 
-            if (selectionHasClass(s, 'chord-ribbon')) {
-                [hRingsG, hRibbonsG] = this.getHoveredGroupsRibbons(data, d);
-                targetRibbonName = [`${d.source.index}.${d.target.index}`]
-            } else if (selectionHasClass(s, 'chord-ring')) {
-                [hRingsG, hRibbonsG] = this.getHoveredGroupsRings(data, d);
-                targetRingIndex = [d.index];
-            }
+            if (activeItemType) {
+                const activeItemName = activeItemType === 'RIBBON'
+                    ? `${d.source.index}.${d.target.index}`
+                    : d.index;
 
-            // ***** If stuffs are not undefined, perform actions ***** //
-
-            if (hRingsG && hRibbonsG) {
-                const nextStage = createHighlightStage(hRingsG, hRibbonsG);
-
-                nextStage.evtInfo = {
-                    type: 'mouseenter',
-                    hRingsG,
-                    hRibbonsG,
-                    targetRingIndex,
-                    targetRibbonName,
-                };
-
-                changeState('stages', [nextStage]);
+                handleHover({
+                    type: activeItemType,
+                    name: activeItemName,
+                    d,
+                }, event.clientX, event.clientY);
             }
         }
     };
 
     handleMouseLeave = (d: any, i: number, nodes: any) => {
-        const {allowEvents} = this.props;
+        const {allowEvents, handleUnhover} = this.props;
 
         if (allowEvents) {
-            const {data, changeState} = this.props;
-
             event.stopPropagation();
 
-            const s = select(nodes[i]);
-            const target = event.currentTarget;
+            //const s = select(nodes[i]);
+            //const target = event.currentTarget;
 
             // ***** On mouse leave -> reset ***** //
 
-            const nextStage = createNormalStage();
-
-            changeState('stages', [nextStage]);
+            handleUnhover();
         }
-    };
-
-    getHoveredGroupsRings = (data: Data, d: any): any[] => {
-        return getHGroupsFromRing(data, d.index)
-    };
-
-    getHoveredGroupsRibbons = (data: Data, d: any): any[] => {
-        return getHGroupsFromRibbon(data, d.source.index, d.target.index)
     };
 
     /** ********** UTILITIES ********** **/
@@ -236,12 +230,10 @@ export default class Chart
     /** ********** RENDER ********** **/
 
     render() {
-        const {
-            dataKey, data, nameData, colorScale, size,
-        } = this.props;
+        const {dataKey, chordData, size} = this.props;
 
         // TODO: remove in production
-        console.log(`DEBUG_MainChartRenderCount=${this.DEBUGRenderCount += 1}`);
+        //console.log(`DEBUG_MainChartRenderCount=${this.DEBUGRenderCount += 1}`);
 
         const svgWidth = size.width + size.margin.right + size.margin.left;
         const svgHeight = size.height + size.margin.top + size.margin.bottom;
@@ -249,7 +241,7 @@ export default class Chart
         return (
             <div key={dataKey.toString()}
                  id="main-chart">
-                {data
+                {chordData
                     ? (
                         <svg width={svgWidth}
                              height={svgHeight}

@@ -104,7 +104,8 @@ export default class Section1
                             spreadsheet resembling an n x n (n &gt;&#61; 2){' '}
                             matrix.
                             <br /><br />
-                            Template data set coming in the next version.
+                            Downloadable template data set coming in the{' '}
+                            next version.
                             <br /><br />
                             At its current version, the wizard{' '}
                             assumes your spreadsheet rows to contain{' '}

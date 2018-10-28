@@ -2,46 +2,44 @@
 
 import * as React from 'react';
 import Loadable from 'react-loadable';
-import {Router, Link} from '@reach/router';
 
 import Loading from './components/Loading';
-import Header from './components/Header';
+import Visualise from './visualise/Visualise';
 
-import {createNormalStage, createWalkthroughStages}
-    from './visualise/stages/createStage';
 import createColorScale
     from './visualise/main-chart/chart-funcs/createColorScale';
-import generateDataInfo from './visualise/data/xlsx/generateDataInfo';
-import {mainChartSize} from './visualise/chartSizes';
+import {getMainChartSize} from './visualise/chartSizes';
+import createChordData
+    from './visualise/main-chart/chart-funcs/createChordData';
+import {createUpdatesNewData} from './visualise/stages/createUpdates';
+import refineData from './visualise/data/xlsx/refineData';
 
 import type {
-    ColorData, NameData, Data, DataInfo, DataConfig, DisplayConfig, DataAll,
-    ColorScale,
-} from './visualise/data/Types';
+    DataConfig, DisplayConfig, DataAll, ColorScale, ChartData,
+    Updates, ActiveItems,
+}
+    from './visualise/data/Types';
 import type {SheetNames} from './visualise/data/xlsx/readWorkbook';
 import type {ArcChartSize} from './visualise/chartSizes';
-import type {Stage} from './visualise/stages/createStage';
 
-import defaultDataAll from './visualise/data/json/default-data-all';
+import defaultCSheets from './visualise/data/json/default-c-sheets';
 import defaultSheetNames from './visualise/data/json/default-sheet-names';
 import defaultDataConfig from './visualise/data/json/default-data-config';
 import defaultDisplayConfig from './visualise/data/json/default-display-config';
 import defaultColorData from './visualise/data/json/default-color-data';
-import defaultNameData from './visualise/data/json/default-name-data-g7';
 
 import './app.css';
 
 /** ********** LOADABLES ********** **/
 
-const LoadableIntro = Loadable({
-    loader: () => import('./intro/Intro'),
-    loading: Loading,
-});
-
 const LoadableVisualise = Loadable({
     loader: () => import('./visualise/Visualise'),
     loading: Loading,
 });
+
+/** ********** CONFIGS ********** **/
+
+const resizeDebounceDelay = 1000;
 
 /** ********** TYPES ********** **/
 
@@ -59,18 +57,20 @@ export type AppStates = {
     // Used to "hard reset" components upon receipt of new data
     dataKey: boolean,
 
-    dataAll: DataAll,
+    dataAll: ?DataAll,
     sheetNames: SheetNames,
     colorScale: ColorScale,
+
+    chartData: ChartData,
 
     dataConfig: DataConfig,
     displayConfig: DisplayConfig,
 
-    sizes: {mainChartSize: ArcChartSize},
+    sizes: ?{mainChartSize: ArcChartSize},
 
     mode: string,
-    stages: Stage[],
-    curStage: number,
+    activeItems: ActiveItems,
+    updates: ?Updates,
 
     allowEvents: boolean,
 };
@@ -78,40 +78,121 @@ export type AppStates = {
 /** ********** MAIN ********** **/
 
 export default class App extends React.PureComponent<{}, AppStates> {
+    defaultDataAll: DataAll;
+    resizeDebounceT: any;
+
     constructor(props: {}) {
         super(props);
 
-        const mode = 'normal';
-        const normalStage = [createNormalStage()];
-        const walkthroughStages = [
-            ...createWalkthroughStages(
-                defaultDataAll,
-                defaultNameData,
-                this.colorScale,
-            ),
-        ];
+        const colorScale = createColorScale(defaultColorData);
 
         this.state = {
             dataKey: false,
 
-            dataAll: defaultDataAll,
+            dataAll: null,
             sheetNames: defaultSheetNames,
-            colorScale: createColorScale(defaultColorData),
+            colorScale,
+
+            chartData: {
+                cur: null,
+                prev: null,
+            },
 
             dataConfig: defaultDataConfig,
             displayConfig: defaultDisplayConfig,
 
-            sizes: {mainChartSize},
+            sizes: null,
 
-            mode,
-            stages: mode === 'normal'
-                ? normalStage
-                : walkthroughStages,
-            curStage: 0,
+            activeItems: {
+                hovered: null,
+                clicked: null,
+            },
+            updates: null,
 
-            allowEvents: mode !== 'walkthrough',
+            allowEvents: true,
         };
     }
+
+    componentDidMount() {
+        const {sheetNames, dataConfig} = this.state;
+
+        const dataAll = refineData(defaultCSheets, sheetNames, dataConfig);
+        this.defaultDataAll = dataAll;
+        const data = dataAll[sheetNames[0]]
+            .dataInfo.dataExtended[dataConfig.dataType];
+        const curChordData = createChordData(data);
+        const sizes = {
+            mainChartSize: getMainChartSize(
+                window.innerWidth, window.innerHeight,
+            ),
+        };
+
+        this.setState((prevState: AppStates) => ({
+            dataKey: !prevState.dataKey,
+            dataAll,
+            chartData: {
+                cur: curChordData,
+                prev: null,
+            },
+            sizes,
+            updates: createUpdatesNewData(
+                data, null,
+                curChordData, null,
+                dataAll[sheetNames[dataConfig.curSheet]].nameData,
+                prevState.colorScale,
+                sizes.mainChartSize,
+            ),
+        }));
+
+        window.addEventListener('resize', this.handleWindowResize);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleWindowResize);
+    }
+
+    handleWindowResize = () => {
+        clearTimeout(this.resizeDebounceT);
+
+        this.resizeDebounceT = setTimeout(
+            this.windowResizeCB, resizeDebounceDelay,
+        );
+    };
+
+    windowResizeCB = (): [number, number] => {
+        const {
+            dataAll, sheetNames, chartData, colorScale,
+            dataConfig, sizes,
+        } = this.state;
+
+        // ***** Resize ***** //
+
+        const newSizes = {
+            mainChartSize: getMainChartSize(
+                window.innerWidth, window.innerHeight,
+            ),
+        };
+
+        if (newSizes.mainChartSize.width !== sizes.mainChartSize.width
+            || newSizes.mainChartSize.height !== sizes.mainChartSize.height) {
+            // ***** New updates ***** //
+
+            const data = dataAll[sheetNames[dataConfig.curSheet]]
+                .dataInfo.dataExtended[dataConfig.dataType];
+
+            const newUpdates = createUpdatesNewData(
+                data, null,
+                chartData.cur, chartData.prev,
+                dataAll[sheetNames[dataConfig.curSheet]].nameData, colorScale,
+                newSizes.mainChartSize,
+            );
+
+            this.setState({
+                sizes: newSizes,
+                updates: newUpdates,
+            });
+        }
+    };
 
     setNewData = (
         dataAll: DataAll,
@@ -120,15 +201,14 @@ export default class App extends React.PureComponent<{}, AppStates> {
         dataConfig: DataConfig,
         displayConfig: DisplayConfig,
     ) => {
-        const mode = 'normal';
-        const normalStage = [createNormalStage()];
-        const walkthroughStages = [
-            ...createWalkthroughStages(
-                defaultDataAll,
-                defaultNameData,
-                this.colorScale,
+        const data = dataAll[sheetNames[0]]
+            .dataInfo.dataExtended[dataConfig.dataType];
+        const curChordData = createChordData(data);
+        const sizes = {
+            mainChartSize: getMainChartSize(
+                window.innerWidth, window.innerHeight,
             ),
-        ];
+        };
 
         this.setState((prevState: AppStates) => ({
             dataKey: !prevState.dataKey,
@@ -137,24 +217,34 @@ export default class App extends React.PureComponent<{}, AppStates> {
             sheetNames,
             colorScale,
 
+            chartData: {
+                cur: curChordData,
+                prev: null,
+            },
+
             dataConfig,
             displayConfig,
 
-            sizes: {mainChartSize},
+            sizes,
 
-            mode,
-            stages: mode === 'normal'
-                ? normalStage
-                : walkthroughStages,
-            curStage: 0,
+            activeItems: {
+                hovered: null,
+                clicked: null,
+            },
+            updates: createUpdatesNewData(
+                data, null,
+                curChordData, null,
+                dataAll[sheetNames[dataConfig.curSheet]].nameData, colorScale,
+                sizes.mainChartSize,
+            ),
 
-            allowEvents: mode !== 'walkthrough',
+            allowEvents: true,
         }));
     };
 
     resetDataSet = () => {
         this.setNewData(
-            defaultDataAll,
+            this.defaultDataAll,
             defaultSheetNames,
             createColorScale(defaultColorData),
             defaultDataConfig,
@@ -177,16 +267,11 @@ export default class App extends React.PureComponent<{}, AppStates> {
     render() {
         return (
             <div id="app">
-                <Header />
-                <Router>
-                    <LoadableIntro path="/" />
-                    <LoadableVisualise path="/visualise"
-                                       setNewData={this.setNewData}
-                                       resetDataSet={this.resetDataSet}
-                                       changeState={this.changeState}
-                                       changeStates={this.changeStates}
-                                       {...this.state} />
-                </Router>
+                <LoadableVisualise setNewData={this.setNewData}
+                           resetDataSet={this.resetDataSet}
+                           changeState={this.changeState}
+                           changeStates={this.changeStates}
+                           {...this.state} />
             </div>
         )
     }

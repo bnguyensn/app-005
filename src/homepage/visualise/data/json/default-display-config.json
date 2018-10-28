@@ -6,7 +6,7 @@
     "gross": "gross"
   },
   "entityLabel": "country",
-  "transactionLabel": "trade",
+  "transactionLabel": "",
   "amtPrefix": "$",
   "amtSuffix": "bn",
   "amtRounding": 2

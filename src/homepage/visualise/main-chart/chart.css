@@ -2,35 +2,39 @@
     position: relative;
 
     display: flex;
-    align-items: center;
+    /*align-items: center;*/
     justify-content: center;
 
-    width: 280px;
+
 }
 
-@media only screen and (min-width: 320px) {
+@media only screen and (max-width: 640px) {
     #main-chart {
-        max-width: 800px;
-        width: auto;
+        /*width: 320px;*/
     }
 }
 
-#main-chart-empty {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+@media only screen and (min-width: 640px) {
+    #main-chart {
+        /*max-width: 800px;*/
+        /*width: auto;*/
+        /*width: auto;*/
+    }
+}
 
-    width: 640px;
-    height: 640px;
-
-    text-align: center;
+@media only screen and (min-width: 1120px) {
+    #main-chart {
+        /*max-width: 800px;*/
+        /*width: auto;*/
+        /*width: 800px;*/
+    }
 }
 
 /** ********** SVG ********** **/
 
 #main-chart > svg {
-    width: 100%;
-    height: 100%;
+    /*width: 100%;*/
+    /*height: 100%;*/
 }
 
 /** ********** CHORD DIAGRAM ********** **/

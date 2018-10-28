@@ -3,12 +3,12 @@
 import * as React from 'react';
 import {range} from 'd3-array';
 
-import {animationFade, animationPulse}
+import {animationFade, animationPulse, animationRingPath}
     from '../main-chart/chart-funcs/animations/customAnimations';
 
 import type {SelectorObj} from '../main-chart/chart-funcs/helpers';
 import type {AnimationInfo} from '../main-chart/chart-funcs/animations/main';
-import type {RingsSelector, RibbonsSelector}
+import type {RingsSelector, RibbonsSelector, ChordGroup}
     from '../main-chart/chart-funcs/drawChordDiagram';
 
 export type StageEventInfo = {
@@ -25,6 +25,14 @@ export type Stage = {
     analytics: ?number,
     evtInfo?: StageEventInfo,
 };
+
+export function createInitStage(): Stage {
+    return {
+        selectors: [],
+        animInfo: [],
+        analytics: null,
+    }
+}
 
 export function createNormalStage(): Stage {
     const transInfo = {dur: 300, easeFn: 'linear'};

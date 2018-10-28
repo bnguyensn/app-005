@@ -1,5 +1,6 @@
 // @flow
 
+import {select} from 'd3-selection';
 import {transition} from 'd3-transition';
 import {easeLinear, easeCubic} from 'd3-ease';
 import {interpolateString} from 'd3-interpolate';
@@ -32,7 +33,7 @@ const EASE_MAPPPING = {
 /**
  * Return a selection / transition instance
  * */
-export default function animateSelection(sel: any, animInfo) {
+export default function animateSelection(sel: any, animInfo: AnimationInfo) {
     const {
         dur,
         stagger = 0,
@@ -40,7 +41,7 @@ export default function animateSelection(sel: any, animInfo) {
         anim,
     } = animInfo;
 
-    const easing = EASE_MAPPPING[easeFn]
+    const easing = easeFn && EASE_MAPPPING[easeFn]
         ? EASE_MAPPPING[easeFn]
         : DEFAULT_EASE;
 

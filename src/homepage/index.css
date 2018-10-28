@@ -8,9 +8,12 @@
 
 html {
     font-size: 20px;
+    line-height: 1.5;
+
+    min-width: 480px;
 }
 
-@media only screen and (min-width: 848px) {
+@media only screen and (min-width: 848px) and (min-height: 848px) {
     html {
         font-size: 24px;
     }
@@ -37,7 +40,7 @@ h1 {
 }
 
 hr {
-    margin: 2rem 0;
+    margin: 1rem 0;
     border: 0;
     height: 1px;
     background-image: linear-gradient(to right, #fafafa, #212121, #fafafa);

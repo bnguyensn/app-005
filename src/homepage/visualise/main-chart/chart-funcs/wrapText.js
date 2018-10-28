@@ -4,7 +4,7 @@ import {select} from 'd3-selection';
  * Created by Mike Bostock https://bl.ocks.org/mbostock/7555321
  * */
 export default function wrapText(text, width) {
-    text.each(function () {
+    text.each(function w() {
         const t = select(this);
 
         const words = t.text().split(/\s+/).reverse();
@@ -14,7 +14,7 @@ export default function wrapText(text, width) {
 
         const lineHeight = 1.1; // ems
         const y = t.attr('y');
-        const dy = parseFloat(t.attr('dy'));
+        const dy = parseFloat(y || 0);
         let tspan = t.text(null)
             .append('tspan')
             .attr('x', 0)

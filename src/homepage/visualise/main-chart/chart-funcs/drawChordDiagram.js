@@ -1,27 +1,26 @@
 // @flow
 
+import {select} from 'd3-selection';
 import {chord} from 'd3-chord';
 import {rgb} from 'd3-color';
 import {descending} from 'd3-array';
 import {transition} from 'd3-transition';
+import {interpolate} from 'd3-interpolate';
 
-import createArc from './createArc';
-import createRibbon from './createRibbon';
 import createTicks from './createTicks';
-import wrapText from './wrapText';
 import {EN_UK} from './createFormats';
 
-import type {Data, NameData} from '../../data/Types';
+import type {NameData} from '../../data/Types';
 import type {ArcChartSize} from '../../chartSizes';
 import type {D3EventAction} from './helpers';
 import type {ColorScale} from './createColorScale';
+import type {Chord, ChordData, ChordGroup} from './createChordData';
 
 /** ********** TYPES ********** **/
 
 export type RingsSelector = number[] | 'ALL';
 
 export type RibbonsSelector = string[] | 'ALL';  // ['sourceI.targetI', ...][]
-
 
 /** ********** SELECTIONS ********** **/
 
@@ -32,13 +31,15 @@ export function selectChordRings(
     const chordRingsAll = parent.selectAll('.chord-ring');
 
     if (ringsSelector === 'ALL') {
-        return chordRingsAll;
+        return chordRingsAll
+            .selectAll('path');
     }
 
     if (Array.isArray(ringsSelector) && ringsSelector.length > 0) {
         return chordRingsAll.filter((d: any, i: number, nodes: any) => (
             ringsSelector.includes(d.index)
-        ));
+        ))
+            .selectAll('path');
     }
 
     return null
@@ -69,132 +70,6 @@ export function selectChordRibbons(
 }
 
 /** ********** CHORD RINGS ********** **/
-
-export function coloriseChordRings(chordGroups: any, colorScale: ColorScale) {
-    chordGroups.attr('fill', d => colorScale(d.index))
-        .attr('stroke', d => rgb(colorScale(d.index)).darker())
-}
-
-export function drawChordRings(
-    parent: any,
-    chordGroups: any,
-    nameData: NameData,
-    colorScale: ColorScale,
-    size: ArcChartSize,
-    eventActions?: D3EventAction[],
-) {
-    // ********** JOIN DATA ********** //
-
-    // ***** Update ***** //
-
-    const chordRingsU = parent.selectAll('.chord-ring')
-        .data(chordGroups);
-
-    // ***** Exit ***** //
-
-    const chordRingsX = chordRingsU.exit();
-
-    // ***** Enter ***** //
-
-    const chordRingsE = chordRingsU.enter();
-
-    // ***** Update & Enter ***** //
-
-    const chordRingsUE = chordRingsE.append('g')
-        .attr('class', 'chord-ring')
-        .attr('id', d => `ring-id-${d.index}`)
-        .merge(chordRingsU);
-
-    // ********** DO SOMETHING WITH DATA ********** //
-
-    // Create and colorise donut rings
-
-    chordRingsUE.attr('fill-opacity', 0)
-        .attr('stroke-opacity', 0)
-        .attr('transform', '');
-
-    const a = createArc(size);
-
-    chordRingsUE.append('path')
-        .attr('d', a);
-
-    coloriseChordRings(chordRingsUE, colorScale);
-
-    // Add events
-
-    if (eventActions) {
-        eventActions.forEach((eA) => {
-            chordRingsUE.on(eA.event, eA.action);
-            chordRingsX.on(eA.event, eA.action);
-        });
-    }
-
-    return chordRingsUE
-}
-
-/** ********** CHORD RIBBONS ********** **/
-
-export function coloriseChordRibbons(chordRibbons: any, colorScale: ColorScale) {
-    chordRibbons
-        .attr('fill', d => colorScale(d.source.index))
-        .attr('stroke', d => rgb(colorScale(d.source.index)).darker());
-}
-
-export function drawChordRibbons(
-    parent: any,
-    chords: any,
-    nameData: NameData,
-    colorData: ColorScale,
-    size: ArcChartSize,
-    eventActions?: D3EventAction[],
-) {
-    // ********** JOIN DATA ********** //
-
-    // ***** Update ***** //
-
-    const chordRibbonsU = parent.selectAll('.chord-ribbon')
-        .data(chords);
-
-    // ***** Exit ***** //
-
-    const chordRibbonsX = chordRibbonsU.exit();
-
-    // ***** Enter ***** //
-
-    const chordRibbonsE = chordRibbonsU.enter();
-
-    // ***** Update & Enter ***** //
-
-    const chordRibbonsUE = chordRibbonsE.append('path')
-        .attr('class', 'chord-ribbon')
-        .attr('id', d => (`ribbon-id-${d.source.index}-${d.target.index}`))
-        .merge(chordRibbonsU);
-
-    // ********** DO SOMETHING WITH DATA ********** //
-
-    // Create and colorise ribbons
-
-    const r = createRibbon(size);
-
-    chordRibbonsUE.attr('d', r)
-        .attr('fill-opacity', 0)
-        .attr('stroke-opacity', 0);
-
-    coloriseChordRibbons(chordRibbonsUE, colorData);
-
-    // Add events
-
-    if (eventActions) {
-        eventActions.forEach((eA) => {
-            chordRibbonsUE.on(eA.event, eA.action);
-            chordRibbonsX.on(eA.event, eA.action);
-        });
-    }
-
-    return chordRibbonsUE
-}
-
-/** ********** CHORD TICKS ********** **/
 
 export function drawChordTicks(
     parent: any,
@@ -252,67 +127,181 @@ export function drawChordTicks(
         .text(d => EN_UK.format(formatSpecifier)(d.value / 100));
 }
 
-/** ********** CHORD LABELS ********** **/
-
-export function drawChordLabels(
+function drawChordRings(
     parent: any,
+    chordGroups: ChordGroup[],
     nameData: NameData,
+    colorScale: ColorScale,
     size: ArcChartSize,
-) {
-    parent.append('text')
-        .attr('class', 'chord-label-text')
-        .each((d) => {
-            d.angle = (d.startAngle + d.endAngle) / 2
-        })  // Modifies d
-        .attr('dy', '.35em')
-        .attr('text-anchor', d => d.angle > Math.PI ? 'end' : null)
-        .attr('transform', d => (
-            `rotate(${d.angle * 180 / Math.PI - 90}) `
-            + `translate(${size.innerRadius + 80}) `
-            + `${d.angle > Math.PI ? 'rotate(180)' : ''}`
-        ))
-        .text((d, i) => nameData[i]);
+    eventActions?: D3EventAction[],
+): any {
+    // ********** JOIN DATA ********** //
 
-    parent.selectAll('.chord-label-text')
-        .call(wrapText, 100);
+    // ***** Update ***** //
+
+    const chordRingsU = parent.selectAll('.chord-ring')
+        .data(chordGroups);
+
+    // ***** Exit ***** //
+
+    const chordRingsX = chordRingsU.exit()
+        .remove();
+
+    // ***** Enter ***** //
+
+    const chordRingsE = chordRingsU.enter()
+        .append('g')
+        .attr('class', 'chord-ring')
+        .attr('fill-opacity', 1)
+        .attr('stroke-opacity', 1);
+
+    // Create arc path
+
+    chordRingsE.append('path')
+        .attr('class', 'chord-ring-path')
+        // .attr('fill-opacity', 1)
+        // .attr('stroke-opacity', 1)
+        .attr('transform', '');
+
+    // Create label
+
+    chordRingsE.append('g')
+        .attr('class', 'chord-ring-label')
+        .append('text')
+        .attr('class', 'chord-ring-label-text');
+
+    // ***** Update & Enter ***** //
+
+    const chordRingsUE = chordRingsE
+        .merge(chordRingsU);
+
+    // Add events
+
+    if (eventActions) {
+        eventActions.forEach((eA) => {
+            chordRingsUE.on(eA.event, eA.action);
+            chordRingsX.on(eA.event, eA.action);
+        });
+    }
+
+    // Update labels --- Moved to './updateChordDiagram'
+
+    // Update arc ds --- Moved to './updateChordDiagram'
+
+    // Colorise --- Moved to './updateChordDiagram'
+
+    return chordRingsUE
+}
+
+/** ********** CHORD RIBBONS ********** **/
+
+export function drawChordRibbons(
+    parent: any,
+    chords: Chord[],
+    nameData: NameData,
+    colorScale: ColorScale,
+    size: ArcChartSize,
+    eventActions?: D3EventAction[],
+) {
+    // ********** JOIN DATA ********** //
+
+    // ***** Update ***** //
+
+    const chordRibbonsU = parent.selectAll('.chord-ribbon')
+        .data(chords);
+
+    // ***** Exit ***** //
+
+    const chordRibbonsX = chordRibbonsU.exit();
+
+    // ***** Enter ***** //
+
+    const chordRibbonsE = chordRibbonsU.enter()
+        .append('path')
+        .attr('class', 'chord-ribbon')
+        .attr('id', d => (`ribbon-id-${d.source.index}-${d.target.index}`))
+        .attr('fill-opacity', 0.75)
+        .attr('stroke-opacity', 0.75)
+        .attr('transform', '');
+
+    // ***** Update & Enter ***** //
+
+    const chordRibbonsUE = chordRibbonsE
+        .merge(chordRibbonsU);
+
+    // Add events
+
+    if (eventActions) {
+        eventActions.forEach((eA) => {
+            chordRibbonsUE.on(eA.event, eA.action);
+            chordRibbonsX.on(eA.event, eA.action);
+        });
+    }
+
+    // Update ribbon ds --- Moved to './updateChordDiagram'
+
+    // Colorise --- Moved to './updateChordDiagram'
+
+    return chordRibbonsUE
 }
 
 /** ********** CHORDS ********** **/
 
 export function drawChordDiagram(
     parent: any,
-    data: Data,
+    chordData: ChordData,
     nameData: NameData,
     colorScale: ColorScale,
     size: ArcChartSize,
+    clearAll: boolean,
     eventActions?: D3EventAction[],
-) {
-    const chordGenerator = chord()
-        .padAngle(0.05)
-        .sortSubgroups(descending)
-        .sortChords(descending);
+): {chordRings: any, chordRibbons: any} {
+    // ***** Set up chord data ***** //
 
-    const chords = chordGenerator(data);
+    const {chords, chordGroups} = chordData;
 
-    const chordRingsParent = parent.append('g')
-        .attr('id', 'chord-rings');
-    const chordRings = drawChordRings(chordRingsParent, chords.groups, nameData,
-        colorScale, size, eventActions);
+    // ***** 1. Draw chord rings ***** //
 
-    const chordRibbonsParent = parent.append('g')
-        .attr('id', 'chord-ribbons');
-    const chordRibbons = drawChordRibbons(chordRibbonsParent, chords, nameData,
-        colorScale, size, eventActions);
+    let chordRingsParent;
+    if (clearAll) {
+        chordRingsParent = parent.append('g')
+            .attr('id', 'chord-rings');
+    } else {
+        chordRingsParent = parent.select('#chord-rings');
+    }
+
+    const chordRings = drawChordRings(
+        chordRingsParent,
+        chordGroups,
+        nameData,
+        colorScale, size, eventActions,
+    );
+
+    // ***** 2. Draw chord ribbons ***** //
+
+    let chordRibbonsParent;
+    if (clearAll) {
+        chordRibbonsParent = parent.append('g')
+            .attr('id', 'chord-ribbons');
+    } else {
+        chordRibbonsParent = parent.select('#chord-ribbons');
+    }
+
+    const chordRibbons = drawChordRibbons(
+        chordRibbonsParent,
+        chords,
+        nameData,
+        colorScale, size, eventActions,
+    );
+
+    // ***** ?. Draw chord ticks ***** //
 
     /*const chordTicksParent = chordRings.append('g')
         .attr('class', 'chord-ticks')
         .attr('id', d => `ticks-id-${d.index}`);
     drawChordTicks(chordTicksParent, nameData, size, 1, '.2%');*/
 
-    const chordLabelsParent = chordRings.append('g')
-        .attr('class', 'chord-label')
-        .attr('id', d => `label-id-${d.index}`);
-    drawChordLabels(chordLabelsParent, nameData, size);
+    // ***** Return selections ***** //
 
     return {chordRings, chordRibbons}
 }

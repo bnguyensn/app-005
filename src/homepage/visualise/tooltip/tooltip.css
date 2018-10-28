@@ -1,0 +1,36 @@
+/** ********** MAIN ********** **/
+
+.tooltip {
+    position: absolute;
+
+    width: 150px;
+    border: 1px solid #212121;  /* Grey 900 */
+    padding: .1rem;
+
+    border-radius: 5px;
+    background-color: #EEEEEE;  /* Grey 100 */
+
+    /*word-wrap: break-word;
+    word-break: break-all;
+    hyphens: auto;*/
+    pointer-events: none;
+
+    transition: opacity .2s;
+}
+
+/** ********** CONTENT ********** **/
+
+.tooltip .title {
+    margin-bottom: .25rem;
+
+    text-align: center;
+    font-weight: bold;
+    font-size: .75rem;
+}
+
+.tooltip .description {
+    margin-bottom: .25rem;
+
+    text-align: center;
+    font-size: calc(1rem * (2 / 3));
+}

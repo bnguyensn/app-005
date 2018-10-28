@@ -36,7 +36,7 @@ export function formatAmount(
     return `${amtPrefix}${amtF}${amtSuffix}`
 }
 
-export const dataTypeAdjMapper = {
+export const transactionAdjectives = {
     normal: ' to',
     transpose: ' from',
     net: ' with',

@@ -2,6 +2,10 @@
 
 // ********** DATA ********** //
 
+import type {ChordData} from '../main-chart/chart-funcs/drawChordDiagram';
+import type {RibbonsSelector, RingsSelector, SelectFn} from '../main-chart/chart-funcs/selections';
+import type {Chord, ChordGroup} from '../main-chart/chart-funcs/createChordData';
+
 export type ColorData = string[];
 
 export type ColorScale = (any) => string;
@@ -99,4 +103,35 @@ export type DataAll = {
         dataInfo: DataInfo,
         nameData: NameData,
     }
+};
+
+// ********** CHART DATA ********** //
+// Data specific to charts
+// Main intention is to store chord data for transition purposes
+
+export type ChartData = {
+    cur: ?ChordData,
+    prev: ?ChordData,
+};
+
+// ********** ACTIVE ITEMS ********** //
+
+export type ActiveItem = {
+    type: 'RING' | 'RIBBON' | null,
+    name: string | number,
+    d: Chord | ChordGroup,
+};
+
+export type ActiveItems = {
+    hovered: ?ActiveItem,
+    clicked: ?ActiveItem,
+};
+
+// ********** UPDATES DATA ********** //
+
+export type Updates = {
+    selectFns: SelectFn[],
+    selectors: (RingsSelector | RibbonsSelector)[],
+    updateFns: ((any) => any)[],
+    updateFnParams: any[],
 };

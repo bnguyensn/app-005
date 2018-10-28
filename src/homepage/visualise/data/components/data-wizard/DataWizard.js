@@ -10,7 +10,6 @@ import {ClickableDiv} from '../../../../lib/components/Clickable';
 
 import type {
     ColorData, ColorScale, DataAll, DataConfig, DataType, DisplayConfig,
-    NameData,
 } from '../../Types';
 import type {SetNewDataFn} from '../../../../App';
 import type {SheetNames} from '../../xlsx/readWorkbook';
@@ -20,15 +19,14 @@ import './data-wizard.css';
 const dataTypes: DataType = ['normal', 'transpose', 'net', 'gross'];
 
 type DataWizardProps = {
-    show: boolean,
-
     dataAll: DataAll,
     sheetNames: SheetNames,
     colorScale: ColorScale,
+
     dataConfig: DataConfig,
     displayConfig: DisplayConfig,
 
-    toggleDataWizard: () => void,
+    toggle: () => void,
     setNewData: SetNewDataFn,
     abortDataWizard: () => void,
 };
@@ -52,7 +50,8 @@ export default class DataWizard
         super(props);
 
         const {
-            dataAll, sheetNames, colorScale, dataConfig, displayConfig,
+            dataAll, sheetNames, colorScale,
+            dataConfig, displayConfig,
         } = props;
 
         this.state = {
@@ -73,17 +72,24 @@ export default class DataWizard
     setNewData = () => {
         const {setNewData} = this.props;
         const {
-            dataAll, sheetNames, colorScale, dataConfig, displayConfig,
+            dataAll, sheetNames, colorScale,
+            dataConfig, displayConfig,
         } = this.state;
 
         // This is the last setNewData(), which updates AppStates with
         // the data information residing in this.state;
-        setNewData(dataAll, sheetNames, colorScale, dataConfig, displayConfig);
+        setNewData(
+            dataAll, sheetNames, colorScale,
+            dataConfig, displayConfig,
+        );
     };
 
     /** ***** Update parts - Ensure all passed objects are NEW ***** **/
 
-    updateDataSet = (dataAll: DataAll, sheetNames: SheetNames) => {
+    updateDataSet = (
+        dataAll: DataAll,
+        sheetNames: SheetNames,
+    ) => {
         this.setState({
             dataAll,
             sheetNames,
@@ -117,14 +123,6 @@ export default class DataWizard
 
     /** ***** Component functionality ***** **/
 
-    backgroundClick = (e) => {
-        const {toggleDataWizard} = this.props;
-
-        e.stopPropagation();
-
-        toggleDataWizard();
-    };
-
     dataWizardClick = (e) => {
         e.stopPropagation();
     };
@@ -141,36 +139,32 @@ export default class DataWizard
     /** ***** Main ***** **/
 
     render() {
-        const {show, toggleDataWizard, abortDataWizard} = this.props;
+        const {show, toggle, abortDataWizard} = this.props;
         const {dataConfig, displayConfig, sectionCollapse} = this.state;
 
-        const bkgCls = `data-wizard-background ${show ? 'show' : 'hide'}`;
         const dwCls = `${show ? 'show' : 'hide'}`;
 
         return (
-            <ClickableDiv className={bkgCls}
-                          action={this.backgroundClick}>
-                <ClickableDiv id="data-wizard"
-                              className={dwCls}
-                              action={this.dataWizardClick}>
-                    <DataWizardClose toggleDataWizard={toggleDataWizard} />
-                    <div className="title">
-                        DATA WIZARD
-                    </div>
-                    <Section1 name="1"
-                              collapsed={sectionCollapse['1']}
-                              dataConfig={dataConfig}
-                              updateDataSet={this.updateDataSet}
-                              updateDataConfig={this.updateDataConfig}
-                              toggleSection={this.toggleSection}
-                              setNewData={this.setNewData}
-                              abortDataWizard={abortDataWizard} />
-                    <Section2 name="2"
-                              collapsed={sectionCollapse['2']}
-                              displayConfig={displayConfig}
-                              updateDisplayConfig={this.updateDisplayConfig}
-                              toggleSection={this.toggleSection} />
-                </ClickableDiv>
+            <ClickableDiv id="data-wizard"
+                          className={dwCls}
+                          action={toggle}>
+                <DataWizardClose toggleDataWizard={toggle} />
+                <div className="title">
+                    DATA WIZARD
+                </div>
+                <Section1 name="1"
+                          collapsed={sectionCollapse['1']}
+                          dataConfig={dataConfig}
+                          updateDataSet={this.updateDataSet}
+                          updateDataConfig={this.updateDataConfig}
+                          toggleSection={this.toggleSection}
+                          setNewData={this.setNewData}
+                          abortDataWizard={abortDataWizard} />
+                <Section2 name="2"
+                          collapsed={sectionCollapse['2']}
+                          displayConfig={displayConfig}
+                          updateDisplayConfig={this.updateDisplayConfig}
+                          toggleSection={this.toggleSection} />
             </ClickableDiv>
         )
     }

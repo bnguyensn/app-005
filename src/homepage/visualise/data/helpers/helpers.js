@@ -2,6 +2,7 @@
 
 import {max, min} from 'd3-array';
 import type {Data, DataConfig, DataInfo, DataInfoEntities, DataType} from '../Types';
+import type {ChordData, ChordGroup} from '../../main-chart/chart-funcs/createChordData';
 
 export function maxIndex(arr: any[]) {
     return arr.reduce((acc, curVal, index) => {
@@ -27,21 +28,31 @@ export function minIndex(arr: any[]) {
     }, {value: Infinity, index: 0});
 }
 
-export function getHGroupsFromRing(data: Data, ringIndex: number) {
+export function getRingsRibbonsFromRing(
+    chordData: ChordData,
+    ringIndex: number,
+) {
     const ringsG = [ringIndex];
-    const ribbonsG = data[ringIndex].reduce((acc, v, i) => {
-        if (v !== 0) {
-            ringsG.push(i);
-            acc.push(`${ringIndex}.${i}`, `${i}.${ringIndex}`);
+
+    const ribbonsG = chordData.chords.reduce((acc, c, i) => {
+        if (c.source.index === ringIndex) {
+            ringsG.push(c.target.index);
+            acc.push(`${c.source.index}.${c.target.index}`);
         }
+
+        if (c.target.index === ringIndex) {
+            ringsG.push(c.source.index);
+            acc.push(`${c.source.index}.${c.target.index}`);
+        }
+
         return acc
     }, []);
 
     return [ringsG, ribbonsG]
 }
 
-export function getHGroupsFromRibbon(
-    data: Data,
+export function getRingsRibbonsFromRibbon(
+    chordData: ChordData,
     ribbonSIndex: number,
     ribbonTIndex: number,
 ) {

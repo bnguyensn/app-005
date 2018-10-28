@@ -54,7 +54,7 @@ export default function generateDataInfo(
 
     const dataT = transpose(data);  // Transposed
     const dataN = data.map((r, rI) => (
-        r.map((c, cI) => -data[rI][cI] + dataT[rI][cI])
+        r.map((c, cI) => Math.abs(-data[rI][cI] + dataT[rI][cI]))
     ));  // Net
     const dataG = data.map((r, rI) => (
         r.map((c, cI) => data[rI][cI] + dataT[rI][cI])

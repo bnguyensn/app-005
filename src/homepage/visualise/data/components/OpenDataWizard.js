@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import {ClickableDiv} from '../../../lib/components/Clickable';
 
-import './data.css';
+import '../data.css';
 
 type OpenDataWizardProps = {
     toggleDataWizard: () => void,

@@ -1,0 +1,83 @@
+/** ********** MAIN ********** **/
+
+.cp-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: .5rem;
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 0.4rem;
+    box-shadow: 0 2px 4px #212121;  /* Grey 900 */
+    background-color: #424242;  /* Grey 800 */
+
+    color: #fafafa;  /* Grey 50 */
+
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.cp-button:hover {
+    background-color: #424242;  /* Grey 800 */
+
+    color: #7CB342;  /* Lime 600 */
+}
+
+/** ********** MAIN (SHADOW) ********** **/
+
+.cp-button::after {
+    content: '';
+
+    position: absolute;
+
+    width: 2rem;
+    height: 2rem;
+
+    border-radius: 0.4rem;
+    box-shadow: 0 4px 8px #212121;  /* Grey 900 */
+    opacity: 0;
+
+    transition: opacity .2s;
+}
+
+.cp-button:hover::after {
+    opacity: 1;
+}
+
+/** ********** MAIN (ICON) ********** **/
+
+.cp-button i {
+    font-size: 1.75rem;
+
+    user-select: none;
+
+    transition: transform .2s;
+}
+
+.cp-button:hover i {
+    transform: rotate(180deg);
+}
+
+/** ********** MAIN (TITLE) ********** **/
+
+.cp-button-title {
+    position: absolute;
+
+    opacity: 0;
+
+    font-weight: bold;
+
+    overflow: hidden;
+    white-space: nowrap;
+    pointer-events: none;
+
+    transition: opacity .2s, transform .2s;
+}
+
+.cp-button:hover .cp-button-title {
+    opacity: 1;
+
+    transform: translateX(calc(-50% - 2rem));
+}

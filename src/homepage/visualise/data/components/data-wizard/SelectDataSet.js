@@ -8,7 +8,7 @@ import confineSheets from '../../xlsx/confineSheets';
 import validateData from '../../xlsx/validateData';
 import refineData from '../../xlsx/refineData';
 
-import type {DataAll, DataConfig} from '../../Types';
+import type {DataAll, DataConfig, DataType} from '../../Types';
 import type {SheetNames, Sheets} from '../../xlsx/readWorkbook';
 import type {SheetsErrMsgs} from '../../xlsx/validateData';
 
@@ -31,6 +31,8 @@ const acceptableFileTypes = [
 ];
 
 const acceptableExtensions = '.xlsx, .xls, .xlsb, .xlsm, .csv';
+
+const dataTypes: DataType[] = ['normal', 'transpose', 'net', 'gross'];
 
 /** ********** TYPES ********** **/
 
@@ -81,7 +83,7 @@ export default function SelectDataSet(props: SelectDataSetProps) {
                     try {
                         const readRes = readWorkbook(data);
 
-                        if (readRes) {
+                        if (readRes && !(readRes instanceof Error)) {
                             [sheets, sheetNames] = readRes;
 
                             if (DEBUG) {
@@ -116,6 +118,7 @@ export default function SelectDataSet(props: SelectDataSetProps) {
                         console.log('*** Part 2 results ***');
                         console.log('confinedSheets:');
                         console.log(cSheets);
+                        //console.log(JSON.stringify(cSheets));
                     }
 
                     // ********** 3. Validate data ********** //
@@ -169,6 +172,27 @@ export default function SelectDataSet(props: SelectDataSetProps) {
                         console.log(dataAll);
                         //console.log(JSON.stringify(dataAll));
                     }
+
+                    // ********** 5. Create chart data ********** //
+
+                    /*const chartData: ChartData[] = sheetNames
+                        .map(sheetName => ({
+                            chordData: dataTypes
+                                .reduce((chordData, dataType) => {
+                                    chordData[dataType] = createChordData(
+                                        dataAll[sheetName]
+                                            .dataInfo.dataExtended[dataType],
+                                    );
+                                    return chordData
+                                }, {}),
+                        }));
+
+                    if (DEBUG) {
+                        console.log('*** Part 5 results ***');
+                        console.log('chartData:');
+                        console.log(chartData);
+                        //console.log(JSON.stringify(chartData));
+                    }*/
 
                     // ********** 6. Set new data set ********** //
 

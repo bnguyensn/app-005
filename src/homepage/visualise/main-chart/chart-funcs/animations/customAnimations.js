@@ -2,9 +2,37 @@
 
 import {select} from 'd3-selection';
 import {active} from 'd3-transition';
-import {interpolateString} from 'd3-interpolate';
+import {interpolate, interpolateString} from 'd3-interpolate';
 import {getCurXformVals, getNextXform} from './helpers';
 import trimWhitespaces from '../../../../lib/trimWhitespaces';
+import createArc from '../createArc';
+
+import type {Chord, ChordGroup} from '../createChordData';
+import type {ArcChartSize} from '../../../chartSizes';
+
+/** ********** HELPERS ********** **/
+
+function createRingTween(prevD: ChordGroup, arcFn: ({}) => string) {
+    return function factory(d: any) {
+        const I = interpolate(prevD, d);
+
+        return function valueCreator(t) {
+            return arcFn(I(t))
+        }
+    }
+}
+
+function createRibbonTween(prevD: Chord, ribbonFn: ({}) => string) {
+    return function factory(d: any) {
+        const I = interpolate(prevD, d);
+
+        return function valueCreator(t) {
+            return ribbonFn(I(t))
+        }
+    }
+}
+
+/** ********** ANIMATIONS ********** **/
 
 export function animationFade(
     startOpacity: ?number,
@@ -50,6 +78,28 @@ export function animationPulse(
             .transition()
             .attr('fill-opacity', startOp)
             .attr('stroke-opacity', startOp);
+
+        if (r) {
+            t.transition()
+                .on('start', f);
+        }
+
+        return t
+    }
+}
+
+export function updateRingsProperties(
+    arcFn: ({}) => void,
+    prevData: ChordGroup,
+    repeat?: boolean = false,
+) {
+    const a = arcFn;
+    const pD = prevData;
+    const r = repeat;
+
+    return function f() {
+        const t = active(this)
+            .attrTween('d', createRingTween(pD, a));
 
         if (r) {
             t.transition()
