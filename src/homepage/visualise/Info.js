@@ -70,9 +70,6 @@ export default function Info(props: InfoProps) {
                         Upcoming features:
                         <ul>
                             <li>
-                                - Tests!
-                            </li>
-                            <li>
                                 - Allow users to upload different types of{' '}
                                 spreadsheet data. Currently the application{' '}
                                 assumes spreadsheet rows are outflows and{' '}
@@ -169,7 +166,7 @@ export default function Info(props: InfoProps) {
                                 visualisations
                             </li>
                             <li>
-                                And all the awesome people and team{' '}
+                                And all the awesome people and teams{' '}
                                 who developed the frameworks and libraries{' '}
                                 involved. Much 💖!
                             </li>

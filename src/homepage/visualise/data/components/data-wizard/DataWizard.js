@@ -1,6 +1,8 @@
 // @flow
 
 import * as React from 'react';
+import {scaleLinear} from 'd3-scale';
+import {interpolateHslLong} from 'd3-interpolate';
 
 import Section1 from './Section1';
 import Section2 from './Section2';
@@ -90,9 +92,16 @@ export default class DataWizard
         dataAll: DataAll,
         sheetNames: SheetNames,
     ) => {
+        /*const len = dataAll[sheetNames[0]].nameData.length;*/
+        /*const colorScale = scaleLinear()
+            .domain([1, len])
+            .interpolate(interpolateHslLong)
+            .range(['rgb(33,150,243)', 'rgb(244,67,54)']);*/
+
         this.setState({
             dataAll,
             sheetNames,
+            colorScale,
         });
     };
 
