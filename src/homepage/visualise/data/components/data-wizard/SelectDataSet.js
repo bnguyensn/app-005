@@ -118,7 +118,7 @@ export default function SelectDataSet(props: SelectDataSetProps) {
                         console.log('*** Part 2 results ***');
                         console.log('confinedSheets:');
                         console.log(cSheets);
-                        //console.log(JSON.stringify(cSheets));
+                        console.log(JSON.stringify(cSheets));
                     }
 
                     // ********** 3. Validate data ********** //

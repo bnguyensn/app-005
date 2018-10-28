@@ -39,7 +39,7 @@ const LoadableVisualise = Loadable({
 
 /** ********** CONFIGS ********** **/
 
-const resizeDebounceDelay = 1000;
+const resizeDebounceDelay = 750;
 
 /** ********** TYPES ********** **/
 

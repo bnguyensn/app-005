@@ -104,6 +104,14 @@
 
     display: flex;
     justify-content: center;
+
+    opacity: .5;
+
+    transition: opacity .2s;
+}
+
+#cp-bot:hover {
+    opacity: 1;
 }
 
 /** ********** LIGHTBOX ********** **/

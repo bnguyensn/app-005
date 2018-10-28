@@ -47,7 +47,7 @@ export default function Info(props: InfoProps) {
                     </div>
                     <div className="description">
                         The default diagram you see represents export data{' '}
-                        of the G7 countries from 2014 - 2016.
+                        of the G7 countries from 2014 to 2016.
                     </div>
                     <div className="description">
                         You can change the default data set using the{' '}
@@ -69,6 +69,9 @@ export default function Info(props: InfoProps) {
                     <div className="description">
                         Upcoming features:
                         <ul>
+                            <li>
+                                - Tests!
+                            </li>
                             <li>
                                 - Allow users to upload different types of{' '}
                                 spreadsheet data. Currently the application{' '}
