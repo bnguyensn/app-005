@@ -239,7 +239,9 @@ export default class Visualise
             : {dataInfo: null, nameData: null};
 
         return (
+
             <Page id="visualise">
+                <Title />
                 {dataAll
                     ? (
                         <Chart dataKey={dataKey}
@@ -265,7 +267,6 @@ export default class Visualise
                            stages={stages}
                            curStage={curStage}
                            changeState={changeState} />*/}
-                <Title />
                 <div id="cp-top">
                     <CPButton icon="info"
                               title="Info"

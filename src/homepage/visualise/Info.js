@@ -46,9 +46,17 @@ export default function Info(props: InfoProps) {
                         </a>.
                     </div>
                     <div className="description">
-                        This demo allows you to create your own interactive{' '}
-                        chord diagram by supplying spreadsheets containing{' '}
-                        data resembling n x n matrices.
+                        The default diagram you see represents export data{' '}
+                        of the G7 countries from 2014 - 2016.
+                    </div>
+                    <div className="description">
+                        You can change the default data set using the{' '}
+                        <span style={{fontWeight: 'bold'}}>
+                            Configure data
+                        </span>{' '}
+                        button (top right of screen). Note that currently{' '}
+                        there are limitations on what kind of data can be{' '}
+                        provided.
                     </div>
                 </div>
             </section>
@@ -73,11 +81,17 @@ export default function Info(props: InfoProps) {
                                 shown.
                             </li>
                             <li>
+                                - More data analytics
+                            </li>
+                            <li>
                                 - Diagram labels
                             </li>
                             <li>
                                 - Additional customisations e.g. changing{' '}
                                 colors
+                            </li>
+                            <li>
+                                - Better small screens support
                             </li>
                         </ul>
                     </div>

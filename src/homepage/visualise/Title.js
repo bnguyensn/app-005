@@ -26,6 +26,13 @@ export default function Title() {
                 </a> / {' '}
                 tech demo by Binh Nguyen
             </div>
+            <div className="subtitle">
+                Hover over the diagram to see information
+                <br />
+                Change sheet using the bottom control
+                <br />
+                Check out the top right buttons
+            </div>
         </div>
     )
 }
