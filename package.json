@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node app.js",
     "build:d": "webpack-dev-server --config webpack.dev.js --progress",
-    "build:p": "rimraf ./dist && webpack --config webpack.prod.js --progress"
+    "build:p": "rimraf ./dist && webpack --config webpack.prod.js --progress",
+    "test": "jest"
   },
   "dependencies": {
     "@babel/polyfill": "^7.0.0",
@@ -49,7 +50,9 @@
     "@babel/preset-react": "^7.0.0",
     "@types/node": "^10.3.3",
     "autoprefixer": "^9.x.x",
+    "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.x.x",
+    "babel-jest": "^23.6.0",
     "babel-loader": "^8.x.x",
     "css-loader": "^1.x.x",
     "eslint": "^5.x.x",
@@ -65,12 +68,14 @@
     "flow-bin": "^0.x.x",
     "html-webpack-plugin": "^3.x.x",
     "image-webpack-loader": "^4.x.x",
+    "jest": "^23.6.0",
     "json-loader": "^0.x.x",
     "mini-css-extract-plugin": "^0.x.x",
     "node-sass": "^4.x.x",
     "postcss-loader": "^3.x.x",
     "raw-loader": "^0.x.x",
     "react-hot-loader": "^4.x.x",
+    "regenerator-runtime": "^0.12.1",
     "rimraf": "^2.x.x",
     "sass-loader": "^7.x.x",
     "style-loader": "^0.x.x",
