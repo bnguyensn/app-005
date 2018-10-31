@@ -35,6 +35,8 @@
     "react-dom": "^16.x.x",
     "react-draggable": "^3.0.5",
     "react-loadable": "^5.x.x",
+    "react-redux": "^5.1.0",
+    "redux": "^4.0.1",
     "serve-favicon": "~2.x.x",
     "styled-components": "^4.x.x",
     "xlsx": "^0.14.0"
@@ -61,6 +63,7 @@
     "eslint-loader": "^2.x.x",
     "eslint-plugin-flowtype": "^3.x.x",
     "eslint-plugin-import": "^2.x.x",
+    "eslint-plugin-jest": "^21.26.2",
     "eslint-plugin-jsx-a11y": "^6.x.x",
     "eslint-plugin-react": "^7.x.x",
     "extract-text-webpack-plugin": "4.0.0-beta.0",
